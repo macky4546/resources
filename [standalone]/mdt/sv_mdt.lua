@@ -663,7 +663,8 @@ end
 function GetCharacterName(source)
 	local xPlayer = QBCore.Functions.GetPlayer(source)
 	if xPlayer then
-		return xPlayer.PlayerData.name
+		return xPlayer.PlayerData.PlayerData.charinfo.firstname
+
 	end
 end
 

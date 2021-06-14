@@ -802,7 +802,7 @@ end)
 QBCore.Commands.Add("mdt", "Open MDT (Police Only)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == "police" then
-        TriggerClientEvent("police:client:toggleDatabank", source)
+        TriggerClientEvent("mdt:hotKeyOpen", source)
     else
         TriggerClientEvent('QBCore:Notify', source, 'For Emergency Services Only', 'error')
     end
