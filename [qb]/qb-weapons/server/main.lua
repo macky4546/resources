@@ -88,7 +88,7 @@ QBCore.Functions.CreateUseableItem("pistol_ammo", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem("pistol_ammo", 1, item.slot) then
         TriggerClientEvent("weapon:client:AddAmmo", source, "AMMO_PISTOL", 15)
-        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["pistol_ammo"]["label"].. " gebruikt")
+        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["pistol_ammo"]["label"].. " used")
     end
 end)
 
@@ -96,7 +96,7 @@ QBCore.Functions.CreateUseableItem("rifle_ammo", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem("rifle_ammo", 1, item.slot) then
         TriggerClientEvent("weapon:client:AddAmmo", source, "AMMO_RIFLE", 30)
-        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["rifle_ammo"]["label"].. " gebruikt")
+        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["rifle_ammo"]["label"].. " used")
     end
 end)
 
@@ -104,7 +104,7 @@ QBCore.Functions.CreateUseableItem("smg_ammo", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem("smg_ammo", 1, item.slot) then
         TriggerClientEvent("weapon:client:AddAmmo", source, "AMMO_SMG", 20)
-        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["smg_ammo"]["label"].. " gebruikt")
+        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["smg_ammo"]["label"].. " used")
     end
 end)
 
@@ -112,7 +112,7 @@ QBCore.Functions.CreateUseableItem("shotgun_ammo", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem("shotgun_ammo", 1, item.slot) then
         TriggerClientEvent("weapon:client:AddAmmo", source, "AMMO_SHOTGUN", 10)
-        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["shotgun_ammo"]["label"].. " gebruikt")
+        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["shotgun_ammo"]["label"].. " used")
     end
 end)
 
@@ -120,6 +120,6 @@ QBCore.Functions.CreateUseableItem("mg_ammo", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.RemoveItem("mg_ammo", 1, item.slot) then
         TriggerClientEvent("weapon:client:AddAmmo", source, "AMMO_MG", 30)
-        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["mg_ammo"]["label"].. " gebruikt")
+        TriggerClientEvent('QBCore:Notify', source, QBCore.Shared.Items["mg_ammo"]["label"].. " used")
     end
 end)

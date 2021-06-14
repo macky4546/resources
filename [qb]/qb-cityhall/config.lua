@@ -1,7 +1,7 @@
 Config = Config or {}
 
 Config.Cityhall = {
-    coords = {x = -552.0, y = -191.68, z = 38.22},
+    coords = {x = -266.16, y = -961.92, z = 31.22},
 }
 
 Config.DriverTest = {

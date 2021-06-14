@@ -1,4 +1,13 @@
-/* Need Help? Join my discord @ discord.gg/yWddFpQ */
+:root {
+    --background-contrast: 95%;
+    --background-blur: 3px;
+    --loadbar-color: #ffffff5b;
+    --loadbar-progress-color: #b12424;
+    --loadbar-height: 27px;
+    --footer-font-color: #dfdfdf98;
+    --footer-font-size: 24px;
+    --fadeTo-Color: #222222;
+}
 
 @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed|Lato');
 
@@ -9,7 +18,7 @@
 body {
     margin: 0px;
     padding: 0px;
-    background-color: var(--fadeTo-Color);
+    background-color: #2f3640;
 }
 
 .blur {
@@ -18,45 +27,49 @@ body {
 }
 
 .logo {
-    width: 294px;
-    height: 84px;
+    width: 223px;
+    height: 111px;
 }
 
 .loadbar {
-    border-radius: 8px;
-    width: 98%;
+    border-radius: 5px;
+    width: 50%;
     background-color: var(--loadbar-color);
     height: var(--loadbar-height);
-    box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.2), 0 6px 12px 0 rgba(0, 0, 0, 0.19);
-    margin-left: 2px;
-    margin-right: 3px;
 
     margin-top: 10px;
     margin-bottom: 5px;
 
     overflow: hidden;
 
-    position: relative;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: -30vh;
+    margin-left: -25vw;
+    width: 50vw;
   
     text-align: center;
     display: block;
 }
 
 .yeet {
-    width: 10%;
-    border-radius: 8px;
+    width: 0%;
+    border-radius: 5px;
     background-color: var(--loadbar-progress-color);
     height: var(--loadbar-height);
 
+    transition: 500ms;
+
     position: absolute;
-    left: 10%;
+    left: 0%;
 }
 
 #container {
     text-shadow: 2px 2px 5px #424242;
     position: absolute;
     color: rgb(241, 235, 235);
-    top: 47%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%,-50%);
     font-size: 75px;
@@ -86,4 +99,40 @@ body {
     bottom:0px;
     text-align: center;
     z-index:9999;
+}
+
+.enable_music {
+    color: #e7e7e7;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    font-weight: 400;
+
+    margin: 50px auto;
+    animation: music 3s;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.teamspeak {
+    color: #e7e7e7;
+    font-family: 'Raleway', sans-serif;
+    text-align: center;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    font-weight: 400;
+
+    margin: 50px auto;
+    animation: music 3s;
+	margin-left: 0px;
+	margin-top: 45%;
 }

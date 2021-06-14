@@ -26,7 +26,7 @@ vehshop = {
 			title = "CATEGORIES",
 			name = "main",
 			buttons = {
-				{name = "Voertuigen", description = ""},
+				{name = "Vehicles", description = ""},
 			}
 		},
 		["vehicles"] = {
@@ -152,7 +152,7 @@ function ButtonSelected(button)
     print(btn)
     
 	if this == "main" then
-		if btn == "Voertuigen" then
+		if btn == "Vehicles" then
 			OpenMenu('vehicles')
 		end
 	elseif this == "vehicles" then
@@ -174,7 +174,7 @@ function ButtonSelected(button)
 			OpenMenu('offroad')
 		elseif btn == "SUVs" then
 			OpenMenu('suvs')
-		elseif btn == "Motoren" then
+		elseif btn == "Motorcycles" then
 			OpenMenu('motorcycles')
 		elseif btn == "Vans" then
 			OpenMenu('vans')
@@ -242,28 +242,28 @@ function MenuVehicleList()
     ped = GetPlayerPed(-1);
     MenuTitle = "Dealer"
     ClearMenu()
-    Menu.addButton("Assortiment Bekijken", "VehicleCategories", nil)
-    Menu.addButton("Sluit Menu", "close", nil) 
+    Menu.addButton("View range", "VehicleCategories", nil)
+    Menu.addButton("Close Menu", "close", nil) 
 end
 
 function VehicleCategories()
     ped = GetPlayerPed(-1);
-    MenuTitle = "Veh Cats"
+    MenuTitle = "Veh Cat"
     ClearMenu()
     for k, v in pairs(QB.VehicleMenuCategories) do
         Menu.addButton(QB.VehicleMenuCategories[k].label, "GetCatVehicles", k)
     end
     
-    Menu.addButton("Sluit Menu", "close", nil) 
+    Menu.addButton("Close Menu", "close", nil) 
 end
 
 function GetCatVehicles(catergory)
     ped = GetPlayerPed(-1)
-    MenuTitle = "Cat Vehs"
+    MenuTitle = "Veh Cat"
     ClearMenu()
-    Menu.addButton("Sluit Menu", "close", nil) 
+    Menu.addButton("Close Menu", "close", nil) 
     for k, v in pairs(shopVehicles[catergory]) do
-        Menu.addButton(shopVehicles[catergory][k].name, "SelectVehicle", v, catergory, "€"..shopVehicles[catergory][k]["price"])
+        Menu.addButton(shopVehicles[catergory][k].name, "SelectVehicle", v, catergory, "$"..shopVehicles[catergory][k]["price"])
     end
 end
 
@@ -357,22 +357,22 @@ Citizen.CreateThread(function()
                     if not QB.ShowroomVehicles[ClosestVehicle].inUse then
                         if not vehshop.opened then
                             if not buySure then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.8, '~g~G~w~ - Verander voertuig (~g~'..displayName..'~w~)')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.8, '~ g ~ G ~ w ~ - Change vehicle (~ g ~ '.. displayName ..' ~ w ~) ')
                             end
                             if not buySure then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.70, '~g~E~w~ - Koop voertuig (~g~€'..vehPrice..'~w~)')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.70, '~ g ~ E ~ w ~ - Buy vehicle (~ g ~ $ '.. vehPrice ..' ~ w ~) ')
                             elseif buySure then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Weet je het zeker? | ~g~[7]~w~ Ja -/- ~r~[8]~w~ Nee')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Are you sure? | ~g~[7]~w~ Yes -/- ~r~[8]~w~ No')
                             end
                         elseif vehshop.opened then
                             if modelLoaded then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Voertuig aan het kiezen')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Choosing a vehicle')
                             else
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Voertuig wordt opgehaald..')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Vehicle is being picked up..')
                             end
                         end
                     else
-                        DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Voertuig is in gebruik door een klant...')
+                        DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Vehicle is in use by a customer...')
                     end
 
                     if not vehshop.opened then
@@ -477,13 +477,13 @@ Citizen.CreateThread(function()
                         end
                     end
                     if IsDisabledControlJustPressed(0, Keys["8"]) then
-                        QBCore.Functions.Notify('Je hebt het voertuig niet gekocht', 'error', 3500)
+                        QBCore.Functions.Notify('You did not buy the vehicle', 'error', 3500)
                         buySure = false
                     end
                     DisableControlAction(0, Keys["7"], true)
                     DisableControlAction(0, Keys["8"], true)
                 elseif QB.ShowroomVehicles[ClosestVehicle].inUse then
-                    DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 0.5, 'Voertuig is in gebruik')
+                    DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 0.5, 'Vehicle is in use')
                 end
             elseif dist > 1.5 then
                 if vehshop.opened then

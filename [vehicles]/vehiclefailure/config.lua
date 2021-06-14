@@ -37,16 +37,6 @@ BackEngineVehicles = {
     'comet3',
 }
 
-------------------------------------------
---	iEnsomatic RealisticVehicleFailure  --
-------------------------------------------
---
---	Created by Jens Sandalgaard
---
---	This work is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
---
---	https://github.com/iEns/RealisticVehicleFailure
---
 
 
 -- Configuration:
@@ -224,23 +214,23 @@ repairCfg = {
 	},
 
 	fixMessages = {
-        "Je hebt het oliepeil gechekt",
-        "Je hebt het olielek gedicht met kauwgom",
-        "Je hebt de olieslang gemaakt met ducktape",
-        "je hebt het olie lekken tijdelijk gestopt",
-        "Je gaf een schop tegen de motor, en deze werkt weer",
-        "Je hebt wat roest weggehaald",
-        "Je schreeuwe tegen je auto, en deze werkt weer"
+		"You checked the oil level",
+		"You plugged the oil leak with chewing gum",
+		"You made the oil hose with duck tape",
+		"you have temporarily stopped the oil leak",
+		"You kicked the engine, and it works again",
+		"You have removed some rust",
+		"You yelled at your car, and it works again"
     },
     fixMessageCount = 7,
 
     noFixMessages = {
-        "Je bekeek je oliepeil, en dit zag er normaal uit",
-        "Je bekeek je motor, en er lijkt niets mis",
-        "Je bekeek de ducktape op je olieslang en leek in orde",
-        "Je zette de radio harder. Het rare motor geluid is nu weg",
-        "De roestverwijderaar die je gebruikte had geen effect",
-        "Probeer nooit iets te maken wat niet kapot is, maar je luisterde niet"
+		"You checked your oil level, and this looked normal", 
+		"You looked at your engine, and nothing seems wrong",
+		"You looked at the duck tape on your oil hose and it seemed fine",
+		"You turned up the radio. The weird engine noise is now gone",
+		"The rust remover you used had no effect",
+		"Never try to fix something that isn't broken, but you weren't listening"
     },
 	noFixMessageCount = 6
 }

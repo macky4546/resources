@@ -49,13 +49,13 @@ Citizen.CreateThread(function()
     while true do
         Citizen.Wait(7)
         if Races ~= nil then
-            -- Nog geen race
+            --No race yet
             local pos = GetEntityCoords(GetPlayerPed(-1), true)
             if RaceId == 0 then
                 for k, race in pairs(Races) do
                     if Races[k] ~= nil then
                         if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Races[k].startx, Races[k].starty, Races[k].startz, true) < 15.0 and not Races[k].started then
-                            DrawText3Ds(Races[k].startx, Races[k].starty, Races[k].startz, "[~g~H~w~] Om mee te doen aan de race (~g~€"..Races[k].amount..",-~w~)")
+                            DrawText3Ds(Races[k].startx, Races[k].starty, Races[k].startz, "[~g~H~w~] To join the race (~g~$"..Races[k].amount..",-~w~)")
                             if IsControlJustReleased(0, Keys["H"]) then
                                 TriggerServerEvent("qb-streetraces:JoinRace", k)
                             end
@@ -64,13 +64,13 @@ Citizen.CreateThread(function()
                     
                 end
             end
-            -- In race nog niet gestart
+            --Not started in race yet
             if RaceId ~= 0 and not InRace then
                 if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Races[RaceId].startx, Races[RaceId].starty, Races[RaceId].startz, true) < 15.0 and not Races[RaceId].started then
-                    DrawText3Ds(Races[RaceId].startx, Races[RaceId].starty, Races[RaceId].startz, "Race zal zo van start gaan...")
+                    DrawText3Ds(Races[RaceId].startx, Races[RaceId].starty, Races[RaceId].startz, "Race is about to start...")
                 end
             end
-            -- In race en gestart
+            -- In race and started
             if RaceId ~= 0 and InRace then
                 if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Races[RaceId].endx, Races[RaceId].endy, pos.z, true) < 250.0 and Races[RaceId].started then
                     DrawText3Ds(Races[RaceId].endx, Races[RaceId].endy, pos.z + 0.98, "FINISH")
@@ -104,7 +104,7 @@ AddEventHandler('qb-streetraces:RaceDone', function(race, winner)
     if RaceId ~= 0 and RaceId == race then
         RaceId = 0
         InRace = false
-        QBCore.Functions.Notify("Race afgelopen! De winnaar is "..winner.. "!")
+        QBCore.Functions.Notify("Race finished! The winner is "..winner.."!")
     end
 end)
 
@@ -136,12 +136,12 @@ AddEventHandler('qb-streetraces:CreateRace', function(amount)
                 joined = {}
             }
             TriggerServerEvent("qb-streetraces:NewRace", race)
-            QBCore.Functions.Notify("Race gemaakt voor €"..amount..",-!", "success")
+            QBCore.Functions.Notify("Race created for $"..amount..",-!", "success")
         else
-            QBCore.Functions.Notify("Eind positie te dichtbij!", "error")
+            QBCore.Functions.Notify("End position too close!", "error")
         end
     else
-        QBCore.Functions.Notify("Je moet een marker neerzetten!", "error")
+        QBCore.Functions.Notify("You must drop a marker!", "error")
     end
 end)
 

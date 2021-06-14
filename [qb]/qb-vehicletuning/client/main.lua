@@ -76,7 +76,7 @@ Citizen.CreateThread(function()
                             local veh = GetVehiclePedIsIn(GetPlayerPed(-1))
                             if IsPedInAnyVehicle(GetPlayerPed(-1)) then
                                 if not IsThisModelABicycle(GetEntityModel(veh)) then
-                                    DrawText3Ds(coords[1].x, coords[1].y, coords[1].z, "[E] Voertuig op de plaat zetten")
+                                    DrawText3Ds(coords[1].x, coords[1].y, coords[1].z, "[E] Put vehicle on the plate")
                                     if IsControlJustPressed(0, Config.Keys["E"]) then
                                         DoScreenFadeOut(150)
                                         Wait(150)
@@ -91,10 +91,10 @@ Citizen.CreateThread(function()
                                         TriggerServerEvent('qb-vehicletuning:server:SetAttachedVehicle', veh)
                                     end
                                 else
-                                    QBCore.Functions.Notify("Je kan geen fietsen op de plaat zetten!", "error")
+                                    QBCore.Functions.Notify("You can't put bicycles on the vehicle!", "error")
                                 end
                             else
-                                DrawText3Ds(coords[1].x, coords[1].y, coords[1].z, "Je moet in een voertuig zitten!")
+                                DrawText3Ds(coords[1].x, coords[1].y, coords[1].z, "You must be in a vehicle!")
                             end
                         end
                     end
@@ -104,9 +104,9 @@ Citizen.CreateThread(function()
                     DrawMarker(2, coords[2].x, coords[2].y, coords[2].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.2, 210, 50, 9, 255, false, false, false, true, false, false, false)
 
                     if dist2 < 1.2 then
-                        local text = "Er staat nog geen voertuig op de plaat"
+                        local text = "There is no vehicle on the record yet"
                         if Config.AttachedVehicle ~= nil then
-                            text = "[E] Menu openen"
+                            text = "[E] Open Menu"
                             if IsControlJustPressed(0, Keys["E"]) then
                                 OpenMenu()
                                 Menu.hidden = not Menu.hidden
@@ -137,16 +137,16 @@ end)
 
 function OpenMenu()
     ClearMenu()
-    Menu.addButton("Opties", "VehicleOptions", nil)
-    Menu.addButton("Sluit Menu", "CloseMenu", nil) 
+    Menu.addButton("Options", "VehicleOptions", nil)
+    Menu.addButton("Close Menu", "CloseMenu", nil) 
 end
 
 function VehicleOptions()
     ClearMenu()
-    Menu.addButton("Voertuig Loskoppelen", "UnattachVehicle", nil)
+    Menu.addButton("Vehicle Disconnect", "UnattachVehicle", nil)
     Menu.addButton("Check Status", "CheckStatus", nil)
-    Menu.addButton("Onderdelen", "PartsMenu", nil)
-    Menu.addButton("Sluit Menu", "CloseMenu", nil)
+    Menu.addButton("Components", "PartsMenu", nil)
+    Menu.addButton("Close Menu", "CloseMenu", nil)
     SetVehicleDoorsShut(Config.AttachedVehicle)
 end
 
@@ -176,8 +176,8 @@ function PartsMenu()
             Menu.addButton(v..": "..Config.MaxStatusValues[k], "VehicleOptions", nil) 
         end
     end
-    Menu.addButton("Terug", "VehicleOptions", nil) 
-    Menu.addButton("Sluit Menu", "CloseMenu", nil) 
+    Menu.addButton("Back", "VehicleOptions", nil) 
+    Menu.addButton("Close Menu", "CloseMenu", nil) 
 end
 
 function CheckStatus()
@@ -187,15 +187,15 @@ end
 
 function PartMenu(part)
     ClearMenu()
-    Menu.addButton("Repareer ("..Config.ValuesLabels[part]..")", "RepairPart", part)
-    Menu.addButton("Terug", "VehicleOptions", nil)
-    Menu.addButton("Sluit Menu", "CloseMenu", nil) 
+    Menu.addButton("Fix ("..Config.ValuesLabels[part]..")", "RepairPart", part)
+    Menu.addButton("Back", "VehicleOptions", nil)
+    Menu.addButton("Close Menu", "CloseMenu", nil) 
 end
 
 function RepairPart(part)
     local plate = GetVehicleNumberPlateText(Config.AttachedVehicle)
     TriggerServerEvent('qb-vehicletuning:server:SetPartLevel', plate, part, Config.MaxStatusValues[part])
-    QBCore.Functions.Notify(Config.ValuesLabels[part].." is gerepareerd!", "success")
+    QBCore.Functions.Notify(Config.ValuesLabels[part].." is repaired!", "success")
     PartsMenu()
 end
 
@@ -356,19 +356,19 @@ AddEventHandler('vehiclemod:client:getVehicleStatus', function(plate, status)
                     if VehicleStatus[plate] ~= nil then 
                         SendStatusMessage(VehicleStatus[plate])
                     else
-                        QBCore.Functions.Notify("Geen status bekend..", "error")
+                        QBCore.Functions.Notify("No status known..", "error")
                     end
                 else
-                    QBCore.Functions.Notify("Geen geldig voertuig..", "error")
+                    QBCore.Functions.Notify("Not a valid vehicle..", "error")
                 end
             else
-                QBCore.Functions.Notify("Je staat niet dicht genoeg bij het voertuig..", "error")
+                QBCore.Functions.Notify("You are not close enough to the vehicle..", "error")
             end
         else
-            QBCore.Functions.Notify("Je moet eerst in het voertuig zitten..", "error")
+            QBCore.Functions.Notify("You must be in the vehicle first..", "error")
         end
     else
-        QBCore.Functions.Notify("Je moet buiten het voertuig staan..", "error")
+        QBCore.Functions.Notify("You must be outside the vehicle..", "error")
     end
 end)
 
@@ -380,10 +380,10 @@ AddEventHandler('vehiclemod:client:fixEverything', function()
             local plate = GetVehicleNumberPlateText(veh)
             TriggerServerEvent("vehiclemod:server:fixEverything", plate)
         else
-            QBCore.Functions.Notify("Je bent geen bestuurder of zit op een fiets..", "error")
+            QBCore.Functions.Notify("You are not a driver or riding a bicycle..", "error")
         end
     else
-        QBCore.Functions.Notify("Je zit niet in een voertuig..", "error")
+        QBCore.Functions.Notify("You are not in a vehicle..", "error")
     end
 end)
 
@@ -403,10 +403,10 @@ AddEventHandler('vehiclemod:client:setPartLevel', function(part, level)
                 TriggerServerEvent("vehiclemod:server:updatePart", plate, part, level)
             end
         else
-            QBCore.Functions.Notify("Je bent geen bestuurder of zit op een fiets..", "error")
+            QBCore.Functions.Notify("You are not a driver or riding a bicycle..", "error")
         end
     else
-        QBCore.Functions.Notify("Je zit niet in een voertuig..", "error")
+        QBCore.Functions.Notify("You are not in a vehicle..", "error")
     end
 end)
 local openingDoor = false
@@ -428,7 +428,7 @@ AddEventHandler('vehiclemod:client:repairPart', function(part, level, needAmount
                                 lockpickTime = lockpickTime / 10
                             end
                             ScrapAnim(lockpickTime)
-                            QBCore.Functions.Progressbar("repair_advanced", "Voertuig repareren..", lockpickTime, false, true, {
+                            QBCore.Functions.Progressbar("repair_advanced", "Repair vehicle..", lockpickTime, false, true, {
                                 disableMovement = true,
                                 disableCarMovement = true,
                                 disableMouse = false,
@@ -454,22 +454,22 @@ AddEventHandler('vehiclemod:client:repairPart', function(part, level, needAmount
                             end, function() -- Cancel
                                 openingDoor = false
                                 ClearPedTasks(GetPlayerPed(-1))
-                                QBCore.Functions.Notify("Proces geannuleerd..", "error")
+                                QBCore.Functions.Notify("Process cancelled..", "error")
                             end)
                         else
-                            QBCore.Functions.Notify("Geen geldige onderdeel..", "error")
+                            QBCore.Functions.Notify("Not a valid part..", "error")
                         end
                     else
-                        QBCore.Functions.Notify("Geen geldig voertuig..", "error")
+                        QBCore.Functions.Notify("Not a valid vehicle..", "error")
                     end
                 else
-                    QBCore.Functions.Notify("Je staat niet dicht genoeg bij het voertuig..", "error")
+                    QBCore.Functions.Notify("You are not close enough to the vehicle..", "error")
                 end
             else
-                QBCore.Functions.Notify("Je moet eerst in het voertuig zitten..", "error")
+                QBCore.Functions.Notify("You must be in the vehicle first..", "error")
             end
         else
-            QBCore.Functions.Notify("Je zit niet in een voertuig..", "error")
+            QBCore.Functions.Notify("You are not in a vehicle..", "error")
         end
     -- end
 end)
@@ -691,7 +691,7 @@ function SendStatusMessage(statusList)
     if statusList ~= nil then 
         TriggerEvent('chat:addMessage', {
             template = '<div class="chat-message normal"><div class="chat-message-body"><strong>{0}:</strong><br><br> <strong>'.. Config.ValuesLabels["engine"] ..' (engine):</strong> {1} <br><strong>'.. Config.ValuesLabels["body"] ..' (body):</strong> {2} <br><strong>'.. Config.ValuesLabels["radiator"] ..' (radiator):</strong> {3} <br><strong>'.. Config.ValuesLabels["axle"] ..' (axle):</strong> {4}<br><strong>'.. Config.ValuesLabels["brakes"] ..' (brakes):</strong> {5}<br><strong>'.. Config.ValuesLabels["clutch"] ..' (clutch):</strong> {6}<br><strong>'.. Config.ValuesLabels["fuel"] ..' (fuel):</strong> {7}</div></div>',
-            args = {'Voertuig Status', round(statusList["engine"]) .. "/" .. Config.MaxStatusValues["engine"] .. " ("..QBCore.Shared.Items["advancedrepairkit"]["label"]..")", round(statusList["body"]) .. "/" .. Config.MaxStatusValues["body"] .. " ("..QBCore.Shared.Items[Config.RepairCost["body"]]["label"]..")", round(statusList["radiator"]) .. "/" .. Config.MaxStatusValues["radiator"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["radiator"]]["label"]..")", round(statusList["axle"]) .. "/" .. Config.MaxStatusValues["axle"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["axle"]]["label"]..")", round(statusList["brakes"]) .. "/" .. Config.MaxStatusValues["brakes"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["brakes"]]["label"]..")", round(statusList["clutch"]) .. "/" .. Config.MaxStatusValues["clutch"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["clutch"]]["label"]..")", round(statusList["fuel"]) .. "/" .. Config.MaxStatusValues["fuel"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["fuel"]]["label"]..")"}
+            args = {'Vehicle Status', round(statusList["engine"]) .. "/" .. Config.MaxStatusValues["engine"] .. " ("..QBCore.Shared.Items["advancedrepairkit"]["label"]..")", round(statusList["body"]) .. "/" .. Config.MaxStatusValues["body"] .. " ("..QBCore.Shared.Items[Config.RepairCost["body"]]["label"]..")", round(statusList["radiator"]) .. "/" .. Config.MaxStatusValues["radiator"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["radiator"]]["label"]..")", round(statusList["axle"]) .. "/" .. Config.MaxStatusValues["axle"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["axle"]]["label"]..")", round(statusList["brakes"]) .. "/" .. Config.MaxStatusValues["brakes"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["brakes"]]["label"]..")", round(statusList["clutch"]) .. "/" .. Config.MaxStatusValues["clutch"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["clutch"]]["label"]..")", round(statusList["fuel"]) .. "/" .. Config.MaxStatusValues["fuel"] .. ".0 ("..QBCore.Shared.Items[Config.RepairCost["fuel"]]["label"]..")"}
         })
     end
 end

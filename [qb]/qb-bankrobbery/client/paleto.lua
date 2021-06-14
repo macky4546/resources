@@ -44,7 +44,7 @@ Citizen.CreateThread(function()
                                             if CurrentCops >= Config.MinimumPaletoPolice then
                                                 openLocker("paleto", k)
                                             else
-                                                QBCore.Functions.Notify("Niet genoeg politie.. (5 nodig)", "error")
+                                                QBCore.Functions.Notify("Not enough police.. (5 needed)", "error")
                                             end
                                         end
                                     end
@@ -95,7 +95,7 @@ AddEventHandler('qb-bankrobbery:UseBankcardA', function()
                 if CurrentCops >= Config.MinimumPaletoPolice then
                     if not Config.BigBanks["paleto"]["isOpened"] then 
                         TriggerEvent('inventory:client:requiredItems', requiredItems, false)
-                        QBCore.Functions.Progressbar("security_pass", "Pas aan het valideren..", math.random(5000, 10000), false, true, {
+                        QBCore.Functions.Progressbar("security_pass", "Adjust to validate..", math.random(5000, 10000), false, true, {
                             disableMovement = true,
                             disableCarMovement = true,
                             disableMouse = false,
@@ -124,16 +124,16 @@ AddEventHandler('qb-bankrobbery:UseBankcardA', function()
                             end
                         end, function() -- Cancel
                             StopAnimTask(GetPlayerPed(-1), "anim@gangops@facility@servers@", "hotwire", 1.0)
-                            QBCore.Functions.Notify("Geannuleerd..", "error")
+                            QBCore.Functions.Notify("Canceled..", "error")
                         end)
                     else
-                        QBCore.Functions.Notify("Het lijkt erop dat de bank al open is..", "error")
+                        QBCore.Functions.Notify("Looks like the bank is already open..", "error")
                     end
                 else
-                    QBCore.Functions.Notify("Niet genoeg politie.. (5 nodig)", "error")
+                    QBCore.Functions.Notify("Not enough police.. (5 needed)", "error")
                 end
             else
-                QBCore.Functions.Notify("Het beveiligingsslot is actief, het openen van de deur is momenteel niet mogelijk..", "error", 5500)
+                QBCore.Functions.Notify("The security lock is active, opening the door is currently not possible..", "error", 5500)
             end
         end)
     end 

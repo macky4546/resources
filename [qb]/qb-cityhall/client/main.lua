@@ -74,7 +74,7 @@ Citizen.CreateThread(function()
     SetBlipColour(CityhallBlip, 0)
 
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Gemeentehuis")
+    AddTextComponentSubstringPlayerName("City Hall")
     EndTextCommandSetBlipName(CityhallBlip)
 
     DrivingSchoolBlip = AddBlipForCoord(Config.DrivingSchool.coords.x, Config.DrivingSchool.coords.y, Config.DrivingSchool.coords.z)
@@ -86,7 +86,7 @@ Citizen.CreateThread(function()
     SetBlipColour(DrivingSchoolBlip, 47)
 
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Rijschool")
+    AddTextComponentSubstringPlayerName("Driving school")
     EndTextCommandSetBlipName(DrivingSchoolBlip)
 end)
 local creatingCompany = false
@@ -105,7 +105,7 @@ Citizen.CreateThread(function()
             inRange = true
             DrawMarker(2, Config.Cityhall.coords.x, Config.Cityhall.coords.y, Config.Cityhall.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.2, 155, 152, 234, 155, false, false, false, true, false, false, false)
             if GetDistanceBetweenCoords(pos, Config.Cityhall.coords.x, Config.Cityhall.coords.y, Config.Cityhall.coords.z, true) < 1.5 then
-                qbCityhall.DrawText3Ds(Config.Cityhall.coords, '~g~E~w~ - Gemeentehuis openen')
+                qbCityhall.DrawText3Ds(Config.Cityhall.coords, '~g~E~w~ - Open town hall')
                 if IsControlJustPressed(0, Keys["E"]) then
                     qbCityhall.Open()
                 end
@@ -113,7 +113,7 @@ Citizen.CreateThread(function()
             DrawMarker(2, Config.DriverTest.coords.x, Config.DriverTest.coords.y, Config.DriverTest.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.2, 155, 152, 234, 155, false, false, false, true, false, false, false)
                 if GetDistanceBetweenCoords(pos, Config.DriverTest.coords.x, Config.DriverTest.coords.y, Config.DriverTest.coords.z, true) < 1.5 then
                     if creatingCompany then
-                        qbCityhall.DrawText3Ds(Config.DriverTest.coords, '~g~E~w~ - Bedrijf aanmaken (€'..Config.CompanyPrice..') | ~r~G~w~ - Stoppen')
+                        qbCityhall.DrawText3Ds(Config.DriverTest.coords, '~g~E~w~ - Create company ($'..Config.CompanyPrice..') | ~r~G~w~ - Stop')
                         if IsControlJustPressed(0, Keys["E"]) then
                             TriggerServerEvent("qb-companies:server:createCompany", currentName)
                             creatingCompany = false
@@ -122,10 +122,10 @@ Citizen.CreateThread(function()
                             creatingCompany = false
                         end
                     else
-                        qbCityhall.DrawText3Ds(Config.DriverTest.coords, '~g~E~w~ - Rijles aanvragen')
+                        qbCityhall.DrawText3Ds(Config.DriverTest.coords, '~g~E~w~ - Request driving lesson')
                         if IsControlJustPressed(0, Keys["E"]) then
                             if QBCore.Functions.GetPlayerData().metadata["licences"]["driver"] then
-                                QBCore.Functions.Notify("Je hebt al je rijbewijs gehaald, vraag het hiernaast aan")
+                                QBCore.Functions.Notify("You have already obtained your driver's license, request it here")
                             else
                                 TriggerServerEvent("qb-cityhall:server:sendDriverTest")
                             end
@@ -151,10 +151,10 @@ Citizen.CreateThread(function()
             inRange = true
             DrawMarker(2, Config.DrivingSchool.coords.x, Config.DrivingSchool.coords.y, Config.DrivingSchool.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.2, 155, 152, 234, 155, false, false, false, true, false, false, false)
             if GetDistanceBetweenCoords(pos, Config.DrivingSchool.coords.x, Config.DrivingSchool.coords.y, Config.DrivingSchool.coords.z, true) < 1.5 then
-                qbCityhall.DrawText3Ds(Config.DrivingSchool.coords, '~g~E~w~ - Rijles aanvragen')
+                qbCityhall.DrawText3Ds(Config.DrivingSchool.coords, '~g~E~w~ - Request driving lesson')
                 if IsControlJustPressed(0, Keys["E"]) then
                     if QBCore.Functions.GetPlayerData().metadata["licences"]["driver"] then
-                        QBCore.Functions.Notify("Je hebt al je rijbewijs gehaald, haal deze op bij het gemeentehuis!")
+                        QBCore.Functions.Notify("You have already obtained your driver's license, pick it up at the town hall!")
                     else
                         TriggerServerEvent("qb-cityhall:server:sendDriverTest")
                     end
@@ -173,15 +173,15 @@ end)
 RegisterNetEvent('qb-cityhall:client:sendDriverEmail')
 AddEventHandler('qb-cityhall:client:sendDriverEmail', function(charinfo)
     SetTimeout(math.random(2500, 4000), function()
-        local gender = "meneer"
+        local gender = "sir"
         if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then
-            gender = "mevrouw"
+            gender = "Mrs."
         end
         local charinfo = QBCore.Functions.GetPlayerData().charinfo
         TriggerServerEvent('qb-phone:server:sendNewMail', {
-            sender = "Gemeente",
-            subject = "Aanvraag Rijles",
-            message = "Beste " .. gender .. " " .. charinfo.lastname .. ",<br /><br />Wij hebben zojuist een bericht gehad dat er iemand rijles wilt volgen.<br />Mocht u bereid zijn om les te geven kunt u contact opnemen:<br />Naam: <strong>".. charinfo.firstname .. " " .. charinfo.lastname .. "</strong><br />Telefoonnummer: <strong>"..charinfo.phone.."</strong><br/><br/>Met vriendelijke groet,<br />Gemeente Los Santos",
+            sender = "Township",
+            subject = "Application driving lesson",
+            message = "Beste " .. gender .. " " .. charinfo.lastname .. ",<br /><br />We have just received a message that someone wants to take driving lessons.<br />If you are willing to teach, please contact:<br />Name: <strong>".. charinfo.firstname .. " " . .charinfo.lastname .."</strong><br />Phone number: <strong>"..charinfo.phone.."</strong><br/><br/>Sincerely,<br />Municipality Los Santos",
             button = {}
         })
     end)
@@ -189,11 +189,11 @@ end)
 
 local idTypes = {
     ["id-kaart"] = {
-        label = "ID-kaart",
+        label = "ID-Map",
         item = "id_card"
     },
     ["rijbewijs"] = {
-        label = "Rijbewijs",
+        label = "Drivers license",
         item = "driver_license"
     }
 }
@@ -203,9 +203,9 @@ RegisterNUICallback('requestId', function(data)
         local idType = data.idType
 
         TriggerServerEvent('qb-cityhall:server:requestId', idTypes[idType])
-        QBCore.Functions.Notify('Je hebt je '..idTypes[idType].label..' aangevraagd voor €50', 'success', 3500)
+        QBCore.Functions.Notify('you got your'..idTypes[idType].label..' requested for $50', 'success', 3500)
     else
-        QBCore.Functions.Notify('Helaas gaat niet werken maat...', 'error')
+        QBCore.Functions.Notify('Unfortunately it wont work mate...', 'error')
     end
 end)
 
@@ -219,7 +219,7 @@ RegisterNUICallback('requestLicenses', function(data, cb)
             local licenseType = nil
             local label = nil
 
-            if type == "driver" then licenseType = "rijbewijs" label = "Rijbewijs" end
+            if type == "driver" then licenseType = "drivers license" label = "drivers license" end
 
             table.insert(availableLicenses, {
                 idType = licenseType,
@@ -234,6 +234,6 @@ RegisterNUICallback('applyJob', function(data)
     if inRange then
         TriggerServerEvent('qb-cityhall:server:ApplyJob', data.job)
     else
-        QBCore.Functions.Notify('Helaas gaat niet werken maat...', 'error')
+        QBCore.Functions.Notify('Unfortunately it wont work mate...', 'error')
     end
 end)

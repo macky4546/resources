@@ -1,60 +1,60 @@
 WeaponDamageList = {
-	["WEAPON_UNARMED"] = "Vuist afdrukken",
-	["WEAPON_ANIMAL"] = "Bijtwond van een dier",
-	["WEAPON_COUGAR"] = "Bijtwond van een dier",
-	["WEAPON_KNIFE"] = "Steekwond",
-    ["WEAPON_NIGHTSTICK"] = "Bult van een stok of iets dergelijks",
-    ["WEAPON_BREAD"] = "Deuk in je hoofd van een stokbrood!",
-	["WEAPON_HAMMER"] = "Bult van een stok of iets dergelijks",
-	["WEAPON_BAT"] = "Bult van een stok of iets dergelijks",
-	["WEAPON_GOLFCLUB"] = "Bult van een stok of iets dergelijks",
-	["WEAPON_CROWBAR"] = "Bult van een stok of iets dergelijks",
-	["WEAPON_PISTOL"] = "Pistol kogels in het lichaam",
-	["WEAPON_COMBATPISTOL"] = "Pistol kogels in het lichaam",
-	["WEAPON_APPISTOL"] = "Pistol kogels in het lichaam",
-	["WEAPON_PISTOL50"] = "50 Cal Pistol kogels in het lichaam",
-	["WEAPON_MICROSMG"] = "SMG kogels in het lichaam",
-	["WEAPON_SMG"] = "SMG kogels in het lichaam",
-	["WEAPON_ASSAULTSMG"] = "SMG kogels in het lichaam",
-	["WEAPON_ASSAULTRIFLE"] = "Rifle kogels in het lichaam",
-	["WEAPON_CARBINERIFLE"] = "Rifle kogels in het lichaam",
-	["WEAPON_ADVANCEDRIFLE"] = "Rifle kogels in het lichaam",
-	["WEAPON_MG"] = "Machine Gun kogels in het lichaam",
-	["WEAPON_COMBATMG"] = "Machine Gun kogels in het lichaam",
-	["WEAPON_PUMPSHOTGUN"] = "Shotgun kogels in het lichaam",
-	["WEAPON_SAWNOFFSHOTGUN"] = "Shotgun kogels in het lichaam",
-	["WEAPON_ASSAULTSHOTGUN"] = "Shotgun kogels in het lichaam",
-	["WEAPON_BULLPUPSHOTGUN"] = "Shotgun kogels in het lichaam",
-	["WEAPON_STUNGUN"] = "Taser afdrukken",
-	["WEAPON_SNIPERRIFLE"] = "Sniper kogel in het lichaam",
-	["WEAPON_HEAVYSNIPER"] = "Sniper kogel in het lichaam",
-	["WEAPON_REMOTESNIPER"] = "Sniper kogel in het lichaam",
-	["WEAPON_GRENADELAUNCHER"] = "Brandwonden en fragmenten",
-	["WEAPON_GRENADELAUNCHER_SMOKE"] = "Smoke Damage",
-	["WEAPON_RPG"] = "Brandwonden en fragmenten",
-	["WEAPON_STINGER"] = "Brandwonden en fragmenten",
-	["WEAPON_MINIGUN"] = "Heel veel kogels in het lichaam",
-	["WEAPON_GRENADE"] = "Brandwonden en fragmenten",
-	["WEAPON_STICKYBOMB"] = "Brandwonden en fragmenten",
-	["WEAPON_SMOKEGRENADE"] = "Smoke Damage",
-	["WEAPON_BZGAS"] = "Gas Damage",
-	["WEAPON_MOLOTOV"] = "Zware brandwonden",
-	["WEAPON_FIREEXTINGUISHER"] = "Ondergespoten :)",
-	["WEAPON_PETROLCAN"] = "Petrol Can Damage",
-	["WEAPON_FLARE"] = "Flare Damage",
-	["WEAPON_BARBED_WIRE"] = "Barbed Wire Damage",
-	["WEAPON_DROWNING"] = "Verdonken",
-	["WEAPON_DROWNING_IN_VEHICLE"] = "Verdronken",
-	["WEAPON_BLEEDING"] = "Veel bloed verloren",
-	["WEAPON_ELECTRIC_FENCE"] = "Electric Fence Wounds",
-	["WEAPON_EXPLOSION"] = "Veel brandwonden (van explosieve)",
-	["WEAPON_FALL"] = "Gebroken botten",
-	["WEAPON_EXHAUSTION"] = "Died of Exhaustion",
-	["WEAPON_HIT_BY_WATER_CANNON"] = "Water Cannon Pelts",
-	["WEAPON_RAMMED_BY_CAR"] = "Auto ongeluk",
-	["WEAPON_RUN_OVER_BY_CAR"] = "Aangereden door een voertuig",
-	["WEAPON_HELI_CRASH"] = "Helikopter crash",
-	["WEAPON_FIRE"] = "Veel brandwonden",
+    ["WEAPON_UNARMED"] = "Print fist",
+    ["WEAPON_ANIMAL"] = "Animal bite wound",
+    ["WEAPON_COUGAR"] = "Animal bite wound",
+    ["WEAPON_KNIFE"] = "Stitch wound",
+    ["WEAPON_NIGHTSTICK"] = "Bump from a stick or similar",
+    ["WEAPON_BREAD"] = "Dent in your head from a baguette!",
+    ["WEAPON_HAMMER"] = "Bump from a stick or similar",
+    ["WEAPON_BAT"] = "Bump from a stick or similar",
+    ["WEAPON_GOLFCLUB"] = "Bump from a stick or similar",
+    ["WEAPON_CROWBAR"] = "Bump from a stick or similar",
+    ["WEAPON_PISTOL"] = "Pistol bullets in the body",
+    ["WEAPON_COMBATPISTOL"] = "Pistol bullets in the body",
+    ["WEAPON_APPISTOL"] = "Pistol bullets in the body",
+    ["WEAPON_PISTOL50"] = "50 Cal Pistol bullets in the body",
+    ["WEAPON_MICROSMG"] = "SMG bullets in the body",
+    ["WEAPON_SMG"] = "SMG bullets in the body",
+    ["WEAPON_ASSAULTSMG"] = "SMG bullets in the body",
+    ["WEAPON_ASSAULTRIFLE"] = "Rifle bullets in the body",
+    ["WEAPON_CARBINERIFLE"] = "Rifle bullets in the body",
+    ["WEAPON_ADVANCEDRIFLE"] = "Rifle bullets in the body",
+    ["WEAPON_MG"] = "Machine Gun bullets in the body",
+    ["WEAPON_COMBATMG"] = "Machine Gun bullets in the body",
+    ["WEAPON_PUMPSHOTGUN"] = "Shotgun bullets in the body",
+    ["WEAPON_SAWNOFFSHOTGUN"] = "Shotgun bullets in the body",
+    ["WEAPON_ASSAULTSHOTGUN"] = "Shotgun bullets in the body",
+    ["WEAPON_BULLPUPSHOTGUN"] = "Shotgun bullets in the body",
+    ["WEAPON_STUNGUN"] = "Print Taser",
+    ["WEAPON_SNIPERRIFLE"] = "Sniper bullet in the body",
+    ["WEAPON_HEAVYSNIPER"] = "Sniper bullet in the body",
+    ["WEAPON_REMOTESNIPER"] = "Sniper bullet in the body",
+    ["WEAPON_GRENADELAUNCHER"] = "Burns and Fragments",
+    ["WEAPON_GRENADELAUNCHER_SMOKE"] = "Smoke Damage",
+    ["WEAPON_RPG"] = "Burns and Fragments",
+    ["WEAPON_STINGER"] = "Burns and Fragments",
+    ["WEAPON_MINIGUN"] = "Lots of bullets in the body",
+    ["WEAPON_GRENADE"] = "Burns and Fragments",
+    ["WEAPON_STICKYBOMB"] = "Burns and Fragments",
+    ["WEAPON_SMOKEGRENADE"] = "Smoke Damage",
+    ["WEAPON_BZGAS"] = "Gas Damage",
+    ["WEAPON_MOLOTOV"] = "Severe burns",
+    ["WEAPON_FIREEXTINGUSHER"] = "Squirted :)",
+    ["WEAPON_PETROLCAN"] = "Petrol Can Damage",
+    ["WEAPON_FLARE"] = "Flare Damage",
+    ["WEAPON_BARBED_WIRE"] = "Barbed Wire Damage",
+    ["WEAPON_DROWNING"] = "Darken",
+    ["WEAPON_DROWNING_IN_VEHICLE"] = "Drowned",
+    ["WEAPON_BLEEDING"] = "Lost a lot of blood",
+    ["WEAPON_ELECTRIC_FENCE"] = "Electric Fence Wounds",
+    ["WEAPON_EXPLOSION"] = "Many burns (from explosive)",
+    ["WEAPON_FALL"] = "Broken bones",
+    ["WEAPON_EXHAUSTION"] = "Died of Exhaustion",
+    ["WEAPON_HIT_BY_WATER_CANNON"] = "Water Cannon Pelts",
+    ["WEAPON_RAMMED_BY_CAR"] = "Car accident",
+    ["WEAPON_RUN_OVER_BY_CAR"] = "Hit by a vehicle",
+    ["WEAPON_HELI_CRASH"] = "Helicopter crash",
+    ["WEAPON_FIRE"] = "Many burns",
 }
 
 onPainKillers = false
@@ -368,7 +368,7 @@ end
 
 RegisterNetEvent('hospital:client:UseBandage')
 AddEventHandler('hospital:client:UseBandage', function()
-    QBCore.Functions.Progressbar("use_bandage", "Verband omdoen..", 4000, false, true, {
+    QBCore.Functions.Progressbar("use_bandage", "Put on a bandage...", 4000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
 		disableMouse = false,
@@ -390,13 +390,13 @@ AddEventHandler('hospital:client:UseBandage', function()
         end
     end, function() -- Cancel
         StopAnimTask(GetPlayerPed(-1), "anim@amb@business@weed@weed_inspecting_high_dry@", "weed_inspecting_high_base_inspector", 1.0)
-        QBCore.Functions.Notify("Mislukt", "error")
+        QBCore.Functions.Notify("Failed", "error")
     end)
 end)
 
 RegisterNetEvent('hospital:client:UsePainkillers')
 AddEventHandler('hospital:client:UsePainkillers', function()
-    QBCore.Functions.Progressbar("use_bandage", "Pijnstillers innemen", 3000, false, true, {
+    QBCore.Functions.Progressbar("use_bandage", "taking painkillers", 3000, false, true, {
         disableMovement = false,
         disableCarMovement = false,
 		disableMouse = false,
@@ -415,7 +415,7 @@ AddEventHandler('hospital:client:UsePainkillers', function()
         end
     end, function() -- Cancel
         StopAnimTask(GetPlayerPed(-1), "mp_suicide", "pill", 1.0)
-        QBCore.Functions.Notify("Mislukt", "error")
+        QBCore.Functions.Notify("Failed", "error")
     end)
 end)
 

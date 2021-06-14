@@ -947,7 +947,7 @@ function swap($fromSlot, $toSlot, $fromInv, $toInv, $toAmount) {
                             qualityLabel = (fromData.info.quality);
                         }
                         if (fromData.info.quality == 0) {
-                            qualityLabel = "GEBROKEN";
+                            qualityLabel = "BROKEN";
                         }
                         $toInv.find("[data-slot=" + $toSlot + "]").find(".item-slot-quality-bar").css({
                             "width": qualityLabel + "%",
@@ -1089,7 +1089,7 @@ function swap($fromSlot, $toSlot, $fromInv, $toInv, $toAmount) {
                             qualityLabel = (newDataTo.info.quality);
                         }
                         if (newDataTo.info.quality == 0) {
-                            qualityLabel = "GEBROKEN";
+                            qualityLabel = "BROKEN";
                         }
                         $toInv.find("[data-slot=" + $toSlot + "]").find(".item-slot-quality-bar").css({
                             "width": qualityLabel + "%",
@@ -1153,7 +1153,7 @@ function swap($fromSlot, $toSlot, $fromInv, $toInv, $toAmount) {
                                 qualityLabel = (newDataFrom.info.quality);
                             }
                             if (newDataFrom.info.quality == 0) {
-                                qualityLabel = "GEBROKEN";
+                                qualityLabel = "BROKEN";
                             }
                             $fromInv.find("[data-slot=" + $fromSlot + "]").find(".item-slot-quality-bar").css({
                                 "width": qualityLabel + "%",
@@ -1253,7 +1253,7 @@ var requiredItemOpen = false;
                     qualityLabel = (item.info.quality);
                 }
                 if (item.info.quality == 0) {
-                    qualityLabel = "GEBROKEN";
+                    qualityLabel = "BROKEN";
                     if (!IsOtherInventory) {
                         if (!IsHotbar) {
                             $(".player-inventory").find("[data-slot=" + item.slot + "]").find(".item-slot-quality-bar").css({
@@ -1533,7 +1533,7 @@ var requiredItemOpen = false;
     Inventory.UseItem = function(data) {
         $(".itembox-container").hide();
         $(".itembox-container").fadeIn(250);
-        $("#itembox-action").html("<p>Gebruikt</p>");
+        $("#itembox-action").html("<p>Used</p>");
         $("#itembox-label").html("<p>"+data.item.label+"</p>");
         $("#itembox-image").html('<div class="item-slot-img"><img src="images/' + data.item.image + '" alt="' + data.item.name + '" /></div>')
         setTimeout(function(){

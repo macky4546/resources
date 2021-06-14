@@ -50,15 +50,15 @@ AddEventHandler('qb-cityhall:server:sendDriverTest', function()
             TriggerClientEvent("qb-cityhall:client:sendDriverEmail", SchoolPlayer.PlayerData.source, SchoolPlayer.PlayerData.charinfo)
         else
             local mailData = {
-                sender = "Gemeente",
-                subject = "Aanvraag Rijles",
-                message = "Beste,<br /><br />Wij hebben zojuist een bericht gehad dat er iemand rijles wilt volgen.<br />Mocht u bereid zijn om les te geven kunt u contact opnemen:<br />Naam: <strong>".. Player.PlayerData.charinfo.firstname .. " " .. Player.PlayerData.charinfo.lastname .. "<br />Telefoonnummer: <strong>"..Player.PlayerData.charinfo.phone.."</strong><br/><br/>Met vriendelijke groet,<br />Gemeente Los Santos",
+                sender = "Township",
+                subject = "Request driving lesson",
+                message = "Dear,<br /><br />We have just received a message that someone wants to take driving lessons.<br />If you are willing to teach, please contact:<br />Name: <strong> ".. Player.PlayerData.charinfo.firstname .." " .. Player.PlayerData.charinfo.lastname .. "<br />Phone number: <strong>"..Player.PlayerData.charinfo.phone.."</ strong><br/><br/>Sincerely,<br />Municipality of Los Santos",
                 button = {}
             }
             TriggerEvent("qb-phone:server:sendNewEventMail", v, mailData)
         end
     end
-    TriggerClientEvent('QBCore:Notify', src, 'Er is een mail verstuurd naar rijscholen, er wordt vanzelf contact met je opgenomen', "success", 5000)
+    TriggerClientEvent('QBCore:Notify', src, 'An email has been sent to driving schools, you will be contacted automatically', "success", 5000)
 end)
 
 RegisterServerEvent('qb-cityhall:server:ApplyJob')
@@ -69,10 +69,10 @@ AddEventHandler('qb-cityhall:server:ApplyJob', function(job)
 
     Player.Functions.SetJob(job)
 
-    TriggerClientEvent('QBCore:Notify', src, 'Gefeliciteerd met je nieuwe baan! ('..JobInfo.label..')')
+    TriggerClientEvent('QBCore:Notify', src, 'Congratulations with your new job! ('..JobInfo.label..')')
 end)
 
-QBCore.Commands.Add("geefrijbewijs", "Geef een rijbewijs aan iemand", {{"id", "ID van een persoon"}}, true, function(source, args)
+QBCore.Commands.Add("give driver's license", "Give someone a driver's license", {{"id", "person's ID"}}, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     if IsWhitelistedSchool(Player.PlayerData.citizenid) then
         local SearchedPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
@@ -84,9 +84,9 @@ QBCore.Commands.Add("geefrijbewijs", "Geef een rijbewijs aan iemand", {{"id", "I
                     ["business"] = SearchedPlayer.PlayerData.metadata["licences"]["business"]
                 }
                 SearchedPlayer.Functions.SetMetaData("licences", licenses)
-                TriggerClientEvent('QBCore:Notify', SearchedPlayer.PlayerData.source, "Je bent geslaagd! Haal je rijbewijs op bij het gemeentehuis", "success", 5000)
+                TriggerClientEvent('QBCore:Notify', SearchedPlayer.PlayerData.source, "You are graduated! Pick up your driver's license at the town hall", "success", 5000)
             else
-                TriggerClientEvent('QBCore:Notify', src, "Kan rijbewijs niet geven..", "error")
+                TriggerClientEvent('QBCore:Notify', src, "Can't give driver's license.", "error")
             end
         end
     end

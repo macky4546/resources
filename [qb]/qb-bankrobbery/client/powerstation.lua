@@ -113,10 +113,10 @@ AddEventHandler('thermite:UseThermite', function()
                     })
                     currentStation = closestStation
                 else
-                    QBCore.Functions.Notify("Het lijkt erop dat de zekeringen zijn doorgebrand..", "error")
+                    QBCore.Functions.Notify("Looks like the fuses have blown...", "error")
                 end
             else
-                QBCore.Functions.Notify("Niet genoeg politie.. (2 nodig)", "error")
+                QBCore.Functions.Notify("Not enough police.. (2 needed)", "error")
             end
         end
     elseif currentThermiteGate ~= 0 then
@@ -134,7 +134,7 @@ AddEventHandler('thermite:UseThermite', function()
                 amount = math.random(5, 10),
             })
         else
-            QBCore.Functions.Notify("Niet genoeg politie.. (2 nodig)", "error")
+            QBCore.Functions.Notify("Not enough police.. (2 needed)", "error")
         end
     end
 end)
@@ -163,17 +163,17 @@ RegisterNUICallback('thermitesuccess', function()
     local time = 3
     local coords = GetEntityCoords(GetPlayerPed(-1))
     while time > 0 do 
-        QBCore.Functions.Notify("Branden over " .. time .. "..")
+        QBCore.Functions.Notify("burn about " .. time .. "..")
         Citizen.Wait(1000)
         time = time - 1
     end
     local randTime = math.random(10000, 15000)
     CreateFire(coords, randTime)
     if currentStation ~= 0 then
-        QBCore.Functions.Notify("De zekeringen zijn kapot", "success")
+        QBCore.Functions.Notify("The fuses are broken", "success")
         TriggerServerEvent("qb-bankrobbery:server:SetStationStatus", currentStation, true)
     elseif currentGate ~= 0 then
-        QBCore.Functions.Notify("De deur is open gebrand", "success")
+        QBCore.Functions.Notify("The door has been burned open", "success")
         TriggerServerEvent('qb-doorlock:server:updateState', currentGate, false)
         currentGate = 0
     end

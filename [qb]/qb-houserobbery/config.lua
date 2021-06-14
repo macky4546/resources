@@ -14,7 +14,7 @@ Config = {}
 
 Config.MinZOffset = 45
 
-Config.MinimumHouseRobberyPolice = 3
+Config.MinimumHouseRobberyPolice = 2
 
 Config.Rewards = {
     ["cabin"] = {
@@ -55,7 +55,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -66,7 +66,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -77,7 +77,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -88,7 +88,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -99,7 +99,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -122,7 +122,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -133,7 +133,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -144,7 +144,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -155,7 +155,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -166,7 +166,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -189,7 +189,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -200,7 +200,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -211,7 +211,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -222,7 +222,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -233,7 +233,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -256,7 +256,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -267,7 +267,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -278,7 +278,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -289,7 +289,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -300,7 +300,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -323,7 +323,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -334,7 +334,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -345,7 +345,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -356,7 +356,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -367,7 +367,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -390,7 +390,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -401,7 +401,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -412,7 +412,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -423,7 +423,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -434,7 +434,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -457,7 +457,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -468,7 +468,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -479,7 +479,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -490,7 +490,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -501,7 +501,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -524,7 +524,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -535,7 +535,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -546,7 +546,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -557,7 +557,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -568,7 +568,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -591,7 +591,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -602,7 +602,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -613,7 +613,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -624,7 +624,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -635,7 +635,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -658,7 +658,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -669,7 +669,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -680,7 +680,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -691,7 +691,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -702,7 +702,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -725,7 +725,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -736,7 +736,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -747,7 +747,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -758,7 +758,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -769,7 +769,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -792,7 +792,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -803,7 +803,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -814,7 +814,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -825,7 +825,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -836,7 +836,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -859,7 +859,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -870,7 +870,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -881,7 +881,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -892,7 +892,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -903,7 +903,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -926,7 +926,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -937,7 +937,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -948,7 +948,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -959,7 +959,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -970,7 +970,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -993,7 +993,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -1004,7 +1004,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -1015,7 +1015,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -1026,7 +1026,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -1037,7 +1037,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -1060,7 +1060,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -1071,7 +1071,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -1082,7 +1082,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -1093,7 +1093,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -1104,7 +1104,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -1127,7 +1127,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -1138,7 +1138,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -1149,7 +1149,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -1160,7 +1160,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -1171,7 +1171,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },
@@ -1194,7 +1194,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [2] = {
                 ["type"] = "cabin",
@@ -1205,7 +1205,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kastje doorzoeken"
+                ["text"] = "Search closet"
             },
             [3] = {
                 ["type"] = "kitchen",
@@ -1216,7 +1216,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Keuken kastjes doorzoeken"
+                ["text"] = "Searching kitchen cupboards"
             },
             [4] = {
                 ["type"] = "chest",
@@ -1227,7 +1227,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Kist doorzoeken"
+                ["text"] = "Search Chest"
             },
             [5] = {
                 ["type"] = "cabin",
@@ -1238,7 +1238,7 @@ Config.Houses = {
                 },
                 ["searched"] = false,
                 ["isBusy"] = false,
-                ["text"] = "Nachtkastje doorzoeken"
+                ["text"] = "search bedside table"
             },
         }
     },         

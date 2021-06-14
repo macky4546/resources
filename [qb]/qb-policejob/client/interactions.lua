@@ -52,6 +52,7 @@ Citizen.CreateThread(function()
             end
         end
         if not isHandcuffed and not isEscorted then
+            exports['qb-policejob']:IsHandcuffed()
             Citizen.Wait(2000)
         end
     end

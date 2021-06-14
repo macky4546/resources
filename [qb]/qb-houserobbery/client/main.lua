@@ -72,7 +72,7 @@ Citizen.CreateThread(function()
                         
                         if CurrentCops >= Config.MinimumHouseRobberyPolice then
                             if Config.Houses[k]["opened"] then
-                                DrawText3Ds(Config.Houses[k]["coords"]["x"], Config.Houses[k]["coords"]["y"], Config.Houses[k]["coords"]["z"], '~g~E~w~ - Om naar binnen te gaan')
+                                DrawText3Ds(Config.Houses[k]["coords"]["x"], Config.Houses[k]["coords"]["y"], Config.Houses[k]["coords"]["z"], '~g~E~w~ - To enter')
                                 if IsControlJustPressed(0, Keys["E"]) then
                                     enterRobberyHouse(k)
                                 end
@@ -235,10 +235,10 @@ AddEventHandler('lockpicks:UseLockpick', function(isAdvanced)
                         TriggerServerEvent("evidence:server:CreateFingerDrop", pos)
                     end
                 else
-                    QBCore.Functions.Notify('De deur is al open..', 'error', 3500)
+                    QBCore.Functions.Notify('The door is already open..', 'error', 3500)
                 end
             else
-                QBCore.Functions.Notify('Niet genoeg agenten..', 'error', 3500)
+                QBCore.Functions.Notify('Not enough agents..', 'error', 3500)
             end
         end
     else
@@ -254,13 +254,13 @@ AddEventHandler('lockpicks:UseLockpick', function(isAdvanced)
                                 TriggerServerEvent("evidence:server:CreateFingerDrop", pos)
                             end
                         else
-                            QBCore.Functions.Notify('De deur is al open..', 'error', 3500)
+                            QBCore.Functions.Notify('The door is already open..', 'error', 3500)
                         end
                     else
-                        QBCore.Functions.Notify('Niet genoeg agenten..', 'error', 3500)
+                        QBCore.Functions.Notify('Not enough agents..', 'error', 3500)
                     end
                 else
-                    QBCore.Functions.Notify('Het lijkt erop dat je iets mist...', 'error', 3500)
+                    QBCore.Functions.Notify('Looks like youre missing something...', 'error', 3500)
                 end
             end
         end, "screwdriverset")
@@ -284,9 +284,9 @@ function PoliceCall()
             end
             local gender = "Man"
             if QBCore.Functions.GetPlayerData().charinfo.gender == 1 then
-                gender = "Vrouw"
+                gender = "Woman"
             end
-            local msg = "Poging inbraak in een huis door een " .. gender .." bij " .. streetLabel
+            local msg = "Attempted burglary of a house by a " .. gender .." at " .. streetLabel
             TriggerServerEvent("police:server:HouseRobberyCall", pos, msg)
         end
     end
@@ -311,7 +311,7 @@ end
 function lockpickFinish(success)
     if success then
         TriggerServerEvent('qb-houserobbery:server:enterHouse', closestHouse)
-        QBCore.Functions.Notify('Het is gelukt!', 'success', 2500)
+        QBCore.Functions.Notify('It worked!', 'success', 2500)
     else
         if usingAdvanced then
             local itemInfo = QBCore.Shared.Items["advancedlockpick"]
@@ -327,7 +327,7 @@ function lockpickFinish(success)
             end
         end
         
-        QBCore.Functions.Notify('Het is niet gelukt..', 'error', 2500)
+        QBCore.Functions.Notify('It did not work..', 'error', 2500)
     end
 end
 
@@ -345,7 +345,7 @@ function searchCabin(cabin)
     local lockpickTime = math.random(15000, 30000)
     LockpickDoorAnim(lockpickTime)
     TriggerServerEvent('qb-houserobbery:server:SetBusyState', cabin, currentHouse, true)
-    QBCore.Functions.Progressbar("search_cabin", "Kastje aan het doorzoeken..", lockpickTime, false, true, {
+    QBCore.Functions.Progressbar("search_cabin", "Searching box..", lockpickTime, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -364,7 +364,7 @@ function searchCabin(cabin)
         openingDoor = false
         ClearPedTasks(GetPlayerPed(-1))
         TriggerServerEvent('qb-houserobbery:server:SetBusyState', cabin, currentHouse, false)
-        QBCore.Functions.Notify("Proces geannuleerd..", "error")
+        QBCore.Functions.Notify("Process cancelled..", "error")
     end)
 end
 

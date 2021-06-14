@@ -153,17 +153,17 @@ Config.PhoneApplications = {
         slot = 14,
         Alerts = 0,
     },
-     ["trucker"] = {
-         app = "trucker",
-         color = "#cccc33",
-         icon = "fas fa-truck-moving",
-         tooltipText = "Amazon",
-         tooltipPos = "right",
-         job = false,
-         blockedjobs = {},
-         slot = 17,
-         Alerts = 0,
-     },
+    -- ["trucker"] = {
+    --     app = "trucker",
+    --     color = "#cccc33",
+    --     icon = "fas fa-truck-moving",
+    --     tooltipText = "Dumbo",
+    --     tooltipPos = "right",
+    --     job = false,
+    --     blockedjobs = {},
+    --     slot = 17,
+    --     Alerts = 0,
+    -- },
 }
 Config.MaxSlots = 20
 
@@ -180,7 +180,7 @@ Config.StoreApps = {
         slot = 15,
         Alerts = 0,
         password = true,
-        creator = "Guardian",
+        creator = "Qbus",
         title = "Territory",
     },
 }

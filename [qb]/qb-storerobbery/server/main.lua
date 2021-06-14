@@ -43,11 +43,11 @@ AddEventHandler('qb-storerobbery:server:takeMoney', function(register, isDone)
             local info = {}
             if Config.Safes[Config.Registers[register].safeKey].type == "keypad" then
                 info = {
-                    label = "Kluis code: "..tostring(code)
+                    label = "Vault code: "..tostring(code)
                 }
             else
                 info = {
-                    label = "Kluis code: "..tostring(math.floor((code[1] % 360) / 3.60)).."-"..tostring(math.floor((code[2] % 360) / 3.60)).."-"..tostring(math.floor((code[3] % 360) / 3.60)).."-"..tostring(math.floor((code[4] % 360) / 3.60)).."-"..tostring(math.floor((code[5] % 360) / 3.60))
+                    label = "Vault code: "..tostring(math.floor((code[1] % 360) / 3.60)).."-"..tostring(math.floor((code[2] % 360) / 3.60)).."-"..tostring(math.floor((code[3] % 360) / 3.60)).."-"..tostring(math.floor((code[4] % 360) / 3.60)).."-"..tostring(math.floor((code[5] % 360) / 3.60))
                 }
             end
             Player.Functions.AddItem("stickynote", 1, false, info)
@@ -95,9 +95,9 @@ AddEventHandler('qb-storerobbery:server:callCops', function(type, safe, streetLa
         cameraId = Config.Registers[safe].camId
     end
     local alertData = {
-        title = "Winkeloverval",
+        title = "store robbery",
         coords = {x = coords.x, y = coords.y, z = coords.z},
-        description = "Iemand probeert een winkel te overvallen bij "..streetLabel.." (CAMERA ID: "..cameraId..")"
+        description = "Someone is trying to rob a store at"..streetLabel.." (CAMERA ID: "..cameraId..")"
     }
     TriggerClientEvent("qb-storerobbery:client:robberyCall", -1, type, safe, streetLabel, coords)
     TriggerClientEvent("qb-phone:client:addPoliceAlert", -1, alertData)

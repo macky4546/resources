@@ -26,7 +26,7 @@ RegisterServerEvent('qb-admin:server:kickPlayer')
 AddEventHandler('qb-admin:server:kickPlayer', function(playerId, reason)
     local src = source
     if QBCore.Functions.HasPermission(src, permissions["kick"]) then
-        DropPlayer(playerId, "Je bent gekicked uit de server:\n"..reason.."\n\n🔸 Kijk op onze discord voor meer informatie: https://discord.gg/Ttr6fY6")
+        DropPlayer(playerId, "You have been kicked from the server:\n"..reason.."\n\n🔸 Check our discord for more information: https://discord.gg/Ttr6fY6")
     end
 end)
 
@@ -41,7 +41,7 @@ AddEventHandler('qb-admin:server:serverKick', function(reason)
     if QBCore.Functions.HasPermission(src, permissions["kickall"]) then
         for k, v in pairs(QBCore.Functions.GetPlayers()) do
             if v ~= src then 
-                DropPlayer(v, "Je bent gekicked uit de server:\n"..reason.."\n\n🔸 Kijk op onze discord voor meer informatie: https://discord.gg/Ttr6fY6")
+                DropPlayer(v, "You have been kicked from the server:\n"..reason.."\n\n🔸 Check our discord for more information: https://discord.gg/Ttr6fY6")
             end
         end
     end
@@ -66,7 +66,7 @@ AddEventHandler('qb-admin:server:banPlayer', function(playerId, time, reason)
         local timeTable = os.date("*t", banTime)
         TriggerClientEvent('chatMessage', -1, "BANHAMMER", "error", GetPlayerName(playerId).." is verbannen voor: "..reason.." "..suffix[math.random(1, #suffix)])
         QBCore.Functions.ExecuteSql(false, "INSERT INTO `bans` (`name`, `steam`, `license`, `discord`,`ip`, `reason`, `expire`, `bannedby`) VALUES ('"..GetPlayerName(playerId).."', '"..GetPlayerIdentifiers(playerId)[1].."', '"..GetPlayerIdentifiers(playerId)[2].."', '"..GetPlayerIdentifiers(playerId)[3].."', '"..GetPlayerIdentifiers(playerId)[4].."', '"..reason.."', "..banTime..", '"..GetPlayerName(src).."')")
-        DropPlayer(playerId, "Je bent verbannen van de server:\n"..reason.."\n\nJe ban verloopt "..timeTable["day"].. "/" .. timeTable["month"] .. "/" .. timeTable["year"] .. " " .. timeTable["hour"].. ":" .. timeTable["min"] .. "\n🔸 Kijk op onze discord voor meer informatie: https://discord.gg/Ttr6fY6")
+        DropPlayer(playerId, "You have been banned from the server:\n"..reason.."\n\nYour ban expires "..timeTable["day"].. "/" .. timeTable["month"] .. "/" .. timeTable["year"] .. " " .. timeTable["hour"].. ":" .. timeTable["min"] .. "\n🔸 Kijk op onze discord voor meer informatie: https://discord.gg/Ttr6fY6")
     end
 end)
 
@@ -75,7 +75,7 @@ AddEventHandler('qb-admin:server:revivePlayer', function(target)
 	TriggerClientEvent('hospital:client:Revive', target)
 end)
 
-QBCore.Commands.Add("announce", "Stuur een bericht naar iedereen", {}, false, function(source, args)
+QBCore.Commands.Add("announce", "Send a message to everyone", {}, false, function(source, args)
     local msg = table.concat(args, " ")
     for i = 1, 3, 1 do
         TriggerClientEvent('chatMessage', -1, "SYSTEM", "error", msg)
@@ -87,28 +87,28 @@ QBCore.Commands.Add("admin", "Open admin menu", {}, false, function(source, args
     TriggerClientEvent('qb-admin:client:openMenu', source, group)
 end, "admin")
 
-QBCore.Commands.Add("report", "Stuur een report naar admins (alleen wanneer nodig, MAAK HIER GEEN MISBRUIK VAN)", {{name="bericht", help="Bericht die je wilt sturen"}}, true, function(source, args)
+QBCore.Commands.Add("report", "Send a report to admins (only when necessary, DO NOT MISUSE THIS)", {{name="message", help="Message you want to send"}}, true, function(source, args)
     local msg = table.concat(args, " ")
 
     local Player = QBCore.Functions.GetPlayer(source)
     TriggerClientEvent('qb-admin:client:SendReport', -1, GetPlayerName(source), source, msg)
-    TriggerClientEvent('chatMessage', source, "REPORT VERSTUURD", "normal", msg)
+    TriggerClientEvent('chatMessage', source, "REPORT SENT", "normal", msg)
     TriggerEvent("qb-log:server:sendLog", Player.PlayerData.citizenid, "reportreply", {message=msg})
 end)
 
-QBCore.Commands.Add("staffchat", "Bericht naar alle staff sturen", {{name="bericht", help="Bericht die je wilt sturen"}}, true, function(source, args)
+QBCore.Commands.Add("staffchat", "Send message to all staff", {{name="message", help="Message you want to send"}}, true, function(source, args)
     local msg = table.concat(args, " ")
 
     TriggerClientEvent('qb-admin:client:SendStaffChat', -1, GetPlayerName(source), msg)
 end, "admin")
 
-QBCore.Commands.Add("s", "Bericht naar alle staff sturen", {{name="bericht", help="Bericht die je wilt sturen"}}, true, function(source, args)
+QBCore.Commands.Add("s", "Send message to all staff", {{name="message", help="Message you want to send"}}, true, function(source, args)
     local msg = table.concat(args, " ")
 
     TriggerClientEvent('qb-admin:client:SendStaffChat', -1, GetPlayerName(source), msg)
 end, "admin")
 
-QBCore.Commands.Add("warn", "Geef een persoon een waarschuwing", {{name="ID", help="Persoon"}, {name="Reden", help="Vul een reden in"}}, true, function(source, args)
+QBCore.Commands.Add("warn", "Warning a person", {{name="ID", help="Person"}, {name="Reason", help="Enter a reason"}}, true, function(source, args)
     local targetPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local senderPlayer = QBCore.Functions.GetPlayer(source)
     table.remove(args, 1)
@@ -119,20 +119,20 @@ QBCore.Commands.Add("warn", "Geef een persoon een waarschuwing", {{name="ID", he
     local warnId = "WARN-"..math.random(1111, 9999)
 
     if targetPlayer ~= nil then
-        TriggerClientEvent('chatMessage', targetPlayer.PlayerData.source, "SYSTEM", "error", "Je bent gewaarschuwd door: "..GetPlayerName(source)..", Reden: "..msg)
-        TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Je hebt "..GetPlayerName(targetPlayer.PlayerData.source).." gewaarschuwd voor: "..msg)
+        TriggerClientEvent('chatMessage', targetPlayer.PlayerData.source, "SYSTEM", "error","You were warned by: "..GetPlayerName(source)..", Reason: "..msg)
+        TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "You have warned "..GetPlayerName(targetPlayer.PlayerData.source).." for: "..msg)
         QBCore.Functions.ExecuteSql(false, "INSERT INTO `player_warns` (`senderIdentifier`, `targetIdentifier`, `reason`, `warnId`) VALUES ('"..senderPlayer.PlayerData.steam.."', '"..targetPlayer.PlayerData.steam.."', '"..msg.."', '"..warnId.."')")
     else
-        TriggerClientEvent('QBCore:Notify', source, 'Dit persoon is niet in de stad #YOLO, hmm ik ben '..myName..' en ik stink loloololo', 'error')
+        TriggerClientEvent('QBCore:Notify', source, 'This person is not in town , hmm Im '..myName..' and I stink', 'error')
     end 
 end, "admin")
 
-QBCore.Commands.Add("checkwarns", "Geef een persoon een waarschuwing", {{name="ID", help="Persoon"}, {name="Warning", help="Nummer van waarschuwing, (1, 2 of 3 etc..)"}}, false, function(source, args)
+QBCore.Commands.Add("checkwarns", "Give a person a warning", {{name="ID", help="Person"}, {name="Warning", help="Number of warning, (1, 2 or 3 etc..)"}}, false, function(source, args)
     if args[2] == nil then
         local targetPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
         QBCore.Functions.ExecuteSql(false, "SELECT * FROM `player_warns` WHERE `targetIdentifier` = '"..targetPlayer.PlayerData.steam.."'", function(result)
             print(json.encode(result))
-            TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", targetPlayer.PlayerData.name.." heeft "..tablelength(result).." waarschuwingen!")
+            TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", targetPlayer.PlayerData.name.." has "..tablelength(result).." warnings!")
         end)
     else
         local targetPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
@@ -143,13 +143,13 @@ QBCore.Commands.Add("checkwarns", "Geef een persoon een waarschuwing", {{name="I
             if warnings[selectedWarning] ~= nil then
                 local sender = QBCore.Functions.GetPlayer(warnings[selectedWarning].senderIdentifier)
 
-                TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", targetPlayer.PlayerData.name.." is gewaarschuwd door "..sender.PlayerData.name..", Reden: "..warnings[selectedWarning].reason)
+                TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", targetPlayer.PlayerData.name.." has been warned by "..sender.PlayerData.name..", Reason: "..warnings[selectedWarning].reason)
             end
         end)
     end
 end, "admin")
 
-QBCore.Commands.Add("verwijderwarn", "Verwijder waarschuwing van persoon", {{name="ID", help="Persoon"}, {name="Warning", help="Nummer van waarschuwing, (1, 2 of 3 etc..)"}}, true, function(source, args)
+QBCore.Commands.Add("removewarn", "Remove warning from person", {{name="ID", help="Person"}, {name="Warning", help="Number of warning, (1, 2 or 3 etc..)"}}, true, function(source, args)
     local targetPlayer = QBCore.Functions.GetPlayer(tonumber(args[1]))
 
     QBCore.Functions.ExecuteSql(false, "SELECT * FROM `player_warns` WHERE `targetIdentifier` = '"..targetPlayer.PlayerData.steam.."'", function(warnings)
@@ -158,7 +158,7 @@ QBCore.Commands.Add("verwijderwarn", "Verwijder waarschuwing van persoon", {{nam
         if warnings[selectedWarning] ~= nil then
             local sender = QBCore.Functions.GetPlayer(warnings[selectedWarning].senderIdentifier)
 
-            TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", "Je hebt waarschuwing ("..selectedWarning..") verwijderd, Reden: "..warnings[selectedWarning].reason)
+            TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", "You have removed warning ("..selectedWarning.."), Reason: "..warnings[selectedWarning].reason)
             QBCore.Functions.ExecuteSql(false, "DELETE FROM `player_warns` WHERE `warnId` = '"..warnings[selectedWarning].warnId.."'")
         end
     end)
@@ -172,7 +172,7 @@ function tablelength(table)
     return count
 end
 
-QBCore.Commands.Add("reportr", "Reply op een report", {}, false, function(source, args)
+QBCore.Commands.Add("reportr", "Reply to a report", {}, false, function(source, args)
     local playerId = tonumber(args[1])
     table.remove(args, 1)
     local msg = table.concat(args, " ")
@@ -180,7 +180,7 @@ QBCore.Commands.Add("reportr", "Reply op een report", {}, false, function(source
     local Player = QBCore.Functions.GetPlayer(source)
     if OtherPlayer ~= nil then
         TriggerClientEvent('chatMessage', playerId, "ADMIN - "..GetPlayerName(source), "warning", msg)
-        TriggerClientEvent('QBCore:Notify', source, "Reactie gestuurd")
+        TriggerClientEvent('QBCore:Notify', source, "Comment Sent")
         TriggerEvent("qb-log:server:sendLog", Player.PlayerData.citizenid, "reportreply", {otherCitizenId=OtherPlayer.PlayerData.citizenid, message=msg})
         for k, v in pairs(QBCore.Functions.GetPlayers()) do
             if QBCore.Functions.HasPermission(v, "admin") then
@@ -190,11 +190,11 @@ QBCore.Commands.Add("reportr", "Reply op een report", {}, false, function(source
             end
         end
     else
-        TriggerClientEvent('QBCore:Notify', source, "Persoon is niet online", "error")
+        TriggerClientEvent('QBCore:Notify', source,"Person is not online", "error")
     end
 end, "admin")
 
-QBCore.Commands.Add("admincar", "Plaats voertuig in je garage", {}, false, function(source, args)
+QBCore.Commands.Add("admincar", "Place vehicle in your garage", {}, false, function(source, args)
     local ply = QBCore.Functions.GetPlayer(source)
     TriggerClientEvent('qb-admin:client:SaveCar', source)
 end, "admin")
@@ -206,19 +206,19 @@ AddEventHandler('qb-admin:server:SaveCar', function(mods, vehicle, hash, plate)
     QBCore.Functions.ExecuteSql(false, "SELECT * FROM `player_vehicles` WHERE `plate` = '"..plate.."'", function(result)
         if result[1] == nil then
             QBCore.Functions.ExecuteSql(false, "INSERT INTO `player_vehicles` (`steam`, `citizenid`, `vehicle`, `hash`, `mods`, `plate`, `state`) VALUES ('"..Player.PlayerData.steam.."', '"..Player.PlayerData.citizenid.."', '"..vehicle.model.."', '"..vehicle.hash.."', '"..json.encode(mods).."', '"..plate.."', 0)")
-            TriggerClientEvent('QBCore:Notify', src, 'Het voertuig staat nu op je naam!', 'success', 5000)
+            TriggerClientEvent('QBCore:Notify', src, 'The vehicle is now registered to you!', 'success', 5000)
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Dit voertuig staat al in je garage..', 'error', 3000)
+            TriggerClientEvent('QBCore:Notify', src, 'This vehicle is already in your garage..', 'error', 3000)
         end
     end)
 end)
 
-QBCore.Commands.Add("reporttoggle", "Toggle inkomende reports uit of aan", {}, false, function(source, args)
+QBCore.Commands.Add("reporttoggle", "Toggle incoming reports from or to ", {}, false, function(source, args)
     QBCore.Functions.ToggleOptin(source)
     if QBCore.Functions.IsOptin(source) then
-        TriggerClientEvent('QBCore:Notify', source, "Je krijgt WEL reports", "success")
+        TriggerClientEvent('QBCore:Notify', source, "You DO get reports", "success")
     else
-        TriggerClientEvent('QBCore:Notify', source, "Je krijgt GEEN reports", "error")
+        TriggerClientEvent('QBCore:Notify', source, "You will NOT get reports", "error")
     end
 end, "admin")
 
@@ -238,16 +238,16 @@ RegisterCommand("kickall", function(source, args, rawCommand)
                     end
                 end
             else
-                TriggerClientEvent('chatMessage', src, 'SYSTEM', 'error', 'Geef een reden op..')
+                TriggerClientEvent('chatMessage', src, 'SYSTEM', 'error', 'Give me a reason...')
             end
         else
-            TriggerClientEvent('chatMessage', src, 'SYSTEM', 'error', 'Dit kan jij niet zomaar doen kindje..')
+            TriggerClientEvent('chatMessage', src, 'SYSTEM', 'error', "You can't just do this baby...")
         end
     else
         for k, v in pairs(QBCore.Functions.GetPlayers()) do
             local Player = QBCore.Functions.GetPlayer(v)
             if Player ~= nil then 
-                DropPlayer(Player.PlayerData.source, "Server restart, kijk op discord voor meer informatie! (discord.gg/KeHgZcZ)")
+                DropPlayer(Player.PlayerData.source, "Server restart, check discord for more information!")
             end
         end
     end
@@ -271,7 +271,7 @@ end)
 RegisterServerEvent('qb-admin:server:setPermissions')
 AddEventHandler('qb-admin:server:setPermissions', function(targetId, group)
     QBCore.Functions.AddPermission(targetId, group.rank)
-    TriggerClientEvent('QBCore:Notify', targetId, 'Je permissie groep is gezet naar '..group.label)
+    TriggerClientEvent('QBCore:Notify', targetId, 'Your permission group has been set to'..group.label)
 end)
 
 RegisterServerEvent('qb-admin:server:OpenSkinMenu')

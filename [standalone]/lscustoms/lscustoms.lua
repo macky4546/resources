@@ -266,7 +266,7 @@ local function DriveInGarage()
 		local maxvehhp = 1000
 		local damage = 0
 		damage = (maxvehhp - GetVehicleBodyHealth(veh))/100
-		LSCMenu:addPurchase("Repareer voertuig", round(250+150*damage,0), "Volledige reparatie")
+		LSCMenu:addPurchase("Repair vehicle", round(250+150*damage,0), "Full repair")
 		
 		--Setup table for vehicle with all mods, colors etc.
 		SetVehicleModKit(veh,0)	
@@ -731,19 +731,19 @@ Citizen.CreateThread(function()
 										DriveInGarage()
 									else
 										if i == 5 then
-											DrawText3Ds(coords.x, coords.y, coords.z + 0.5, '~g~ENTER~w~ - Om Beeker\'s te gebruiken')
+											DrawText3Ds(coords.x, coords.y, coords.z + 0.5, '~g~ENTER~w~ - To use Beeker\'s')
 											DrawMarker(21, coords.x, coords.y, coords.z + 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.4, 61, 155, 255, 155, false, false, false, true, false, false, false)
 										elseif i == 6 then
-											DrawText3Ds(coords.x, coords.y, coords.z + 0.5, '~g~ENTER~w~ - Om Benny\'s te gebruiken')
+											DrawText3Ds(coords.x, coords.y, coords.z + 0.5, '~g~ENTER~w~ - To use Benny\'s')
 											DrawMarker(21, coords.x, coords.y, coords.z + 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.5, 1.5, 1.4, 229, 61, 255, 155, false, false, false, true, false, false, false)
 										else
-											DrawText3Ds(coords.x, coords.y, coords.z + 0.5, '~g~ENTER~w~ - Om LS Custom\'s te gebruiken')
+											DrawText3Ds(coords.x, coords.y, coords.z + 0.5, '~g~ENTER~w~ - To use LS Custom\'s')
 											DrawMarker(21, coords.x, coords.y, coords.z + 0.7, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.1, 1.1, 0.9, 177, 255, 61, 155, false, false, false, true, false, false, false)
 										end
 									end
 								end
 							else
-								DrawText3Ds(coords.x, coords.y, coords.z + 0.5, 'Garage is niet beschikbaar')
+								DrawText3Ds(coords.x, coords.y, coords.z + 0.5, 'Garage is not available')
 							end
 						end
 					end
@@ -1307,9 +1307,9 @@ end
 function CanPurchase(price, canpurchase)
 	if canpurchase then
 		if LSCMenu.currentmenu == "main" then
-			LSCMenu:showNotification("Je voertuig is gerepareerd.")
+			LSCMenu:showNotification("Your vehicle has been repaired.")
 		else
-			LSCMenu:showNotification("Item gekocht.")
+			LSCMenu:showNotification("Item cooked.")
 		end
 		TriggerServerEvent("InteractSound_SV:PlayOnSource", "airwrench", 0.1)
 		editCount = editCount + 1

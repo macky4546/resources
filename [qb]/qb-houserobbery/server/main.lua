@@ -76,7 +76,7 @@ AddEventHandler('qb-houserobbery:server:searchCabin', function(cabin, house)
             -- local weaponChance = math.random(1, 100)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Het kastje is leeg broooo', 'error', 3500)
+        TriggerClientEvent('QBCore:Notify', src, 'The cupboard is empty','error', 3500)
     end
 
     Config.Houses[house]["furniture"][cabin]["searched"] = true

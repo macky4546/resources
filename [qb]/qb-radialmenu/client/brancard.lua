@@ -102,7 +102,7 @@ Citizen.CreateThread(function()
 
             if Distance <= 1.0 then
                 if not IsAttached then
-                    DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z, '~g~E~w~ -Picking brancard / ~g~H~w~ Locking')
+                    DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z, '~g~E~w~ -Picking stretcher / ~g~H~w~ Locking')
                     if IsControlJustPressed(0, 51) then
                         AttachToBrancard()
                         IsAttached = true
@@ -111,7 +111,7 @@ Citizen.CreateThread(function()
                         FreezeEntityPosition(BrancardObject, true)
                     end
                 else
-                    DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z, '~g~E~w~ - Letting go of the brancard')
+                    DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z, '~g~E~w~ - Letting go of the stretcher')
                     if IsControlJustPressed(0, 51) then
                         DetachBrancard()
                         IsAttached = false
@@ -120,7 +120,7 @@ Citizen.CreateThread(function()
 
                 if not IsLayingOnBed then
                     if not IsAttached then
-                        DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z + 0.2, '~g~G~w~ - Laying down on the brancard')
+                        DrawText3Ds(OffsetCoords.x, OffsetCoords.y, OffsetCoords.z + 0.2, '~g~G~w~ - Laying down on the stretcher')
                         if IsControlJustPressed(0, 47) or IsDisabledControlJustPressed(0, 47) then
                             LayOnBrancard()
                         end
@@ -262,7 +262,7 @@ AddEventHandler('qb-radialmenu:client:Result', function(IsBusy, type)
             AttachEntityToEntity(PlayerPed, Object, 0, 0, 0.0, 1.6, 0.0, 0.0, 360.0, 0.0, false, false, false, false, 2, true)
             IsLayingOnBed = true
         else
-            QBCore.Functions.Notify("Deze brancard is al in gebruik!", "error")
+            QBCore.Functions.Notify("This stretcher is already in use!", "error")
             IsLayingOnBed = false
         end
     else
@@ -276,7 +276,7 @@ AddEventHandler('qb-radialmenu:client:Result', function(IsBusy, type)
             FreezeEntityPosition(Obj, false)
             IsAttached = true
         else
-            QBCore.Functions.Notify("This brancard is already in use!", "error")
+            QBCore.Functions.Notify("This stretcher is already in use!", "error")
             IsAttached = false
         end
     end

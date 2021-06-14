@@ -74,10 +74,10 @@ Citizen.CreateThread(function()
                     if dstCheck <= 2 then
                         if not IsPedInAnyVehicle(ped) then
                             if not isConfirming then
-                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.45, '~g~E~w~ Om voertuig te bekijken')
-                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.25, QBCore.Shared.Vehicles[Config.OccasionSlots[i]["model"]]["name"]..', Prijs: €'..Config.OccasionSlots[i]["price"]..',-')
+                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.45, '~g~E~w~ To view vehicle')
+                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.25, QBCore.Shared.Vehicles[Config.OccasionSlots[i]["model"]]["name"]..', price: $'..Config.OccasionSlots[i]["price"]..',-')
                                 if Config.OccasionSlots[i]["owner"] == QBCore.Functions.GetPlayerData().citizenid then
-                                    DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.05, '~r~G~w~ Om voertuig terug te nemen')
+                                    DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.05, '~r~G~w~ To take back vehicle')
                                     if IsControlJustPressed(0, Keys["G"]) then
                                         isConfirming = true
                                     end
@@ -91,10 +91,10 @@ Citizen.CreateThread(function()
                                         else
                                             info = {}
                                             info.charinfo = {
-                                                firstname = "Niet",
-                                                lastname = "bekend..",
-                                                account = "Account niet bekend..",
-                                                phone = "Telefoonnummer niet bekend.."
+                                                firstname = "Not",
+                                                lastname = "known..",
+                                                account = "Account unknown..",
+                                                phone = "Phone number unknown.."
                                             }
                                         end
                                         
@@ -102,8 +102,8 @@ Citizen.CreateThread(function()
                                     end, Config.OccasionSlots[currentVehicle]["owner"])
                                 end
                             else
-                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.45, 'Weet je zeker dat je je voertuig van de occasions wilt halen?')
-                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.25, '~g~7~w~ - Ja | ~r~8~w~ - Nee')
+                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.45, 'Are you sure you want to get your vehicle off used cars?')
+                                DrawText3Ds(vehPos.x, vehPos.y, vehPos.z + 1.25, '~g~7~w~ - Yes | ~r~8~w~ - No')
                                 if IsDisabledControlJustPressed(0, Keys["7"]) then
                                     isConfirming = false
                                     currentVehicle = i
@@ -120,14 +120,14 @@ Citizen.CreateThread(function()
                 local sellDist = GetDistanceBetweenCoords(pos, Config.SellVehicle["x"], Config.SellVehicle["y"], Config.SellVehicle["z"])
 
                 if sellDist <= 1.5 and IsPedInAnyVehicle(ped) then
-                    DrawText3Ds(Config.SellVehicle["x"], Config.SellVehicle["y"], Config.SellVehicle["z"], '~g~E~w~ - Voertuig te koop zetten')
+                    DrawText3Ds(Config.SellVehicle["x"], Config.SellVehicle["y"], Config.SellVehicle["z"], '~g~E~w~ - Put vehicle up for sale')
                     if IsControlJustPressed(0, Keys["E"]) then
                         local VehiclePlate = GetVehicleNumberPlateText(GetVehiclePedIsIn(ped))
                         QBCore.Functions.TriggerCallback('qb-garage:server:checkVehicleOwner', function(owned)
                             if owned then
                                 openSellContract(true)
                             else
-                                QBCore.Functions.Notify('Dit is niet jou voertuig?', 'error', 3500)
+                                QBCore.Functions.Notify('This is not your vehicle?', 'error', 3500)
                             end
                         end, VehiclePlate)
                     end
@@ -234,7 +234,7 @@ AddEventHandler('qb-occasions:client:BuyFinished', function(model, plate, mods)
         SetEntityHeading(veh, Config.BuyVehicle.h)
         TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
         exports['LegacyFuel']:SetFuel(veh, 100)
-        QBCore.Functions.Notify("Voertuig gekocht", "success", 2500)
+        QBCore.Functions.Notify("Vehicle purchased", "success", 2500)
         TriggerEvent("vehiclekeys:client:SetOwner", plate)
         SetVehicleEngineOn(veh, true, true)
         Citizen.Wait(500)
@@ -256,7 +256,7 @@ AddEventHandler('qb-occasions:client:ReturnOwnedVehicle', function(mods)
         SetEntityHeading(veh, Config.BuyVehicle.h)
         TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
         exports['LegacyFuel']:SetFuel(veh, 100)
-        QBCore.Functions.Notify("Jouw voertuig is terug in ontvangst..")
+        QBCore.Functions.Notify("Your vehicle has been received back..")
         TriggerEvent("vehiclekeys:client:SetOwner", vehData["plate"])
         SetVehicleEngineOn(veh, true, true)
         Citizen.Wait(500)
@@ -286,7 +286,7 @@ function sellVehicleWait(price)
     QBCore.Functions.DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
     Citizen.Wait(1500)
     DoScreenFadeIn(250)
-    QBCore.Functions.Notify('Uw auto staat te koop voor, €'..price..',-', 'success')
+    QBCore.Functions.Notify('Your car is for sale for, $'..price..',-', 'success')
     PlaySound(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
 end
 
@@ -311,6 +311,6 @@ Citizen.CreateThread(function()
     SetBlipColour(OccasionBlip, 3)
 
     BeginTextCommandSetBlipName("STRING")
-    AddTextComponentSubstringPlayerName("Mosley's Occasions")
+    AddTextComponentSubstringPlayerName("Mosley's")
     EndTextCommandSetBlipName(OccasionBlip)
 end)
