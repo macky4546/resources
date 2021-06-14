@@ -57,7 +57,7 @@ $('.cityhall-option-block').click(function(e){
 
     if (blockPage == "identity") {
         $(".identity-page-blocks").html("");
-        $(".identity-page-blocks").html('<div class="identity-page-block" data-type="id-kaart" onmouseover="'+hoverDescription("id-kaart")+'" onmouseout="'+hoverDescription("id-kaart")+'"><p>ID-kaart</p></div>');
+        $(".identity-page-blocks").html('<div class="identity-page-block" data-type="id-card" onmouseover="'+hoverDescription("id-card")+'" onmouseout="'+hoverDescription("id-card")+'"><p>ID-card</p></div>');
         $.post('http://qb-cityhall/requestLicenses', JSON.stringify({}), function(licenses){
             $.each(licenses, function(i, license){
                 console.log(license.licenseType)
@@ -70,12 +70,12 @@ $('.cityhall-option-block').click(function(e){
 
 hoverDescription = function(type) {
     if (!mouseOver) {
-        if (type == "id-kaart") {
+        if (type == "id-card") {
             $(".hover-description").fadeIn(10);
-            $(".hover-description").html('<p>Je bent verplicht om een ID-kaart op je te dragen. <br>Dit is om zodat je je kunt indentificeren op ieder moment.</p>');
-        } else if (type == "rijbewijs") {
+            $(".hover-description").html('<p>You are required to carry an ID card on you. <br>This is for you to identify yourself at any time.</p>');
+        } else if (type == "drivers license") {
             $(".hover-description").fadeIn(10);
-            $(".hover-description").html('<p>Als je in een voertuig rijd ben je verplicht om een rijbewijs<br> te kunnen tonen op het moment dat deze gevraagd word.</p>');
+            $(".hover-description").html('<p>If you drive a vehicle you are required to be able to show a drivers license<br> when requested.</p>');
         }
     } else {
         if(selectedIdentity == null) {
@@ -98,12 +98,12 @@ $(document).on("click", ".identity-page-block", function(e){
         $(this).addClass("identity-selected");
         $(".hover-description").fadeIn(10);
         selectedIdentity = this;
-        if (idType== "id-kaart") {
+        if (idType== "id-card") {
             $(".request-identity-button").fadeIn(100);
-            $(".request-identity-button").html("<p>ID-kaart aanvragen (€50,-)</p>")
+            $(".request-identity-button").html("<p>ID-card to request ($50,-)</p>")
         } else {
             $(".request-identity-button").fadeIn(100);
-            $(".request-identity-button").html("<p>Rijbewijs aanvragen (€50,-)</p>")
+            $(".request-identity-button").html("<p>drivers license to request ($50,-)</p>")
         }
     } else if (selectedIdentity == this) {
         $(this).removeClass("identity-selected");
@@ -113,10 +113,10 @@ $(document).on("click", ".identity-page-block", function(e){
         $(selectedIdentity).removeClass("identity-selected");
         $(this).addClass("identity-selected");
         selectedIdentity = this;
-        if($(this).data('type') == "id-kaart") {
-            $(".request-identity-button").html("<p>ID-kaart aanvragen (€50,-)</p>")
+        if($(this).data('type') == "id-card") {
+            $(".request-identity-button").html("<p>ID-card to request ($50,-)</p>")
         } else {
-            $(".request-identity-button").html("<p>Rijbewijs aanvragen (€50,-)</p>")
+            $(".request-identity-button").html("<p>drivers license to request ($50,-)</p>")
         }
     }
 });

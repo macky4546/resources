@@ -253,7 +253,7 @@ end
 
 function setMapBlip(x, y)
     SetNewWaypoint(x, y)
-    QBCore.Functions.Notify('De route naar aflever locatie staat aangegeven op je kaart.', 'success');
+    QBCore.Functions.Notify('De route naar aflever locatie staat aangegeven op je card.', 'success');
 end
 
 RegisterNetEvent('qb-drugs:client:setLocation')

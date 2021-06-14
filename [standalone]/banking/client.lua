@@ -167,7 +167,7 @@ function openGui()
   local playerPed = GetPlayerPed(-1)
   local PlayerData = QBCore.Functions.GetPlayerData()
   TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_ATM", 0, true)
-  QBCore.Functions.Progressbar("use_bank", "Kaart wordt gelezen..", 2500, false, true, {}, {}, {}, {}, function() -- Done
+  QBCore.Functions.Progressbar("use_bank", "card wordt gelezen..", 2500, false, true, {}, {}, {}, {}, function() -- Done
       ClearPedTasksImmediately(ped)
       SetNuiFocus(true, true)
       SendNUIMessage({
@@ -214,7 +214,7 @@ Citizen.CreateThread(function()
         if(IsNearBank() or IsNearATM()) then
             atBank = true
             inRange = true
-            DrawText3Ds(pos.x, pos.y, pos.z, '[E] Kaart valideren')
+            DrawText3Ds(pos.x, pos.y, pos.z, '[E] card valideren')
             if IsControlJustPressed(1, Keys["E"])  then
                 if (IsInVehicle()) then
                     QBCore.Functions.Notify('Actie momenteel niet mogelijk..', 'error')

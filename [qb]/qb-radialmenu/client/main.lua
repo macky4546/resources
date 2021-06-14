@@ -179,8 +179,8 @@ AddEventHandler('qb-radialmenu:client:noPlayers', function(data)
     QBCore.Functions.Notify('There arrent any people close', 'error', 2500)
 end)
 
-RegisterNetEvent('qb-radialmenu:client:giveidkaart')
-AddEventHandler('qb-radialmenu:client:giveidkaart', function(data)
+RegisterNetEvent('qb-radialmenu:client:giveidcard')
+AddEventHandler('qb-radialmenu:client:giveidcard', function(data)
     -- ??
 end)
 

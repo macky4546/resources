@@ -178,21 +178,21 @@ AddEventHandler('qb-cityhall:client:sendDriverEmail', function(charinfo)
             gender = "Mrs."
         end
         local charinfo = QBCore.Functions.GetPlayerData().charinfo
-        TriggerServerEvent('qb-phone:server:sendNewMail', {
+        --[[TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = "Township",
             subject = "Application driving lesson",
             message = "Beste " .. gender .. " " .. charinfo.lastname .. ",<br /><br />We have just received a message that someone wants to take driving lessons.<br />If you are willing to teach, please contact:<br />Name: <strong>".. charinfo.firstname .. " " . .charinfo.lastname .."</strong><br />Phone number: <strong>"..charinfo.phone.."</strong><br/><br/>Sincerely,<br />Municipality Los Santos",
             button = {}
-        })
+        })]]
     end)
 end)
 
 local idTypes = {
-    ["id-kaart"] = {
+    ["id-Card"] = {
         label = "ID-Map",
         item = "id_card"
     },
-    ["rijbewijs"] = {
+    ["drivers license"] = {
         label = "Drivers license",
         item = "driver_license"
     }

@@ -345,7 +345,7 @@ Config.MenuItems = {
                     {
                         id    = 'door4',
                         title = 'Hood',
-                        icon = '#idkaart',
+                        icon = '#idcard',
                         type = 'client',
                         event = 'qb-radialmenu:client:openDoor',
                         shouldClose = false,
@@ -369,7 +369,7 @@ Config.MenuItems = {
                     {
                         id    = 'door5',
                         title = 'Trunk',
-                        icon = '#idkaart',
+                        icon = '#idcard',
                         type = 'client',
                         event = 'qb-radialmenu:client:openDoor',
                         shouldClose = false,
