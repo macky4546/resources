@@ -126,10 +126,10 @@ AddEventHandler('wk:toggleRadar', function()
                         bwdmode = radarInfo.bwdMode
                     })
                 else 
-                    QBCore.Functions.Notify( "Je moet in een police voertuig zitten!", "error")
-                end 
-            else 
-                QBCore.Functions.Notify( "Je moet in een voertuig zitten!", "error")
+                    QBCore.Functions.Notify( "You must be in a police vehicle!", "error")
+                end
+            else
+                QBCore.Functions.Notify( "You must be in a vehicle!", "error")
             end 
         end
     end)
@@ -138,7 +138,7 @@ end)
 RegisterNetEvent( 'wk:changeRadarLimit' )
 AddEventHandler( 'wk:changeRadarLimit', function( speed ) 
     radarInfo.fastLimit = speed 
-    QBCore.Functions.Notify("Max snelheid gezet op: " .. speed .. "km/u")
+    QBCore.Functions.Notify("Max speed set to: " .. speed .. "km/u")
 end )
 
 function Radar_SetLimit()
@@ -312,7 +312,7 @@ function ManageVehicleRadar()
                                     radarInfo.fwdFastSpeed = fwdVehSpeed 
                                     radarInfo.fwdFastLocked = true 
                                     SendNUIMessage( { lockfwdfast = true } )
-                                    QBCore.Functions.Notify("Gemarkeerd voertuig gevonden!", "error")
+                                    QBCore.Functions.Notify("Marked vehicle found!", "error")
                                 end
                                 plateChecked = fwdPlate
                             end, fwdPlate)
@@ -369,7 +369,7 @@ function ManageVehicleRadar()
                                     radarInfo.bwdFastSpeed = bwdVehSpeed 
                                     radarInfo.bwdFastLocked = true 
                                     SendNUIMessage( { lockbwdfast = true } )
-                                    QBCore.Functions.Notify("Gemarkeerd voertuig gevonden!", "error")
+                                    QBCore.Functions.Notify("Marked vehicle found!", "error")
                                 end
                                 plateChecked = bwdPlate
                             end, bwdPlate)
@@ -502,7 +502,7 @@ Citizen.CreateThread( function()
                     ResetRearFast()
                     ResetFrontAntenna()
                     ResetRearAntenna()
-                    QBCore.Functions.Notify("police ANPR gereset")
+                    QBCore.Functions.Notify("police ANPR reset")
                 end
             end 
 
@@ -512,10 +512,10 @@ Citizen.CreateThread( function()
                     if (radarInfo.plateLocked) then
                         radarInfo.lockedPlate = radarInfo.fwdPlate
                         SendNUIMessage( { lockPlate = true } )
-                        QBCore.Functions.Notify("Kenteken locked: " .. radarInfo.fwdPlate)
+                        QBCore.Functions.Notify("License Plate locked: " .. radarInfo.fwdPlate)
                     else
                         SendNUIMessage( { unlockPlate = true } )
-                        QBCore.Functions.Notify("Kenteken unlocked")
+                        QBCore.Functions.Notify("License Plate unlocked")
                     end
                 end
             end

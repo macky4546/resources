@@ -32,7 +32,7 @@ $(document).ready(function(){
                 qbCityhall.Open(event.data);
                 break;
             case "close":
-                qbCityhall.Close();
+                qbCityhall.Close(event.data);
                 break;
         }
     })

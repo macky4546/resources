@@ -102,9 +102,45 @@ Config.emergencyJobs = {
                 sprite = 56,
                 color = 29,
             },
-            [`coolpdcar`] = {
+            [`pd`] = {
                 sprite = 56,
-                color = 29,
+                color = 43,
+            },
+            [`pd2`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd3`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd4`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd5`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd6`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd7`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd8`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd9`] = {
+                sprite = 56,
+                color = 43,
+            },
+            [`pd10`] = {
+                sprite = 56,
+                color = 43,
             },
         },
         canSee = {
@@ -127,7 +163,7 @@ Config.emergencyJobs = {
                 sprite = 56,
                 color = 59,
             },
-            [`supervolito2`] = {
+            [`ambulance`] = {
                 sprite = 43,
                 color = 59,
             },
