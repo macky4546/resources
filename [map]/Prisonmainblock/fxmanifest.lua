@@ -1,3 +1,6 @@
+fx_version 'bodacious'
+game 'gta5'
+
 data_file 'AUDIO_GAMEDATA' 'desertos_prison_door_01_game.dat'
 
 files {
