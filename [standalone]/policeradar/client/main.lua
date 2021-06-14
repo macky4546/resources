@@ -126,7 +126,7 @@ AddEventHandler('wk:toggleRadar', function()
                         bwdmode = radarInfo.bwdMode
                     })
                 else 
-                    QBCore.Functions.Notify( "Je moet in een politie voertuig zitten!", "error")
+                    QBCore.Functions.Notify( "Je moet in een police voertuig zitten!", "error")
                 end 
             else 
                 QBCore.Functions.Notify( "Je moet in een voertuig zitten!", "error")
@@ -502,7 +502,7 @@ Citizen.CreateThread( function()
                     ResetRearFast()
                     ResetFrontAntenna()
                     ResetRearAntenna()
-                    QBCore.Functions.Notify("Politie ANPR gereset")
+                    QBCore.Functions.Notify("police ANPR gereset")
                 end
             end 
 

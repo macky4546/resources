@@ -113,7 +113,7 @@ Citizen.CreateThread(function()
                                         QBCore.Functions.Notify("Beveiliging is nog actief..", "error")
                                     end
                                 else
-                                    QBCore.Functions.Notify("Niet genoeg politie..", "error")
+                                    QBCore.Functions.Notify("Niet genoeg police..", "error")
                                 end
                             end
                         end
@@ -240,7 +240,7 @@ AddEventHandler('thermite:UseThermite', function()
                 })
             end
         else
-            QBCore.Functions.Notify("Niet genoeg politie..", "error")
+            QBCore.Functions.Notify("Niet genoeg police..", "error")
         end
     end
 end)

@@ -67,7 +67,7 @@ QB.Phone.Functions.SetupApplications = function(data) {
             $(applicationSlot).css({"background-color":app.color});
             var icon = '<i class="ApplicationIcon '+app.icon+'" style="'+app.style+'"></i>';
             if (app.app == "meos") {
-                icon = '<img src="./img/politie.png" class="police-icon">';
+                icon = '<img src="./img/police.png" class="police-icon">';
             }
             $(applicationSlot).html(icon+'<div class="app-unread-alerts">0</div>');
             $(applicationSlot).prop('title', app.tooltipText);
@@ -389,10 +389,10 @@ QB.Phone.Notifications.Add = function(icon, title, text, color, timeout) {
                     $(".notification-title").css({"color":"#e74c3c"});
                 }
                 QB.Phone.Animations.TopSlideDown(".phone-notification-container", 200, 8);
-                if (icon !== "politie") {
+                if (icon !== "police") {
                     $(".notification-icon").html('<i class="'+icon+'"></i>');
                 } else {
-                    $(".notification-icon").html('<img src="./img/politie.png" class="police-icon-notify">');
+                    $(".notification-icon").html('<img src="./img/police.png" class="police-icon-notify">');
                 }
                 $(".notification-title").html(title);
                 $(".notification-text").html(text);
