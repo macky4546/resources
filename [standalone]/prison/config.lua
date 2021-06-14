@@ -1,7 +1,7 @@
 Config = {}
 
 Config.Jobs = {
-    ["electrician"] = "Elektricien",
+    ["electrician"] = "Electrician",
 }
 
 Config.Locations = {
@@ -31,7 +31,7 @@ Config.Locations = {
         },
     },
     ["freedom"] = {
-        coords = {x = 1779.4, y = 2571.18, z = 45.91, h = 278.5},
+        coords = {x = 1829.03, y = 2580.94, z = 45.89, h = 278.5},
     },
     ["outside"] = {
         coords = {x = 1843.06, y = 2590.65, z = 45.89, h = 184.5},
