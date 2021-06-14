@@ -31,7 +31,7 @@ Config.Products = {
             slot = 2,
         },
         [3] = {
-            name = "kurkakola",
+            name = "cocacola",
             price = 2,
             amount = 50,
             info = {},
@@ -216,10 +216,10 @@ Config.Products = {
             type = "item",
             slot = 14,
         },
-        [15] = {
+        --[[[15] = {
             name = "fishingrod",
             price = 150,
-            amount = 150,
+            amount = 100,
             info = {},
             type = "item",
             slot = 15,
@@ -227,11 +227,11 @@ Config.Products = {
         [16] = {
             name = "fishingbait",
             price = 150,
-            amount = 150,
+            amount = 50,
             info = {},
             type = "item",
             slot = 16,
-        },
+        }]]
     },
     ["coffeeshop"] = {
         [1] = {
@@ -719,7 +719,7 @@ Config.Locations = {
         },
         ["products"] = Config.Products["normal"],
     },
-    ["247supermarket9"] = {
+    --[[["247supermarket10"] = {
         ["label"] = "24/7 Supermarket",
         ["type"] = "normal",
         ["coords"] = {
@@ -735,7 +735,7 @@ Config.Locations = {
             }
         },
         ["products"] = Config.Products["normal"],
-    },
+    },]]
     ["hardware"] = {
         ["label"] = "Hardware Store",
         ["type"] = "hardware",
