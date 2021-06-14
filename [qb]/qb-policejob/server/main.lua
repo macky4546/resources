@@ -799,14 +799,14 @@ QBCore.Commands.Add("escort", "Escort Player", {}, false, function(source, args)
     TriggerClientEvent("police:client:EscortPlayer", source)
 end)
 
---[[QBCore.Commands.Add("mdt", "Open MDT (Police Only)", {}, false, function(source, args)
+QBCore.Commands.Add("mdt", "Open MDT (Police Only)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == "police" then
         TriggerClientEvent("police:client:toggleDatabank", source)
     else
         TriggerClientEvent('QBCore:Notify', source, 'For Emergency Services Only', 'error')
     end
-end)]]
+end)
 
 QBCore.Commands.Add("callsign", "Give Yourself A Callsign", {{name="name", help="Name of your callsign"}}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
@@ -936,7 +936,7 @@ QBCore.Commands.Add("plateinfo", "Run A Plate (Police Only)", {{name="plate", he
     end
 end)
 
-QBCore.Commands.Add("depot", "Impound With Price (Police Only)", {{name="prijs", help="Price for how much the person has to pay (may be empty)"}}, false, function(source, args)
+QBCore.Commands.Add("impoundp", "Impound With Price (Police Only)", {{name="price", help="Price for how much the person has to pay (may be empty)"}}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == "police" then
         TriggerClientEvent("police:client:ImpoundVehicle", source, false, tonumber(args[1]))
@@ -1165,3 +1165,15 @@ RegisterServerEvent('police:server:SyncSpikes')
 AddEventHandler('police:server:SyncSpikes', function(table)
     TriggerClientEvent('police:client:SyncSpikes', -1, table)
 end)
+
+QBCore.Commands.Add("setpolice", "Give the police job to someone ", {{name="id", help="Player ID"}}, true, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Myself = QBCore.Functions.GetPlayer(source)
+    if Player ~= nil then 
+        if (Myself.PlayerData.job.name == "unemployed" and Myself.PlayerData.job.onduty)  then
+            Player.Functions.SetJob("police")
+        end
+    end
+end)
+
+
