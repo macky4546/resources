@@ -1,6 +1,3 @@
-------------------------------------------
---	MISSION ROW POLICE DEPARTMENT		--
-------------------------------------------
 
 -- gabz_mrpd    FRONT DOORS
 table.insert(Config.DoorList, {
