@@ -64,7 +64,6 @@ Config.BlacklistedVehs = {
     [`SHERIFF2`] = true,
     [`FIRETRUK`] = true,
     [`MULE`] = true,
-    [`POLMAV`] = true,
     [`BLIMP`] = true,
     [`AIRTUG`] = true,
 }

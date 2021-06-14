@@ -8,9 +8,9 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if showHelp then
 			if helpTimer > GetGameTimer() then
-				showHelpText("Beweeg met ~y~W,A,S,D~s~ en accepteer het met ~y~SPACE~s~ voor de linker code")
+				showHelpText("Move with ~y~W,A,S,D~s~ and accept it with ~y~SPACE~s~ for the left code")
 			elseif helpTimer > GetGameTimer()-helpCycle then
-				showHelpText("Beweeg met de ~y~Pijltoetsen~s~ en accepteer het met ~y~ENTER~s~ voor de rechter code")
+				showHelpText("Move with ~y~Arrow keys~s~ and accept with ~y~ENTER~s~ for right code")
 			else
 				helpTimer = GetGameTimer()+helpCycle
 			end

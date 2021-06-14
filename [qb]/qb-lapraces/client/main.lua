@@ -51,7 +51,7 @@ Citizen.CreateThread(function()
                     if Races[ClosestRace].active and not Races[ClosestRace].started then 
                         local pos = GetEntityCoords(GetPlayerPed(-1))
                         if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Races[ClosestRace].checkpoints[1].x, Races[ClosestRace].checkpoints[1].y, Races[ClosestRace].checkpoints[1].z, true) < 10.0 then
-                            DrawText3Ds(Races[ClosestRace].checkpoints[1].x, Races[ClosestRace].checkpoints[1].y, Races[ClosestRace].checkpoints[1].z, "~g~H~w~ Join the race (~g~€" .. Races[ClosestRace].price .. "~w~ cash)")
+                            DrawText3Ds(Races[ClosestRace].checkpoints[1].x, Races[ClosestRace].checkpoints[1].y, Races[ClosestRace].checkpoints[1].z, "~g~H~w~ Join the race (~g~$" .. Races[ClosestRace].price .. "~w~ cash)")
                             if IsControlJustReleased(0, Keys["H"]) then
                                 TriggerServerEvent("qb-lapraces:server:JoinRace", ClosestRace)
                             end

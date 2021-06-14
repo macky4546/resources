@@ -229,7 +229,7 @@ Citizen.CreateThread(function()
                                     end
                                     drawMenuButton(button,CustomVehicleShop.menu.x,y,selected)
                                     if button.price ~= nil then
-                                        drawMenuRight("€"..button.price,CustomVehicleShop.menu.x,y,selected)
+                                        drawMenuRight("$"..button.price,CustomVehicleShop.menu.x,y,selected)
                                     end
                                     y = y + 0.04
                                     if isCustomValidMenu(CustomVehicleShop.currentmenu) then
@@ -287,7 +287,7 @@ Citizen.CreateThread(function()
                         DisableControlAction(0, Keys["8"], true)
                     else
                         if QBCustom.ShowroomPositions[ClosestCustomVehicle].buying then
-                            DrawText3Ds(QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.x, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.y, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.z + 1.6, '~g~7~w~ - Kopen / ~r~8~w~ - Annuleren - ~g~(€'..QBCore.Shared.Vehicles[QBCustom.ShowroomPositions[ClosestCustomVehicle].vehicle].price..',-)')
+                            DrawText3Ds(QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.x, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.y, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.z + 1.6, '~g~7~w~ - Kopen / ~r~8~w~ - Annuleren - ~g~($'..QBCore.Shared.Vehicles[QBCustom.ShowroomPositions[ClosestCustomVehicle].vehicle].price..',-)')
                             
                             if IsDisabledControlJustPressed(0, Keys["7"]) then
                                 TriggerServerEvent('qb-vehicleshop:server:ConfirmVehicle', QBCustom.ShowroomPositions[ClosestCustomVehicle])

@@ -167,7 +167,7 @@ function openGui()
   local playerPed = GetPlayerPed(-1)
   local PlayerData = QBCore.Functions.GetPlayerData()
   TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_ATM", 0, true)
-  QBCore.Functions.Progressbar("use_bank", "card wordt gelezen..", 2500, false, true, {}, {}, {}, {}, function() -- Done
+  QBCore.Functions.Progressbar("use_bank", "card is being read..", 2500, false, true, {}, {}, {}, {}, function() -- Done
       ClearPedTasksImmediately(ped)
       SetNuiFocus(true, true)
       SendNUIMessage({
@@ -176,7 +176,7 @@ function openGui()
       })
   end, function() -- Cancel
       ClearPedTasksImmediately(ped)
-      QBCore.Functions.Notify("Geannuleerd..", "error")
+      QBCore.Functions.Notify("Canceled..", "error")
   end)
 end
 
@@ -214,10 +214,10 @@ Citizen.CreateThread(function()
         if(IsNearBank() or IsNearATM()) then
             atBank = true
             inRange = true
-            DrawText3Ds(pos.x, pos.y, pos.z, '[E] card valideren')
+            DrawText3Ds(pos.x, pos.y, pos.z, '[E] validate card')
             if IsControlJustPressed(1, Keys["E"])  then
                 if (IsInVehicle()) then
-                    QBCore.Functions.Notify('Actie momenteel niet mogelijk..', 'error')
+                    QBCore.Functions.Notify('Action currently not possible..', 'error')
                 else
                     if bankOpen then
                         closeGui()
@@ -385,6 +385,6 @@ AddEventHandler('banking:client:CheckDistance', function(targetId, amount)
       TriggerServerEvent('banking:server:giveCash', playerId, amount)
     end
   else
-    QBCore.Functions.Notify('Je bent niet bij het persoon in de buurt..', 'error')
+    QBCore.Functions.Notify('You are not near the person..', 'error')
   end
 end)

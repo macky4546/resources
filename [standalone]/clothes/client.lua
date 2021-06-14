@@ -95,7 +95,7 @@ function startClothes(hasToPay)
 			if cashBalance >= 100 or cashBalance >= 100 then
 				TriggerServerEvent("clothes:server:PayClothes")
 			else
-				QBCore.Functions.Notify("Je hebt niet genoeg geld! (€100,-)")
+				QBCore.Functions.Notify("You do not have enough money! ($100,-)")
 			end
 		end)
 	end
@@ -174,7 +174,7 @@ function ClothShop()
 
 	elseif cmenu.show == 2 then
 		-- debug_you_can_delete_it
-		local drawstr = string.format("Type: %d | Kleur: %d | Kleur 2: %d",draw[1],draw[2],draw[3])
+		local drawstr = string.format("Type: %d | Color: %d | Color2: %d",draw[1],draw[2],draw[3])
 
 		drawTxt(0.242, 0.225, 0, 0, 0.40,drawstr,255,255,255,255)
 		custDrawRect(0.328,0.244,0.18,0.035,33,33,33,200)
@@ -203,18 +203,18 @@ function ClothShop()
 
 
 		local accessoriesList = {
-			[1] = "Gezicht",
-			[2] = "Masker",
-			[3] = "Haar",
-			[4] = "Armen",
-			[5] = "Broek",
-			[6] = "Tas",			
-			[7] = "Schoenen",
-			[8] = "Nek/das",
-			[9] = "Ondershirt",
-			[10] = "Vesten",			
+			[1] = "Face",
+			[2] = "Mask",
+			[3] = "Hair",
+			[4] = "Arms",
+			[5] = "Pants",
+			[6] = "Bag",
+			[7] = "Shoes",
+			[8] = "Neck/tie",
+			[9] = "Undershirt",
+			[10] = "Vests",
 			[11] = "Decals",
-			[12] = "Jassen / Bovenshirts",
+			[12] = "Jackets / Top Shirts",
 		}
 
 		local draw_str = "Slot: " .. accessoriesList[cmenu.field] .. " " .. cmenu.field .. "/12"

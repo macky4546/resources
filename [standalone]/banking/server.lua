@@ -11,10 +11,10 @@ AddEventHandler('bank:withdraw', function(amount)
     local amount = tonumber(amount)
     if bankamount >= amount and amount > 0 then
       ply.Functions.RemoveMoney('bank', amount, "Bank withdraw")
-      TriggerEvent("qb-log:server:CreateLog", "banking", "Withdraw", "red", "**"..GetPlayerName(src) .. "** heeft €"..amount.." opgenomen van zijn bank.")
+      TriggerEvent("qb-log:server:CreateLog", "banking", "Withdraw", "red", "**"..GetPlayerName(src) .. "** has withdrawn $"..amount.." from his bank.")
       ply.Functions.AddMoney('cash', amount, "Bank withdraw")
     else
-      TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet voldoende geld op je bank..', 'error')
+      TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money in your bank.', 'error')
     end
 end)
 
@@ -26,14 +26,14 @@ AddEventHandler('bank:deposit', function(amount)
     local amount = tonumber(amount)
     if cashamount >= amount and amount > 0 then
       ply.Functions.RemoveMoney('cash', amount, "Bank depost")
-      TriggerEvent("qb-log:server:CreateLog", "banking", "Deposit", "green", "**"..GetPlayerName(src) .. "** heeft €"..amount.." op zijn bank gezet.")
+      TriggerEvent("qb-log:server:CreateLog", "banking", "Deposit", "green", "**"..GetPlayerName(src) .. "** heeft $"..amount.." op zijn bank gezet.")
       ply.Functions.AddMoney('bank', amount, "Bank depost")
     else
       TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet voldoende geld op zak..', 'error')
     end
 end)
 
-QBCore.Commands.Add("geefcontant", "Geef contant geld aan een persoon", {{name="id", help="Speler ID"},{name="bedrag", help="Hoeveelheid geld"}}, true, function(source, args)
+QBCore.Commands.Add("give cash", "Give cash to a person", {{name="id", help="Player ID"},{name="amount", help="Amount of money"}}, true, function(source, args)
   local Player = QBCore.Functions.GetPlayer(source)
   local TargetId = tonumber(args[1])
   local Target = QBCore.Functions.GetPlayer(TargetId)
@@ -46,19 +46,19 @@ QBCore.Commands.Add("geefcontant", "Geef contant geld aan een persoon", {{name="
           if TargetId ~= source then
             TriggerClientEvent('banking:client:CheckDistance', source, TargetId, amount)
           else
-            TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Je kunt geen geld aan jezelf geven.")
+            TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "You can't give yourself money.")
           end
         else
-          TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Je hebt niet genoeg geld.")
+          TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "You don't have enough money.")
         end
       else
-        TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "De hoeveelheid moet hoger zijn dan 0.")
+        TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Amount must be greater than 0.")
       end
     else
-      TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Vul een hoeveelheid in.")
+      TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Enter an amount.")
     end
   else
-    TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Persoon is niet in de stad.")
+    TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Person is not in town.")
   end    
 end)
 
@@ -71,8 +71,8 @@ AddEventHandler('banking:server:giveCash', function(trgtId, amount)
   Player.Functions.RemoveMoney('cash', amount, "Cash given to "..Player.PlayerData.citizenid)
   Target.Functions.AddMoney('cash', amount, "Cash received from "..Target.PlayerData.citizenid)
 
-  TriggerEvent("qb-log:server:CreateLog", "banking", "Geef contant", "blue", "**"..GetPlayerName(src) .. "** heeft €"..amount.." gegeven aan **" .. GetPlayerName(trgtId) .. "**")
+  TriggerEvent("qb-log:server:CreateLog", "banking", "Give cash", "blue", "**"..GetPlayerName(src) .. "** gave $"..amount.." to **".. GetPlayerName(trgtId) .. "**")
   
-  TriggerClientEvent('QBCore:Notify', trgtId, "Je hebt €"..amount.." gekregen van "..Player.PlayerData.charinfo.firstname.."!", 'success')
-  TriggerClientEvent('QBCore:Notify', src, "Je hebt €"..amount.." gegeven aan "..Target.PlayerData.charinfo.firstname.."!", 'success')
+  TriggerClientEvent('QBCore:Notify', trgtId, "You have $"..amount.." got from "..Player.PlayerData.charinfo.firstname.."!", 'success')
+  TriggerClientEvent('QBCore:Notify', src, "You have $"..amount.." got from "..Target.PlayerData.charinfo.firstname.."!", 'success')
 end)

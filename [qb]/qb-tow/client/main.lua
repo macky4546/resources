@@ -66,7 +66,7 @@ RegisterNetEvent('jobs:client:ToggleNpc')
 AddEventHandler('jobs:client:ToggleNpc', function()
     if QBCore.Functions.GetPlayerData().job.name == "tow" then
         if CurrentTow ~= nil then 
-            QBCore.Functions.Notify("Maak eerst je werk af!", "error")
+            QBCore.Functions.Notify("Finish your work first!", "error")
             return
         end
         NpcOn = not NpcOn
@@ -108,7 +108,7 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
 
             if NpcOn and CurrentLocation ~= nil then
                 if GetEntityModel(targetVehicle) ~= GetHashKey(CurrentLocation.model) then
-                    QBCore.Functions.Notify("Dit is niet het juiste voertuig..", "error")
+                    QBCore.Functions.Notify("This is not the right vehicle.", "error")
                     return
                 end
             end
@@ -117,7 +117,7 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
                     local towPos = GetEntityCoords(vehicle)
                     local targetPos = GetEntityCoords(targetVehicle)
                     if GetDistanceBetweenCoords(towPos.x, towPos.y, towPos.z, targetPos.x, targetPos.y, targetPos.z, true) < 11.0 then
-                        QBCore.Functions.Progressbar("towing_vehicle", "Voertuig erop zetten..", 5000, false, true, {
+                        QBCore.Functions.Progressbar("towing_vehicle", "Put the vehicle on..", 5000, false, true, {
                             disableMovement = true,
                             disableCarMovement = true,
                             disableMouse = false,
@@ -133,18 +133,18 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
                             CurrentTow = targetVehicle
                             if NpcOn then
                                 RemoveBlip(CurrentBlip)
-                                QBCore.Functions.Notify("Breng het voertuig naar Hayes Depot!", "success", 5000)
+                                QBCore.Functions.Notify("Take the vehicle to Hayes Depot!", "success", 5000)
                             end
-                            QBCore.Functions.Notify("Voertuig getakeld!")
+                            QBCore.Functions.Notify("Vehicle towed!")
                         end, function() -- Cancel
                             StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_ped", 1.0)
-                            QBCore.Functions.Notify("Mislukt!", "error")
+                            QBCore.Functions.Notify("Failed!", "error")
                         end)
                     end
                 end
             end
         else
-            QBCore.Functions.Progressbar("untowing_vehicle", "Voertuig eraf halen..", 5000, false, true, {
+            QBCore.Functions.Progressbar("untowing_vehicle", "Remove vehicle..", 5000, false, true, {
                 disableMovement = true,
                 disableCarMovement = true,
                 disableMouse = false,
@@ -166,14 +166,14 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
                     end
                 end
                 CurrentTow = nil
-                QBCore.Functions.Notify("Voertuig eraf gehaald!")
+                QBCore.Functions.Notify("Vehicle removed!")
             end, function() -- Cancel
                 StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_ped", 1.0)
-                QBCore.Functions.Notify("Mislukt!", "error")
+                QBCore.Functions.Notify("Failed!", "error")
             end)
         end
     else
-        QBCore.Functions.Notify("Je moet eerst in een takelvoertuig hebben gezeten..", "error")
+        QBCore.Functions.Notify("You must have been in a tow vehicle first..", "error")
     end
 end)
 
@@ -196,9 +196,9 @@ Citizen.CreateThread(function()
                     DrawMarker(2, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
                     if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 1.5) then
                         if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Voertuig opbergen")
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ -Store vehicle")
                         else
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Voertuigen")
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Vehicles")
                         end
                         if IsControlJustReleased(0, Keys["E"]) then
                             if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
@@ -223,7 +223,7 @@ Citizen.CreateThread(function()
                                 JobsDone = 0
                                 NpcOn = false
                             else
-                                QBCore.Functions.Notify("Je hebt nog geen werk verricht..", "error")
+                                QBCore.Functions.Notify("You haven't done any work yet...", "error")
                             end
                         end
                     elseif (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 2.5) then
@@ -255,8 +255,8 @@ function deliverVehicle(vehicle)
     DeleteVehicle(vehicle)
     JobsDone = JobsDone + 1
     VehicleSpawned = false
-    QBCore.Functions.Notify("Je hebt een voertuig afgeleverd!", "success")
-    QBCore.Functions.Notify("Er kan een nieuw voertuig opgehaald worden")
+    QBCore.Functions.Notify("You delivered a vehicle!", "success")
+    QBCore.Functions.Notify("A new vehicle can be picked up")
 
     local randomLocation = getRandomVehicleLocation()
     CurrentLocation.x = Config.Locations["towspots"][randomLocation].coords.x
@@ -300,19 +300,19 @@ function MenuGarage()
     ped = GetPlayerPed(-1);
     MenuTitle = "Garage"
     ClearMenu()
-    Menu.addButton("Voertuigen", "VehicleList", nil)
-    Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
+    Menu.addButton("Vehicles", "VehicleList", nil)
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function VehicleList(isDown)
     ped = GetPlayerPed(-1);
-    MenuTitle = "Voertuigen:"
+    MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
         Menu.addButton(Config.Vehicles[k], "TakeOutVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
     end
         
-    Menu.addButton("Terug", "MenuGarage",nil)
+    Menu.addButton("Back", "MenuGarage",nil)
 end
 
 function TakeOutVehicle(vehicleInfo)

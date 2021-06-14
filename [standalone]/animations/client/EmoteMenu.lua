@@ -82,8 +82,8 @@ function AddEmoteMenu(menu)
     local dancemenu = _menuPool:AddSubMenu(submenu, "🕺 Dans Animaties", "", "", Menuthing, Menuthing)
     local propmenu = _menuPool:AddSubMenu(submenu, "📦 Prop Animaties", "", "", Menuthing, Menuthing)
     --favmenu:AddItem(unbind2item)
-    table.insert(EmoteTable, "🕺 Dance Animaties")
-    table.insert(EmoteTable, "🕺 Dance Animaties")
+    table.insert(EmoteTable, "🕺 Dance Animations")
+    table.insert(EmoteTable, "🕺 Dance Animations")
 
     for a,b in pairsByKeys(AnimationList.Emotes) do
       x,y,z = table.unpack(b)
@@ -128,7 +128,7 @@ function AddEmoteMenu(menu)
 end
 
 function AddCancelEmote(menu)
-    local newitem = NativeUI.CreateItem("Stop Emote ", "~r~X~w~ Stopt de emote")
+    local newitem = NativeUI.CreateItem("Stop Emote ", "~r~X~w~ Stop the emote")
     menu:AddItem(newitem)
     menu.OnItemSelect = function(sender, item, checked_)
         if item == newitem then
@@ -139,11 +139,11 @@ function AddCancelEmote(menu)
 end
 
 function AddWalkMenu(menu)
-    local submenu = _menuPool:AddSubMenu(menu, "Loopstylen", "", "", Menuthing, Menuthing)
+    local submenu = _menuPool:AddSubMenu(menu, "Loopstyle", "", "", Menuthing, Menuthing)
 
     walkreset = NativeUI.CreateItem("Normaal (Reset)", "Default")
     submenu:AddItem(walkreset)
-    table.insert(WalkTable, "Reset naar default")
+    table.insert(WalkTable, "Reset default")
 
     WalkInjured = NativeUI.CreateItem("Injured", "")
     submenu:AddItem(WalkInjured)
@@ -168,7 +168,7 @@ end
 function AddFaceMenu(menu)
     local submenu = _menuPool:AddSubMenu(menu, "Moods", "", "", Menuthing, Menuthing)
 
-    facereset = NativeUI.CreateItem("Normaal (Reset)", "Reset naar default")
+    facereset = NativeUI.CreateItem("Normaal (Reset)", "Reset default")
     submenu:AddItem(facereset)
     table.insert(FaceTable, "")
 

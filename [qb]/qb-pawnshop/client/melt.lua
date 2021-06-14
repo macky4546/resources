@@ -10,16 +10,16 @@ Citizen.CreateThread(function()
 			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, true) < 1.5 then
                 if not Config.IsMelting then
                     if enablePickup then
-                        DrawText3D(Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, "~g~E~w~ - Pak goudstaven")
+                        DrawText3D(Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, "~g~E~w~ - Grab gold bars")
                         if IsControlJustReleased(0, Keys["E"]) then
                             TriggerServerEvent("qb-pawnshop:server:getGoldBars")
                         end
                     else
-                        DrawText3D(Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, "~g~E~w~ - Gouden items smelten")
+                        DrawText3D(Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, "~g~E~w~ - Melting gold items")
                         if IsControlJustReleased(0, Keys["E"]) then 
                             local waitTime = math.random(10000, 15000)
                             ScrapAnim(waitTime)
-                            QBCore.Functions.Progressbar("drop_golden_stuff", "Items pakken..", waitTime, false, true, {
+                            QBCore.Functions.Progressbar("drop_golden_stuff", "Grab items..", waitTime, false, true, {
                                 disableMovement = true,
                                 disableCarMovement = true,
                                 disableMouse = false,
@@ -31,7 +31,7 @@ Citizen.CreateThread(function()
                         end
                     end
                 elseif Config.IsMelting and Config.MeltTime > 0 then
-                    DrawText3D(Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, "Bezig met smelten: " .. Config.MeltTime)
+                    DrawText3D(Config.MeltLocation.x, Config.MeltLocation.y, Config.MeltLocation.z, "Melting: " .. Config.MeltTime)
                 end
 			end
 		end
@@ -55,11 +55,11 @@ Citizen.CreateThread(function()
 						hasGold = HasPlayerGold()
 						sellItemsSet = true
                     elseif sellItemsSet and hasGold then
-                        DrawText3D(Config.SellGold.x, Config.SellGold.y, Config.SellGold.z, "~g~E~w~ - Verkoop goudstaven")
+                        DrawText3D(Config.SellGold.x, Config.SellGold.y, Config.SellGold.z, "~g~E~w~ - Sell gold bars")
                         if IsControlJustReleased(0, Keys["E"]) then
                             local lockpickTime = 20000
                             ScrapAnim(lockpickTime)
-                            QBCore.Functions.Progressbar("sell_gold", "Goud verkopen..", lockpickTime, false, true, {
+                            QBCore.Functions.Progressbar("sell_gold", "Sell gold..", lockpickTime, false, true, {
                                 disableMovement = true,
                                 disableCarMovement = true,
                                 disableMouse = false,
@@ -75,15 +75,15 @@ Citizen.CreateThread(function()
                             end, function() -- Cancel
                                 openingDoor = false
                                 ClearPedTasks(GetPlayerPed(-1))
-                                QBCore.Functions.Notify("Proces geannuleerd..", "error")
+                                QBCore.Functions.Notify("Process cancelled..", "error")
                             end)
                         end
                     else
-                        DrawText3D(Config.SellGold.x, Config.SellGold.y, Config.SellGold.z, "Je hebt geen goud bij je..")
+                        DrawText3D(Config.SellGold.x, Config.SellGold.y, Config.SellGold.z, "You have no gold with you..")
                     end
                     
                 else
-                    DrawText3D(Config.SellGold.x, Config.SellGold.y, Config.SellGold.z, "Pawnshop gesloten..")
+                    DrawText3D(Config.SellGold.x, Config.SellGold.y, Config.SellGold.z, "Pawn shop closed..")
                 end
 			end
 		end

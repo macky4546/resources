@@ -404,7 +404,7 @@ Citizen.CreateThread(function()
                                 drawMenuButton(button,vehshop.menu.x,y,selected)
                                 if button.price ~= nil then
 
-                                    drawMenuRight("€"..button.price,vehshop.menu.x,y,selected)
+                                    drawMenuRight("$"..button.price,vehshop.menu.x,y,selected)
 
                                 end
                                 y = y + 0.04

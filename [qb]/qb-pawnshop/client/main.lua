@@ -43,21 +43,21 @@ Citizen.CreateThread(function()
 						sellPrice = GetSellingPrice()
 						sellItemsSet = true
 					elseif sellItemsSet and sellPrice ~= 0 then
-						DrawText3D(Config.PawnLocation.x, Config.PawnLocation.y, Config.PawnLocation.z, "~g~E~w~ - Verkoop horloges/kettingen/ringen (€"..sellPrice..")")
+						DrawText3D(Config.PawnLocation.x, Config.PawnLocation.y, Config.PawnLocation.z, "~g~E~w~ - Sell watches/necklaces/rings ($"..sellPrice..")")
 						if IsControlJustReleased(0, Keys["E"]) then
 							TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
-                            QBCore.Functions.Progressbar("sell_pawn_items", "Spullen verkopen..", math.random(15000, 25000), false, true, {}, {}, {}, {}, function() -- Done
+                            QBCore.Functions.Progressbar("sell_pawn_items", "Sell stuff..", math.random(15000, 25000), false, true, {}, {}, {}, {}, function() -- Done
                                 ClearPedTasks(GetPlayerPed(-1))
 								TriggerServerEvent("qb-pawnshop:server:sellPawnItems")
 								sellItemsSet = false
 								sellPrice = 0
                             end, function() -- Cancel
 								ClearPedTasks(GetPlayerPed(-1))
-								QBCore.Functions.Notify("Geannuleerd..", "error")
+								QBCore.Functions.Notify("Canceled..", "error")
 							end)
 						end
 					else
-						DrawText3D(Config.PawnLocation.x, Config.PawnLocation.y, Config.PawnLocation.z, "Pawnshop: Je hebt niks om te verkopen..")
+						DrawText3D(Config.PawnLocation.x, Config.PawnLocation.y, Config.PawnLocation.z, "Pawnshop: You have nothing to sell..")
 					end
 				else
 					DrawText3D(Config.PawnLocation.x, Config.PawnLocation.y, Config.PawnLocation.z, "Pawnshop Gesloten, open vanaf ~r~1:00")
@@ -94,24 +94,24 @@ Citizen.CreateThread(function()
 						sellHardwarePrice = GetSellingHardwarePrice()
 						sellHardwareItemsSet = true
 					elseif sellHardwareItemsSet and sellHardwarePrice ~= 0 then
-						DrawText3D(Config.PawnHardwareLocation.x, Config.PawnHardwareLocation.y, Config.PawnHardwareLocation.z, "~g~E~w~ - Verkoop iPhones/Samsung S10s/Tablets/Laptops (€"..sellHardwarePrice..")")
+						DrawText3D(Config.PawnHardwareLocation.x, Config.PawnHardwareLocation.y, Config.PawnHardwareLocation.z, "~g~E~w~ - Sell iPhones/Samsung S10s/Tablets/Laptops ($"..sellHardwarePrice..")")
 						if IsControlJustReleased(0, Keys["E"]) then
 							TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_STAND_IMPATIENT", 0, true)
-                            QBCore.Functions.Progressbar("sell_pawn_items", "Spullen verkopen..", math.random(15000, 25000), false, true, {}, {}, {}, {}, function() -- Done
+                            QBCore.Functions.Progressbar("sell_pawn_items", "Sell stuff..", math.random(15000, 25000), false, true, {}, {}, {}, {}, function() -- Done
                                 ClearPedTasks(GetPlayerPed(-1))
 								TriggerServerEvent("qb-pawnshop:server:sellHardwarePawnItems")
 								sellHardwareItemsSet = false
 								sellHardwarePrice = 0
                             end, function() -- Cancel
 								ClearPedTasks(GetPlayerPed(-1))
-								QBCore.Functions.Notify("Geannuleerd..", "error")
+								QBCore.Functions.Notify("Canceled..", "error")
 							end)
 						end
 					else
-						DrawText3D(Config.PawnHardwareLocation.x, Config.PawnHardwareLocation.y, Config.PawnHardwareLocation.z, "Pawnshop: Je hebt niks om te verkopen..")
+						DrawText3D(Config.PawnHardwareLocation.x, Config.PawnHardwareLocation.y, Config.PawnHardwareLocation.z, "Pawnshop: You have nothing to sell..")
 					end
 				else
-					DrawText3D(Config.PawnHardwareLocation.x, Config.PawnHardwareLocation.y, Config.PawnHardwareLocation.z, "Pawnshop Gesloten, open vanaf ~r~9:00")
+					DrawText3D(Config.PawnHardwareLocation.x, Config.PawnHardwareLocation.y, Config.PawnHardwareLocation.z, "Pawnshop Closed, open from ~r~9:00")
 				end
 			end
 		end

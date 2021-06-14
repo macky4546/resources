@@ -15,11 +15,11 @@ Config.BailPrice = 1000
 
 Config.Locations = {
     ["main"] = {
-        label = "Bergnet HQ",
+        label = "Mechanic HQ",
         coords = {x = 471.39, y = -1311.03, z = 29.21, h = 114.5},
     },
     ["vehicle"] = {
-        label = "Flatbed Opslag",
+        label = "Flatbed Storage",
         coords = {x = 489.65, y = -1331.82, z = 29.33, h = 306.5},
     },
     ["towspots"] = {

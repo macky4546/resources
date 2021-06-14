@@ -169,20 +169,20 @@ AddEventHandler('qb-weed:server:harvestPlant', function(house, amount, plantName
                         Player.Functions.AddItem('weed_'..plantName, sndAmount)
                         Player.Functions.RemoveItem('empty_weed_bag', 1)
                         QBCore.Functions.ExecuteSql(true, "DELETE FROM `house_plants` WHERE plantid = '"..plantId.."' AND building = '"..house.."'")
-                        TriggerClientEvent('QBCore:Notify', src, 'De plant is geoogst', 'success', 3500)
+                        TriggerClientEvent('QBCore:Notify', src, 'The plant has been harvested', 'success', 3500)
                         TriggerClientEvent('qb-weed:client:refreshHousePlants', -1, house)
                     else
-                        TriggerClientEvent('QBCore:Notify', src, 'Deze plant bestaat niet meer?', 'error', 3500)
+                        TriggerClientEvent('QBCore:Notify', src, 'This plant no longer exists?', 'error', 3500)
                     end
                 end)
             else
-                TriggerClientEvent('QBCore:Notify', src, 'Huis niet gevonden', 'error', 3500)
+                TriggerClientEvent('QBCore:Notify', src, 'Home not found', 'error', 3500)
             end
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet genoeg hersluitbare zakjes', 'error', 3500)
+            TriggerClientEvent('QBCore:Notify', src, 'You dont have enough resealable bags', 'error', 3500)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Je hebt geen hersluitbare zakjes', 'error', 3500)
+        TriggerClientEvent('QBCore:Notify', src, 'You have no resealable bags', 'error', 3500)
     end
 end)
 
@@ -192,7 +192,7 @@ AddEventHandler('qb-weed:server:foodPlant', function(house, amount, plantName, p
     local Player = QBCore.Functions.GetPlayer(src)
 
     QBCore.Functions.ExecuteSql(false, 'SELECT * FROM `house_plants` WHERE `building` = "'..house..'" AND `sort` = "'..plantName..'" AND `plantid` = "'..tostring(plantId)..'"', function(plantStats)
-        TriggerClientEvent('QBCore:Notify', src, QBWeed.Plants[plantName]["label"]..' | Voeding: '..plantStats[1].food..'% + '..amount..'% ('..(plantStats[1].food + amount)..'%)', 'success', 3500)
+        TriggerClientEvent('QBCore:Notify', src, QBWeed.Plants[plantName]["label"]..' | Nutrition: '..plantStats[1].food..'% + '..amount..'% ( '..(plantStats[1].food + amount)..'%)', 'success', 3500)        
         if plantStats[1].food + amount > 100 then
             QBCore.Functions.ExecuteSql(true, "UPDATE `house_plants` SET `food` = '100' WHERE `building` = '"..house.."' AND `plantid` = '"..plantId.."'")
         else

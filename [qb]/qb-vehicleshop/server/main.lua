@@ -26,9 +26,9 @@ AddEventHandler('qb-vehicleshop:server:buyVehicle', function(vehicleData, garage
         TriggerClientEvent("QBCore:Notify", src, "Gelukt! Je voertuig is afgeleverd bij "..QB.GarageLabel[garage], "success", 5000)
         pData.Functions.RemoveMoney('bank', vData["price"], "vehicle-bought-in-shop")
         TriggerEvent("qb-log:server:sendLog", cid, "vehiclebought", {model=vData["model"], name=vData["name"], from="garage", location=QB.GarageLabel[garage], moneyType="bank", price=vData["price"], plate=plate})
-        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Voertuig gekocht (garage)", "green", "**"..GetPlayerName(src) .. "** heeft een " .. vData["name"] .. " gekocht voor €" .. vData["price"])
+        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Voertuig gekocht (garage)", "green", "**"..GetPlayerName(src) .. "** heeft een " .. vData["name"] .. " gekocht voor $" .. vData["price"])
     else
-		TriggerClientEvent("QBCore:Notify", src, "Je hebt niet voldoende geld, je mist €"..format_thousand(vData["price"] - balance), "error", 5000)
+		TriggerClientEvent("QBCore:Notify", src, "Je hebt niet voldoende geld, je mist $"..format_thousand(vData["price"] - balance), "error", 5000)
     end
 end)
 
@@ -47,9 +47,9 @@ AddEventHandler('qb-vehicleshop:server:buyShowroomVehicle', function(vehicle, cl
         TriggerClientEvent('qb-vehicleshop:client:buyShowroomVehicle', src, vehicle, plate)
         pData.Functions.RemoveMoney('bank', vehiclePrice, "vehicle-bought-in-showroom")
         TriggerEvent("qb-log:server:sendLog", cid, "vehiclebought", {model=vehicle, name=QBCore.Shared.Vehicles[vehicle]["name"], from="showroom", moneyType="bank", price=QBCore.Shared.Vehicles[vehicle]["price"], plate=plate})
-        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Voertuig gekocht (showroom)", "green", "**"..GetPlayerName(src) .. "** heeft een " .. QBCore.Shared.Vehicles[vehicle]["name"] .. " gekocht voor €" .. QBCore.Shared.Vehicles[vehicle]["price"])
+        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Voertuig gekocht (showroom)", "green", "**"..GetPlayerName(src) .. "** heeft een " .. QBCore.Shared.Vehicles[vehicle]["name"] .. " gekocht voor $" .. QBCore.Shared.Vehicles[vehicle]["price"])
     else
-        TriggerClientEvent("QBCore:Notify", src, "Je hebt niet voldoende geld, je mist €"..format_thousand(vehiclePrice - balance), "error", 5000)
+        TriggerClientEvent("QBCore:Notify", src, "Je hebt niet voldoende geld, je mist $"..format_thousand(vehiclePrice - balance), "error", 5000)
     end
 end)
 

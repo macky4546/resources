@@ -2,7 +2,7 @@ QBCore = nil
 
 TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end) -- Getest op mn eigen framework dus moet je ff verandere naar t inladen van ESX
 
-QBCore.Commands.Add("roll", "Rol een aantal dobbelsteentjes :)", {{name="aantal", help="Aantal dobbelsteentjes"}, {name="zijdes", help="Aantal zijdes van dobbelsteentje"}}, true, function(source, args) -- Eigen add command functie mot je vervangen naar esx versie
+QBCore.Commands.Add("roll", "Roll some dice :)", {{name="number", help="Number of dice"}, {name="sides", help="Number of sides of dice" }}, true, function(source, args) -- Own add command function should you replace to esx version
     local amount = tonumber(args[1])
     local sides = tonumber(args[2])
     if (sides > 0 and sides <= DiceRoll.maxsides) and (amount > 0 and amount <= DiceRoll.maxamount) then 
@@ -12,6 +12,6 @@ QBCore.Commands.Add("roll", "Rol een aantal dobbelsteentjes :)", {{name="aantal"
         end
         TriggerClientEvent("diceroll:client:roll", -1, source, DiceRoll.maxdistance, result, sides)
     else
-        TriggerClientEvent('QBCore:Notify', source, "Teveel aantal kanten of 0 (max: "..DiceRoll.maxsides..") of aantal dobbelstenen of 0 (max: "..DiceRoll.maxamount..")", "error") -- Hier moet je ff esx melding neerzetten
+        TriggerClientEvent('QBCore:Notify', source, "Too many sides or 0 (max: "..DiceRoll.maxsides..") or number of dice or 0 (max: "..DiceRoll.maxamount..")", " error") -- Here you have to put ff esx message
     end
 end)

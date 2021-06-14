@@ -96,14 +96,14 @@ Citizen.CreateThread(function()
 
                         if vehDist < 1.5 then
                             if whitelistedVehicle() then
-                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Voertuig Parkeren')
+                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Vehicle Parking')
                                 if IsControlJustReleased(0, Keys["E"]) then
                                     if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
                                         DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
                                     end
                                 end
                             else
-                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Voertuig Pakken')
+                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Take Vehicle')
                                 if IsControlJustReleased(0, Keys["E"]) then
                                     TaxiGarage()
                                     Menu.hidden = not Menu.hidden
@@ -145,10 +145,10 @@ AddEventHandler('qb-taxi:client:toggleMeter', function()
                 meterIsOpen = false
             end
         else
-            QBCore.Functions.Notify('Dit voertuig heeft geen Taxi Meter..', 'error')
+            QBCore.Functions.Notify('This vehicle does not have a Taxi Meter..', 'error')
         end
     else
-        QBCore.Functions.Notify('Je zit niet in een voertuig..', 'error')
+        QBCore.Functions.Notify('You are not in a vehicle..', 'error')
     end
 end)
 
@@ -161,7 +161,7 @@ AddEventHandler('qb-taxi:client:enableMeter', function()
             action = "toggleMeter"
         })
     else
-        QBCore.Functions.Notify('De Taxi Meter is niet actief..', 'error')
+        QBCore.Functions.Notify('The Taxi Meter is not active..', 'error')
     end
 end)
 
@@ -185,7 +185,7 @@ AddEventHandler('qb-taxi:client:toggleMuis', function()
             mouseActive = true
         end
     else
-        QBCore.Functions.Notify('Geen Taxi Meter te bekennen..', 'error')
+        QBCore.Functions.Notify('No Taxi Meter in sight..', 'error')
     end
 end)
 
@@ -211,19 +211,19 @@ function TaxiGarage()
     ped = GetPlayerPed(-1);
     MenuTitle = "Garage"
     ClearMenu()
-    Menu.addButton("Voertuigen", "VehicleList", nil)
-    Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
+    Menu.addButton("Vehicles", "VehicleList", nil)
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function VehicleList()
     ped = GetPlayerPed(-1);
-    MenuTitle = "Voertuigen:"
+    MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.AllowedVehicles) do
         Menu.addButton(Config.AllowedVehicles[k].label, "TakeVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
     end
         
-    Menu.addButton("Terug", "TaxiGarage",nil)
+    Menu.addButton("Back", "TaxiGarage",nil)
 end
 
 function TakeVehicle(k)
