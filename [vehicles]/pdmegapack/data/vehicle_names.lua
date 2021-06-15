@@ -1,7 +1,4 @@
-	Citizen.InvokeNative(GetHashKey("ADD_TEXT_ENTRY"), key, value)
-end
-
-Citizen.CreateThread(function()
+Citizen.InvokeNative(GetHashKey("ADD_TEXT_ENTRY"), key, value)
 	-- cvpi w/ liberty
 	AddTextEntry('0x54830233', 'PD')
 	-- 2015 charger
@@ -21,7 +18,7 @@ Citizen.CreateThread(function()
 	-- ford f350
 	AddTextEntry('0xFA81CBBE', 'PD9')
 	-- cvpi slicktop
-	AddTextEntry('0x7DB7A427', 'PD10'
+	AddTextEntry('0x7DB7A427', 'PD10')
      -- cvpi slicktop
 	AddTextEntry('0x7DB7A427', 'PD11')
      -- cvpi slicktop

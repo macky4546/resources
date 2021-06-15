@@ -1,11 +1,11 @@
-### Disclaimer: Code in the main repo is considered to be 'dev', please use the [Latest Release](https://github.com/AvarianKnight/pma-voice/releases) for a stable version.
+### Disclaimer: Code in the main repo is considered to be 'dev', please use the [Latest Release](https://github.com/AvarianKnight/pma_voice/releases) for a stable version.
 
-# pma-voice
+# pma_voice
 A voice system designed around the use if FiveM's internal mumble server.
 
 ## Support
 
-Please report any issues you have in the GitHub [Issues](https://github.com/AvarianKnight/pma-voice/issues)
+Please report any issues you have in the GitHub [Issues](https://github.com/AvarianKnight/pma_voice/issues)
 
 ### NOTE: It is expected for servers to be on the latest recommended version, which you can find [here for Windows](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) and [here for Linux](https://runtime.fivem.net/artifacts/fivem/build_proot_linux/master/).
 
@@ -13,7 +13,7 @@ Please report any issues you have in the GitHub [Issues](https://github.com/Avar
 
 This script is not compatible with other voice systems (duh), that means if you have vMenus voice chat you will **have** to [disable](https://docs.vespura.com/vmenu/faq/#q-how-do-i-disable-voice-chat) it.
 
-Please do not override `NetworkSetTalkerProximity`, `MumbleSetAudioInputDistance`, `MumbleSetAudioOutputDistance` or `NetworkSetVoiceActive` in any of your other scripts as there have been cases where it breaks pma-voice.
+Please do not override `NetworkSetTalkerProximity`, `MumbleSetAudioInputDistance`, `MumbleSetAudioOutputDistance` or `NetworkSetVoiceActive` in any of your other scripts as there have been cases where it breaks pma_voice.
 
 # Credits
 
@@ -61,7 +61,7 @@ All of the configs here are set using `setr [voice_configOption] [int]` OR `setr
 | voice_debugMode              |   0     | 1 for basic logs, 4 for verbose logs                          | int          |
 
 ### Aces
-pma-voice comes with a built in /mute command, in order to allow your staff to use it you will have to grand them the ace!
+pma_voice comes with a built in /mute command, in order to allow your staff to use it you will have to grand them the ace!
 
 Example:
 `add_ace group.superadmin command.mute allow;`

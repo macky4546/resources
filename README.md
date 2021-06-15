@@ -29,7 +29,7 @@ ensure sessionmanager
 ensure basic-gamemode
 # hardcap
 ensure rconlog
-start pma-voice
+start pma_voice
 
 
 # Other Core Resources

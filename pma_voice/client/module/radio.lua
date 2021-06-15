@@ -15,7 +15,7 @@ function syncRadioData(radioTable)
 		end
 	end
 end
-RegisterNetEvent('pma-voice:syncRadioData', syncRadioData)
+RegisterNetEvent('pma_voice:syncRadioData', syncRadioData)
 
 --- event setTalkingOnRadio
 --- sets the players talking status, triggered when a player starts/stops talking.
@@ -26,7 +26,7 @@ function setTalkingOnRadio(plySource, enabled)
 	radioData[plySource] = enabled
 	playMicClicks(enabled)
 end
-RegisterNetEvent('pma-voice:setTalkingOnRadio', setTalkingOnRadio)
+RegisterNetEvent('pma_voice:setTalkingOnRadio', setTalkingOnRadio)
 
 --- event addPlayerToRadio
 --- adds a player onto the radio.
@@ -40,7 +40,7 @@ function addPlayerToRadio(plySource)
 		logger.info(('[radio] %s joined radio %s'):format(plySource, radioChannel))
 	end
 end
-RegisterNetEvent('pma-voice:addPlayerToRadio', addPlayerToRadio)
+RegisterNetEvent('pma_voice:addPlayerToRadio', addPlayerToRadio)
 
 --- event removePlayerFromRadio
 --- removes the player (or self) from the radio
@@ -66,14 +66,14 @@ function removePlayerFromRadio(plySource)
 		end
 	end
 end
-RegisterNetEvent('pma-voice:removePlayerFromRadio', removePlayerFromRadio)
+RegisterNetEvent('pma_voice:removePlayerFromRadio', removePlayerFromRadio)
 
 --- function setRadioChannel
 --- sets the local players current radio channel and updates the server
 ---@param channel number the channel to set the player to, or 0 to remove them.
 function setRadioChannel(channel)
 	if GetConvarInt('voice_enableRadios', 1) ~= 1 then return end
-	TriggerServerEvent('pma-voice:setPlayerRadio', channel)
+	TriggerServerEvent('pma_voice:setPlayerRadio', channel)
 	radioChannel = channel
 	if GetConvarInt('voice_enableUi', 1) == 1 then
 		SendNUIMessage({
@@ -93,6 +93,8 @@ exports('SetRadioChannel', setRadioChannel)
 --- exports removePlayerFromRadio
 --- sets the local players current radio channel and updates the server
 exports('removePlayerFromRadio', function()
+	exports("getPlayerData", getPlayerData)
+
 	setRadioChannel(0)
 end)
 
@@ -100,6 +102,8 @@ end)
 --- sets the local players current radio channel and updates the server
 ---@param radio number the channel to set the player to, or 0 to remove them.
 exports('addPlayerToRadio', function(radio)
+	exports("getPlayerData", getPlayerData)
+
 	local radio = tonumber(radio)
 	if radio then
 		setRadioChannel(radio)
@@ -127,7 +131,7 @@ RegisterCommand('+radiotalk', function()
 		if radioChannel > 0 then
 			logger.info(('[radio] Start broadcasting, update targets and notify server.'))
 			playerTargets(radioData, NetworkIsPlayerTalking(PlayerId()) and callData or {})
-			TriggerServerEvent('pma-voice:setTalkingOnRadio', true)
+			TriggerServerEvent('pma_voice:setTalkingOnRadio', true)
 			radioPressed = true
 			playMicClicks(true)
 			if GetConvarInt('voice_enableRadioAnim', 0) == 1 then
@@ -138,7 +142,7 @@ RegisterCommand('+radiotalk', function()
 				TaskPlayAnim(PlayerPedId(), "random@arrests", "generic_radio_enter", 8.0, 2.0, -1, 50, 2.0, 0, 0, 0)
 			end
 			Citizen.CreateThread(function()
-				TriggerEvent("pma-voice:radioActive", true)
+				TriggerEvent("pma_voice:radioActive", true)
 				while radioPressed do
 					Wait(0)
 					SetControlNormal(0, 249, 1.0)
@@ -155,12 +159,12 @@ RegisterCommand('-radiotalk', function()
 		radioPressed = false
 		MumbleClearVoiceTargetPlayers(1)
 		playerTargets(NetworkIsPlayerTalking(PlayerId()) and callData or {})
-		TriggerEvent("pma-voice:radioActive", false)
+		TriggerEvent("pma_voice:radioActive", false)
 		playMicClicks(false)
 		if GetConvarInt('voice_enableRadioAnim', 0) == 1 then
 			StopAnimTask(PlayerPedId(), "random@arrests", "generic_radio_enter", -4.0)
 		end
-		TriggerServerEvent('pma-voice:setTalkingOnRadio', false)
+		TriggerServerEvent('pma_voice:setTalkingOnRadio', false)
 	end
 end, false)
 RegisterKeyMapping('+radiotalk', 'Talk over Radio', 'keyboard', GetConvar('voice_defaultRadio', 'LMENU'))
@@ -173,4 +177,4 @@ function syncRadio(_radioChannel)
 	logger.info(('[radio] radio set serverside update to radio %s'):format(radioChannel))
 	radioChannel = _radioChannel
 end
-RegisterNetEvent('pma-voice:clSetPlayerRadio', syncRadio)
+RegisterNetEvent('pma_voice:clSetPlayerRadio', syncRadio)

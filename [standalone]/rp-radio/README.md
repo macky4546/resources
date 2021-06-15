@@ -1,5 +1,5 @@
 # rp-radio
-All credits go to Frazzle for making this, this is just an adapted version for pma-voice.
+All credits go to Frazzle for making this, this is just an adapted version for pma_voice.
 
 #### Note
 By default the radio is disabled (its meant to be used as an in-game item) to give players the radio by default in the client.lua at the top change `Radio.Has` to `true`, if you would like to make it an item look at the replies on the FiveM forum post, there is a tutorial for adding it as an ESX item.

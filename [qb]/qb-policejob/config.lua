@@ -138,6 +138,10 @@ Config.Vehicles = {
     ["pd8"] = "Police Car 8",
     ["pd9"] = "Police Car 9",
     ["pd10"] = "Police Car 10",
+    ["pd11"] = "Police Car 11",
+    ["pd12"] = "Police Car 12",
+    ["pd13"] = "Police Car 13",
+    ["pd14"] = "Police Car 14",
 }
 
 Config.WhitelistedVehicles = {}

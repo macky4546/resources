@@ -6,7 +6,7 @@ function removePlayerFromCall(source, callChannel)
 
     callData[callChannel] = callData[callChannel] or {}
     for player, _ in pairs(callData[callChannel]) do
-        TriggerClientEvent('pma-voice:removePlayerFromCall', player, source)
+        TriggerClientEvent('pma_voice:removePlayerFromCall', player, source)
     end
     callData[callChannel][source] = nil
     voiceData[source] = voiceData[source] or defaultTable(source)
@@ -24,13 +24,13 @@ function addPlayerToCall(source, callChannel)
     for player, _ in pairs(callData[callChannel]) do
         -- don't need to send to the source because they're about to get sync'd!
         if player ~= source then
-            TriggerClientEvent('pma-voice:addPlayerToCall', player, source)
+            TriggerClientEvent('pma_voice:addPlayerToCall', player, source)
         end
     end
     callData[callChannel][source] = false
     voiceData[source] = voiceData[source] or defaultTable(source)
     voiceData[source].call = callChannel
-    TriggerClientEvent('pma-voice:syncCallData', source, callData[callChannel])
+    TriggerClientEvent('pma_voice:syncCallData', source, callData[callChannel])
 end
 
 --- set the players call channel
@@ -41,7 +41,7 @@ function setPlayerCall(source, callChannel)
     if GetInvokingResource() then
         -- got set in a export, need to update the client to tell them that their radio
         -- changed
-        TriggerClientEvent('pma-voice:clSetPlayerCall', source, callChannel)
+        TriggerClientEvent('pma_voice:clSetPlayerCall', source, callChannel)
     end
     voiceData[source] = voiceData[source] or defaultTable(source)
     local plyVoice = voiceData[source]
@@ -58,7 +58,7 @@ function setPlayerCall(source, callChannel)
 end
 exports('setPlayerCall', setPlayerCall)
 
-RegisterNetEvent('pma-voice:setPlayerCall', function(callChannel)
+RegisterNetEvent('pma_voice:setPlayerCall', function(callChannel)
     setPlayerCall(source, callChannel)
 end)
 
@@ -74,11 +74,11 @@ function setTalkingOnCall(talking)
         for player, _ in pairs(callTbl) do
             if player ~= source then
                 logger.verbose(('[call] Sending event to %s to tell them that %s is talking'):format(player, source))
-                TriggerClientEvent('pma-voice:setTalkingOnCall', player, source, talking)
+                TriggerClientEvent('pma_voice:setTalkingOnCall', player, source, talking)
             end
         end
     else
         logger.info(('[phone] %s tried to talk in call %s, but it doesnt exist.'):format(source, plyVoice.call))
     end
 end
-RegisterNetEvent('pma-voice:setTalkingOnCall', setTalkingOnCall)
+RegisterNetEvent('pma_voice:setTalkingOnCall', setTalkingOnCall)

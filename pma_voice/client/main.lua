@@ -10,7 +10,7 @@ radioData = {}
 callData = {}
 
 -- TODO: Convert the last Cfg to a Convar, while still keeping it simple.
-AddEventHandler('pma-voice:settingsCallback', function(cb)
+AddEventHandler('pma_voice:settingsCallback', function(cb)
 	cb(Cfg)
 end)
 
@@ -152,13 +152,13 @@ RegisterCommand('+cycleproximity', function()
 	SendNUIMessage({
 		voiceMode = voiceMode - 1
 	})
-	TriggerEvent('pma-voice:setTalkingMode', voiceMode)
+	TriggerEvent('pma_voice:setTalkingMode', voiceMode)
 end, false)
 RegisterCommand('-cycleproximity', function()
 end)
 RegisterKeyMapping('+cycleproximity', 'Cycle Proximity', 'keyboard', GetConvar('voice_defaultCycle', 'F11'))
 
-RegisterNetEvent('pma-voice:mutePlayer', function()
+RegisterNetEvent('pma_voice:mutePlayer', function()
 	playerMuted = not playerMuted
 	if playerMuted then
 		LocalPlayer.state:set('proximity', 0.1, true)
@@ -182,7 +182,7 @@ function setVoiceProperty(type, value)
 	elseif type == "micClicks" then
 		local val = tostring(value)
 		micClicks = val
-		SetResourceKvp('pma-voice_enableMicClicks', val)
+		SetResourceKvp('pma_voice_enableMicClicks', val)
 	end
 end
 exports('setVoiceProperty', setVoiceProperty)
@@ -293,9 +293,9 @@ AddEventHandler('onClientResourceStart', function(resource)
 	end
 	print('Starting script initialization')
 
-	local micClicksKvp = GetResourceKvpString('pma-voice_enableMicClicks')
+	local micClicksKvp = GetResourceKvpString('pma_voice_enableMicClicks')
 	if not micClicksKvp then
-		SetResourceKvp('pma-voice_enableMicClicks', tostring(true))
+		SetResourceKvp('pma_voice_enableMicClicks', tostring(true))
 	else
 		micClicks = micClicksKvp
 	end

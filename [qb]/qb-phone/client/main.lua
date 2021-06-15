@@ -1250,7 +1250,7 @@ CancelCall = function()
     TriggerServerEvent('qb-phone:server:CancelCall', PhoneData.CallData)
     if PhoneData.CallData.CallType == "ongoing" then
         --exports.tokovoip_script:removePlayerFromRadio(PhoneData.CallData.CallId)
-        exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+        exports['pma_voice']:removePlayerFromCall(PhoneData.CallData.CallId)
     end
     PhoneData.CallData.CallType = nil
     PhoneData.CallData.InCall = false
@@ -1310,7 +1310,7 @@ AddEventHandler('qb-phone:client:CancelCall', function()
             action = "CancelOngoingCall"
         })
         --exports.tokovoip_script:removePlayerFromRadio(PhoneData.CallData.CallId)
-        exports['pma-voice']:removePlayerFromCall(PhoneData.CallData.CallId)
+        exports['pma_voice']:removePlayerFromCall(PhoneData.CallData.CallId)
     end
     PhoneData.CallData.CallType = nil
     PhoneData.CallData.InCall = false
@@ -1488,7 +1488,7 @@ function AnswerCall()
         TriggerServerEvent('qb-phone:server:AnswerCall', PhoneData.CallData)
 
         --exports.tokovoip_script:addPlayerToRadio(PhoneData.CallData.CallId, 'Phone')
-        exports['pma-voice']:addPlayerToCall(PhoneData.CallData.CallId)
+        exports['pma_voice']:addPlayerToCall(PhoneData.CallData.CallId)
     else
         PhoneData.CallData.InCall = false
         PhoneData.CallData.CallType = nil
@@ -1542,7 +1542,7 @@ AddEventHandler('qb-phone:client:AnswerCall', function()
         end)
 
         --exports.tokovoip_script:addPlayerToRadio(PhoneData.CallData.CallId, 'Phone')
-        exports['pma-voice']:addPlayerToCall(PhoneData.CallData.CallId)
+        exports['pma_voice']:addPlayerToCall(PhoneData.CallData.CallId)
     else
         PhoneData.CallData.InCall = false
         PhoneData.CallData.CallType = nil

@@ -76,7 +76,7 @@ RegisterCommand('mute', function(source, args)
 	local mutePly = tonumber(args[1])
 	if mutePly then
 		if voiceData[mutePly] then
-			TriggerClientEvent('pma-voice:mutePlayer', mutePly)
+			TriggerClientEvent('pma_voice:mutePlayer', mutePly)
 		end
 	end
 end, true)

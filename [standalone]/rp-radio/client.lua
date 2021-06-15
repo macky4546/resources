@@ -45,7 +45,7 @@ Radio.Commands = {
 				Radio:Toggle(false)
 				Radio.On = false
 				Radio:Remove()
-				exports["pma-voice"]:setVoiceProperty("radioEnabled", false)
+				exports["pma_voice"]:setVoiceProperty("radioEnabled", false)
 			elseif Radio.Open and isFalling then
 				Radio:Toggle(false)
 			end            
@@ -125,7 +125,7 @@ function Radio:Toggle(toggle)
 	self.Open = toggle
 
 	if self.On and not radioConfig.AllowRadioWhenClosed then
-		exports["pma-voice"]:setVoiceProperty("radioEnabled", toggle)
+		exports["pma_voice"]:setVoiceProperty("radioEnabled", toggle)
 	end
 
 	local dictionaryType = 1 + (IsPedInAnyVehicle(playerPed, false) and 1 or 0)
@@ -177,12 +177,12 @@ end
 
 -- Add player to radio channel
 function Radio:Add(id)
-	exports["pma-voice"]:setRadioChannel(id)
+	exports["pma_voice"]:setRadioChannel(id)
 end
 
 -- Remove player from radio channel
 function Radio:Remove()
-	exports["pma-voice"]:setRadioChannel(0)
+	exports["pma_voice"]:setRadioChannel(0)
 end
 
 -- Increase radio frequency
@@ -315,7 +315,7 @@ function SetAllowRadioWhenClosed(value)
 	radioConfig.AllowRadioWhenClosed = value
 
 	if Radio.On and not Radio.Open and radioConfig.AllowRadioWhenClosed then
-		exports["pma-voice"]:setVoiceProperty("radioEnabled", true)
+		exports["pma_voice"]:setVoiceProperty("radioEnabled", true)
 	end
 end
 
@@ -441,7 +441,7 @@ exports("RemovePlayerAccessToFrequencies", RemovePlayerAccessToFrequencies)
 
 local isBroadcasting = false
 
-AddEventHandler('pma-voice:radioActive', function(broadCasting)
+AddEventHandler('pma_voice:radioActive', function(broadCasting)
 	isBroadcasting = broadCasting
 end)
 
@@ -472,7 +472,7 @@ Citizen.CreateThread(function()
 			Radio:Toggle(not Radio.Open)
 		elseif (Radio.Open or Radio.On) and ((not Radio.Enabled) or (not Radio.Has) or isDead) then
 			Radio:Remove()
-			exports["pma-voice"]:setVoiceProperty("radioEnabled", false)
+			exports["pma_voice"]:setVoiceProperty("radioEnabled", false)
 			Radio:Toggle(false)
 			Radio.On = false
 		elseif Radio.Open and isFalling then
@@ -546,7 +546,7 @@ Citizen.CreateThread(function()
 			if IsControlJustPressed(0, radioConfig.Controls.Toggle.Key) then
 				Radio.On = not Radio.On
 
-				exports["pma-voice"]:setVoiceProperty("radioEnabled", Radio.On)
+				exports["pma_voice"]:setVoiceProperty("radioEnabled", Radio.On)
 
 				if Radio.On then
 					SendNUIMessage({ sound = "audio_on", volume = 0.3})
@@ -640,7 +640,7 @@ Citizen.CreateThread(function()
 
 					SendNUIMessage({ sound = "audio_off", volume = 0.5})
 					
-					exports["pma-voice"]:setVoiceProperty("micClicks", Radio.Clicks)
+					exports["pma_voice"]:setVoiceProperty("micClicks", Radio.Clicks)
 				end
 			end
 		else
@@ -663,11 +663,11 @@ Citizen.CreateThread(function()
 end)
 
 AddEventHandler("onClientResourceStart", function(resName)
-	if GetCurrentResourceName() ~= resName and "pma-voice" ~= resName then
+	if GetCurrentResourceName() ~= resName and "pma_voice" ~= resName then
 		return
 	end
 	
-	exports["pma-voice"]:setVoiceProperty("radioEnabled", false) -- Disable radio control
+	exports["pma_voice"]:setVoiceProperty("radioEnabled", false) -- Disable radio control
 
 	if Radio.Open then
 		Radio:Toggle(false)

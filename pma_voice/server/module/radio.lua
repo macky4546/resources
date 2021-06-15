@@ -5,7 +5,7 @@ function removePlayerFromRadio(source, radioChannel)
 	logger.info(('[radio] Removed %s from radio %s'):format(source, radioChannel))
 	radioData[radioChannel] = radioData[radioChannel] or {}
 	for player, _ in pairs(radioData[radioChannel]) do
-		TriggerClientEvent('pma-voice:removePlayerFromRadio', player, source)
+		TriggerClientEvent('pma_voice:removePlayerFromRadio', player, source)
 	end
 	radioData[radioChannel][source] = nil
 	voiceData[source] = voiceData[source] or defaultTable(source)
@@ -22,13 +22,13 @@ function addPlayerToRadio(source, radioChannel)
 	-- if not create it (basically if not radiodata make radiodata)
 	radioData[radioChannel] = radioData[radioChannel] or {}
 	for player, _ in pairs(radioData[radioChannel]) do
-		TriggerClientEvent('pma-voice:addPlayerToRadio', player, source)
+		TriggerClientEvent('pma_voice:addPlayerToRadio', player, source)
 	end
 	voiceData[source] = voiceData[source] or defaultTable(source)
 
 	voiceData[source].radio = radioChannel
 	radioData[radioChannel][source] = false
-	TriggerClientEvent('pma-voice:syncRadioData', source, radioData[radioChannel])
+	TriggerClientEvent('pma_voice:syncRadioData', source, radioData[radioChannel])
 end
 
 -- TODO: Implement this in a way that allows players to be on multiple channels
@@ -40,7 +40,7 @@ function setPlayerRadio(source, radioChannel)
 	if GetInvokingResource() then
 		-- got set in a export, need to update the client to tell them that their radio
 		-- changed
-		TriggerClientEvent('pma-voice:clSetPlayerRadio', source, radioChannel)
+		TriggerClientEvent('pma_voice:clSetPlayerRadio', source, radioChannel)
 	end
 	voiceData[source] = voiceData[source] or defaultTable(source)
 	local plyVoice = voiceData[source]
@@ -55,9 +55,9 @@ function setPlayerRadio(source, radioChannel)
 		addPlayerToRadio(source, radioChannel)
 	end
 end
-exports('setPlayerRadio', setPlayerRadio)
+exports("SetRadioEnabled", SetRadioEnabled)
 
-RegisterNetEvent('pma-voice:setPlayerRadio', function(radioChannel)
+RegisterNetEvent('pma_voice:setPlayerRadio', function(radioChannel)
 	setPlayerRadio(source, radioChannel)
 end)
 
@@ -72,11 +72,11 @@ function setTalkingOnRadio(talking)
 		logger.info(('[radio] Set %s to talking: %s on radio %s'):format(source, talking, plyVoice.radio))
 		for player, _ in pairs(radioTbl) do
 			if player ~= source then
-				TriggerClientEvent('pma-voice:setTalkingOnRadio', player, source, talking)
+				TriggerClientEvent('pma_voice:setTalkingOnRadio', player, source, talking)
 				logger.verbose(('[radio] Sync %s to let them know %s is %s'):format(player, source, talking and 'talking' or 'not talking'))
 			end
 		end
 	end
 end
-RegisterNetEvent('pma-voice:setTalkingOnRadio', setTalkingOnRadio)
+RegisterNetEvent('pma_voice:setTalkingOnRadio', setTalkingOnRadio)
 

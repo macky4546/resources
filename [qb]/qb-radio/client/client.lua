@@ -43,12 +43,13 @@ Citizen.CreateThread(function()
         QBCore.Functions.TriggerCallback('qb-radio:server:GetItem', function(hasItem)
           if not hasItem then
             local playerName = GetPlayerName(PlayerId())
-            local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+            local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
+
 
             if getPlayerRadioChannel ~= "nil" then
-              exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-              exports.tokovoip_script:setPlayerData(playerName, "radio:channel", "nil", true)
-              QBCore.Functions.Notify('Je bent verwijderd van je huidige frequentie!', 'error')
+              exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
+              exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
+              QBCore.Functions.Notify('You are removed from your current frequency!', 'error')
             end
           end
         end, "radio")
@@ -63,15 +64,15 @@ RegisterNUICallback('joinRadio', function(data, cb)
   local _source = source
   local PlayerData = QBCore.Functions.GetPlayerData()
   local playerName = GetPlayerName(PlayerId())
-  local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
 
   if tonumber(data.channel) <= Config.MaxFrequency then
     if tonumber(data.channel) ~= tonumber(getPlayerRadioChannel) then
       if tonumber(data.channel) <= Config.RestrictedChannels then
         if(PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance' or PlayerData.job.name == 'doctor') then
-          exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-          exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-          exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
+          exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
+          exports.pma_voice:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+          exports.pma_voice:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
           if SplitStr(data.channel, ".")[2] ~= nil and SplitStr(data.channel, ".")[2] ~= "" then 
             QBCore.Functions.Notify(Config.messages['joined_to_radio'] .. data.channel .. ' MHz </b>', 'success')
           else
@@ -83,9 +84,9 @@ RegisterNUICallback('joinRadio', function(data, cb)
       end
 
       if tonumber(data.channel) > Config.RestrictedChannels then
-        exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-        exports.tokovoip_script:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-        exports.tokovoip_script:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
+        exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
+        exports.pma_voice:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+        exports.pma_voice:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
         if SplitStr(data.channel, ".")[2] ~= nil and SplitStr(data.channel, ".")[2] ~= "" then 
           QBCore.Functions.Notify(Config.messages['joined_to_radio'] .. data.channel .. ' MHz </b>', 'success')
         else
@@ -100,19 +101,19 @@ RegisterNUICallback('joinRadio', function(data, cb)
       end
     end
   else
-    QBCore.Functions.Notify('Deze frequentie is niet beschikbaar.', 'error')
+    QBCore.Functions.Notify('This frequency is not available.', 'error')
   end
   cb('ok')
 end)
 
 RegisterNUICallback('leaveRadio', function(data, cb)
   local playerName = GetPlayerName(PlayerId())
-  local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
   if getPlayerRadioChannel == "nil" then
     QBCore.Functions.Notify(Config.messages['not_on_radio'], 'error')
   else
-    exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-    exports.tokovoip_script:setPlayerData(playerName, "radio:channel", "nil", true)
+    exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
+    exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
     if SplitStr(getPlayerRadioChannel, ".")[2] ~= nil and SplitStr(getPlayerRadioChannel, ".")[2] ~= "" then 
       QBCore.Functions.Notify(Config.messages['you_leave'] .. getPlayerRadioChannel .. ' MHz </b>', 'error')
     else
@@ -138,11 +139,11 @@ end)
 RegisterNetEvent('qb-radio:onRadioDrop')
 AddEventHandler('qb-radio:onRadioDrop', function()
   local playerName = GetPlayerName(PlayerId())
-  local getPlayerRadioChannel = exports.tokovoip_script:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
 
   if getPlayerRadioChannel ~= "nil" then
-    exports.tokovoip_script:removePlayerFromRadio(getPlayerRadioChannel)
-    exports.tokovoip_script:setPlayerData(playerName, "radio:channel", "nil", true)
+    exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
+    exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
     QBCore.Functions.Notify(Config.messages['you_leave'] .. getPlayerRadioChannel .. '.00 MHz </b>', 'error')
   end
 end)
@@ -157,3 +158,18 @@ function SplitStr(inputstr, sep)
 	end
 	return t
 end
+
+exports("IsRadioOpen", IsRadioOpen)
+exports("IsRadioOn", IsRadioOn)
+exports("IsRadioAvailable", IsRadioAvailable)
+exports("IsRadioEnabled", IsRadioEnabled)
+exports("CanRadioBeUsed", CanRadioBeUsed)
+exports("SetRadioEnabled", SetRadioEnabled)
+exports("SetRadio", SetRadio)
+exports("SetAllowRadioWhenClosed", SetAllowRadioWhenClosed)
+exports("AddPrivateFrequency", AddPrivateFrequency)
+exports("RemovePrivateFrequency", RemovePrivateFrequency)
+exports("GivePlayerAccessToFrequency", GivePlayerAccessToFrequency)
+exports("RemovePlayerAccessToFrequency", RemovePlayerAccessToFrequency)
+exports("GivePlayerAccessToFrequencies", GivePlayerAccessToFrequencies)
+exports("RemovePlayerAccessToFrequencies", RemovePlayerAccessToFrequencies)
