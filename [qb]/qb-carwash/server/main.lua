@@ -1,6 +1,10 @@
 QBCore = nil
 TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
+local ItemList = {
+    ["cash"] = "cash"
+}
+
 -- Code
 
 RegisterServerEvent('qb-carwash:server:washCar')
@@ -13,6 +17,6 @@ AddEventHandler('qb-carwash:server:washCar', function()
     elseif Player.Functions.RemoveMoney('bank', Config.DefaultPrice, "car-washed") then
         TriggerClientEvent('qb-carwash:client:washCar', src)
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet genoeg geld..', 'error')
+        TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money..', 'error')
     end
 end)

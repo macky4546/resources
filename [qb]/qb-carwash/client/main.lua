@@ -1,12 +1,5 @@
 QBCore = nil
 
-Citizen.CreateThread(function()
-	while QBCore == nil do
-		TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-		Citizen.Wait(0)
-	end
-end)
-
 -- Code
 
 local washingVehicle = false
@@ -27,9 +20,14 @@ function DrawText3Ds(x, y, z, text)
 end
 
 Citizen.CreateThread(function()
+    while QBCore == nil do
+		TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+		Citizen.Wait(0)
+    end
+    
     while true do
         local inRange = false
-        local PlayerPed = GetPlayerPed(-1)
+        local PlayerPed = PlayerPedId()
         local PlayerPos = GetEntityCoords(PlayerPed)
         local PedVehicle = GetVehiclePedIsIn(PlayerPed)
         local Driver = GetPedInVehicleSeat(PedVehicle, -1)
@@ -37,7 +35,7 @@ Citizen.CreateThread(function()
 
         if IsPedInAnyVehicle(PlayerPed) then
             for k, v in pairs(Config.Locations) do
-                local dist = GetDistanceBetweenCoords(PlayerPos, Config.Locations[k]["coords"]["x"], Config.Locations[k]["coords"]["y"], Config.Locations[k]["coords"]["z"])
+                local dist = #(PlayerPos - vector3(Config.Locations[k]["coords"]["x"], Config.Locations[k]["coords"]["y"], Config.Locations[k]["coords"]["z"]))
 
                 if dist <= 10 then
                     inRange = true
@@ -45,12 +43,12 @@ Citizen.CreateThread(function()
                     if dist <= 7.5 then
                         if Driver == PlayerPed then
                             if not washingVehicle then
-                                DrawText3Ds(Config.Locations[k]["coords"]["x"], Config.Locations[k]["coords"]["y"], Config.Locations[k]["coords"]["z"], '~g~E~w~ - Auto wassen ($'..Config.DefaultPrice..')')
+                                DrawText3Ds(Config.Locations[k]["coords"]["x"], Config.Locations[k]["coords"]["y"], Config.Locations[k]["coords"]["z"], '~g~E~w~ - Washing car ($'..Config.DefaultPrice..')')
                                 if IsControlJustPressed(0, Keys["E"]) then
                                     TriggerServerEvent('qb-carwash:server:washCar')
                                 end
                             else
-                                DrawText3Ds(Config.Locations[k]["coords"]["x"], Config.Locations[k]["coords"]["y"], Config.Locations[k]["coords"]["z"], 'De wasstraat is niet beschikbaar..')
+                                DrawText3Ds(Config.Locations[k]["coords"]["x"], Config.Locations[k]["coords"]["y"], Config.Locations[k]["coords"]["z"], 'The car wash is not available ..')
                             end
                         end
                     end
@@ -68,13 +66,13 @@ end)
 
 RegisterNetEvent('qb-carwash:client:washCar')
 AddEventHandler('qb-carwash:client:washCar', function()
-    local PlayerPed = GetPlayerPed(-1)
+    local PlayerPed = PlayerPedId()
     local PedVehicle = GetVehiclePedIsIn(PlayerPed)
     local Driver = GetPedInVehicleSeat(PedVehicle, -1)
 
     washingVehicle = true
 
-    QBCore.Functions.Progressbar("search_cabin", "Voertuig wordt gewassen..", math.random(4000, 8000), false, true, {
+    QBCore.Functions.Progressbar("search_cabin", "Vehicle is being washed ..", math.random(4000, 8000), false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -85,7 +83,7 @@ AddEventHandler('qb-carwash:client:washCar', function()
         WashDecalsFromVehicle(PedVehicle, 1.0)
         washingVehicle = false
     end, function() -- Cancel
-        QBCore.Functions.Notify("Wassen geannuleerd..", "error")
+        QBCore.Functions.Notify("Washing canceled ..", "error")
         washingVehicle = false
     end)
 end)

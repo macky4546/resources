@@ -14,11 +14,51 @@ Config = {}
 
 Config.Locations = {
     [1] = {
-        ["label"] = "Hands On Carwash",
+        ["label"] = "Hands Free Carwash",
         ["coords"] = {
-            ["x"] = 29.63,
-            ["y"] = -1391.92,
-            ["z"] = 28.62,
+            ["x"] = 26.5906,
+            ["y"] = -1392.0261,
+            ["z"] = 27.3634,
+        }
+    },
+    [2] = {
+        ["label"] = "Hands Free Carwash",
+        ["coords"] = {
+            ["x"] = 167.1034,
+            ["y"] = -1719.4704,
+            ["z"] = 27.2916,
+        }
+    },
+    [3] = {
+        ["label"] = "Hands Free Carwash",
+        ["coords"] = {
+            ["x"] = -74.5693,
+            ["y"] = 6427.8715,
+            ["z"] = 29.4400,
+        }
+    },
+    [4] = {
+        ["label"] = "Hands Free Carwash",
+        ["coords"] = {
+            ["x"] = -1200.4,
+            ["y"] = -1720.46,
+            ["z"] = 3.40,
+        }
+    },
+    [5] = {
+        ["label"] = "Hands Free Carwash",
+        ["coords"] = {
+            ["x"] = 1363.22,
+            ["y"] = 3592.7,
+            ["z"] = 34.41,
+        }
+    },
+    [6] = {
+        ["label"] = "Hands Free Carwash",
+        ["coords"] = {
+            ["x"] = -699.6325,
+            ["y"] = -932.7043,
+            ["z"] = 17.0139,
         }
     }
 }
