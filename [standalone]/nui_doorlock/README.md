@@ -1,4 +1,15 @@
-# QBCore Version - Maintained/Updated
+# Dropping support, sick of people not paying attention.
+
+# <a href='https://forum.cfx.re/t/esx-nui-doorlock-improved-performance-supports-sliding-doors/2068259'>nui_doorlock</a>
+A fork of esx_doorlock, featuring improved performance and improved functionality.
+<hr>
+<p align="center"><img src='https://user-images.githubusercontent.com/65407488/114383355-cbd26c00-9bd0-11eb-9079-8c341e6824b1.png'></img></p>
+<hr>
+
+<h3 align='center'>For more support or to see more of my resources you can join my <a href='https://discord.gg/hmcmv3P7YW'>discord</a></h3>
+<p align='center'>
+<a href="https://www.buymeacoffee.com/thelindat" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+</p>
 
 * Easily add and configure new doors! <a href='https://streamable.com/e290wk'>Example video</a>  
 Use the `/newdoor` command to automatically create a new entry on the DoorList.  
@@ -28,3 +39,32 @@ Just choose which config file to use and delete the one you are not using.
 Set multiple jobs to be authorised to use a door, with the minimum required grade `authorizedJobs = {['police']=0, ['offpolice']=0}`  
 Allow the door to be lockpicked with `lockpick = true`  
 Allow item authorisation with `items = {'key_master', 'key_lspd'}` etc.  
+
+<hr>
+<p align="center">https://streamable.com/oheu5e  
+<img src="https://i.imgur.com/Sug2Nj5.jpg"/></p>
+
+
+<p align='center'><img src="https://i.imgur.com/2Yz7Rtm.png"/></img></p>
+
+
+<br><br><br>
+<hr>
+
+# esx_doorlock
+This is a door lock script for ESX, which is used to lock certain doors that shouldn't be accessable by normal citizens.
+
+This script was originally developed by Darklandz, later modified by Miss_Behavin and others.
+
+# Legal
+### License
+esx_doorlock - door locks for ESX
+
+Copyright (C) 2015-2018 ElPumpo / Hawaii_Beach
+
+This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
+
+This program Is distributed In the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty Of MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License For more details.
+
+You should have received a copy Of the GNU General Public License along with this program. If Not, see http://www.gnu.org/licenses/.
+<hr>

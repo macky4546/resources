@@ -528,8 +528,7 @@ Config.Stores = {
 	[19] =  {shopType = "barber",   x = 1931.5,       y = 3729.7,      z = 31.8},
 	[20] =  {shopType = "barber",   x = 1212.8,       y = -472.9,      z = 65.2},
 	[21] =  {shopType = "barber",   x = -32.9,        y = -152.3,      z = 56.1},
-	[22] =  {shopType = "barber",   x = -278.1,       y = 6228.5,      z = 30.7},
-    [23] =  {shopType = "clothing", x = 461.58,       y = -996.48,      z = 30.68}
+	[22] =  {shopType = "barber",   x = -278.1,       y = 6228.5,      z = 30.7}
 }
 
 Config.ClothingRooms = {

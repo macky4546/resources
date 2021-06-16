@@ -41,6 +41,7 @@ AddEventHandler('onResourceStop', function(resourceName)
 	end
 end)
 
+
 RegisterServerEvent('nui_doorlock:server:updateState')
 AddEventHandler('nui_doorlock:server:updateState', function(doorID, locked, src, usedLockpick, isBank)
 	local playerId = source
@@ -78,7 +79,7 @@ AddEventHandler('nui_doorlock:server:updateState', function(doorID, locked, src,
 	end
 end)
 
-QBCore.Functions.CreateCallback('nui_doorlock:getDoorInfo', function(source, cb)
+ESX.RegisterServerCallback('nui_doorlock:getDoorInfo', function(source, cb)
 	cb(doorInfo)
 end)
 
@@ -215,3 +216,17 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	doorInfo[doorID] = doorLocked 
 	TriggerClientEvent('nui_doorlock:newDoorAdded', -1, newDoor, doorID, doorLocked)
 end)
+
+
+
+-- Test command that causes all doors to change state
+--[[RegisterCommand('testdoors', function(playerId, args, rawCommand)
+	for k, v in pairs(doorInfo) do
+		if v == true then lock = false else lock = true end
+		doorInfo[k] = lock
+		TriggerClientEvent('nui_doorlock:setState', -1, k, lock)
+	end
+end, true)
+--]]
+
+

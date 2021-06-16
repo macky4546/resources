@@ -129,8 +129,9 @@ end)
 function playSound(door, src)
 	local origin
 	if src and src ~= playerPed then src = NetworkGetEntityFromNetworkId(src) end
-	if not src then origin = door.objCoords elseif src == playerPed then origin = playerCoords else origin = NetworkGetPlayerCoords(src) end
+	if not src then origin = door.textCoords elseif src == playerPed then origin = playerCoords else origin = NetworkGetPlayerCoords(src) end
 	local distance = #(playerCoords - origin)
+	--print(origin)
 	if distance < 10 then
 		if not door.audioLock then
 			if door.audioRemote then
@@ -142,14 +143,16 @@ function playSound(door, src)
 			end
 		end
 		local sfx_level = GetProfileSetting(300)
-		if door.locked then SendNUIMessage ({action = 'audio', audio = door.audioLock, distance = distance, sfx = sfx_level})
-		else SendNUIMessage ({action = 'audio', audio = door.audioUnlock, distance = distance, sfx = sfx_level}) end
+		if door.locked then SendNUIMessage ({type = 'audio', audio = door.audioLock, distance = distance, sfx = sfx_level})
+		else SendNUIMessage ({type = 'audio', audio = door.audioUnlock, distance = distance, sfx = sfx_level}) end
 	end
 end
+
 
 AddEventHandler('playerSpawned', function(spawn)
 	isDead = false
 end)
+
 
 local last_x, last_y, lasttext, isDrawing
 function Draw3dNUI(coords, text)
@@ -158,9 +161,28 @@ function Draw3dNUI(coords, text)
 	local onScreen,_x,_y = GetScreenCoordFromWorldCoord(coords.x,coords.y,coords.z)
 	if _x ~= last_x or _y ~= last_y or text ~= lasttext or paused then
 		isDrawing = true
-		if paused then SendNUIMessage ({action = "hide"}) else SendNUIMessage({action = "display", x = _x, y = _y, text = text}) end
+		if paused then SendNUIMessage ({type = "hide"}) else SendNUIMessage({type = "display", x = _x, y = _y, text = text}) end
 		last_x, last_y, lasttext = _x, _y, text
 		Citizen.Wait(0)
+	end
+end
+
+function Draw3dText(coords, text) -- You can revert to text if you want - it has higher average performance cost but lower spikes
+	local onScreen, _x, _y = World3dToScreen2d(coords.x, coords.y, coords.z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+	if onScreen then
+		SetTextScale(0.35, 0.35)
+		SetTextFont(4)
+		SetTextProportional(1)
+		SetTextColour(255, 255, 255, 215)
+		SetTextDropShadow(0, 0, 0, 55)
+		SetTextEdge(0, 0, 0, 150)
+		SetTextDropShadow()
+		SetTextOutline()
+		SetTextEntry("STRING")
+		SetTextCentre(1)
+		AddTextComponentString(text)
+		DrawText(_x,_y)
 	end
 end
 
@@ -173,10 +195,10 @@ end
 
 function dooranim()
 	Citizen.CreateThread(function()
-    loadAnimDict("anim@heists@keycard@") 
-	TaskPlayAnim(playerPed, "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0)
-    Citizen.Wait(550)
-	ClearPedTasks(playerPed)
+    	loadAnimDict("anim@heists@keycard@") 
+		TaskPlayAnim(playerPed, "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0)
+    	Citizen.Wait(550)
+		ClearPedTasks(playerPed)
 	end)
 end
 
@@ -186,16 +208,23 @@ function round(num, decimal)
 end
 
 function debug(doorID, data)
-	if GetDistanceBetweenCoords(playerCoords, data.objCoords) < 3 then
+	if GetDistanceBetweenCoords(playerCoords, data.textCoords) < 3 then
 		for k,v in pairs(data) do
 			print(  ('%s = %s'):format(k, v) )
 		end
-		print('\nCurrent Heading: '..GetEntityHeading(data.object))
-		print('Current Coords: '..GetEntityCoords(data.object))
+		if data.doors then
+			for k, v in pairs(data.doors) do
+				print('\nCurrent Heading '..k..': '..GetEntityHeading(v.object))
+				print('Current Coords '..k..': '..GetEntityCoords(v.object))
+			end
+		else
+			print('\nCurrent Heading: '..GetEntityHeading(data.object))
+			print('Current Coords: '..GetEntityCoords(data.object))
+		end
 	end
 end
 
-function setobjCoords(data)
+function setTextCoords(data)
 	local minDimension, maxDimension = GetModelDimensions(data.objHash)
 	local dimensions = maxDimension - minDimension
 	local dx, dy = tonumber(dimensions.x), tonumber(dimensions.y)
@@ -207,24 +236,13 @@ function setobjCoords(data)
 	end
 end
 
-AddEventHandler('onResourceStart', function(resourceName)
-	if (GetCurrentResourceName() ~= resourceName) then
-	  return
-	end
-    while QBCore == nil do
-    	Wait(200)
-    end
-
- 	PlayerJob = QBCore.Functions.GetPlayerData().job
-end)
-
 function updateDoors(specificDoor)
 	playerCoords = GetEntityCoords(PlayerPedId())
 	for doorID, data in ipairs(Config.DoorList) do
 		if (not specificDoor or doorID == specificDoor) then
 			if data.doors then
 				for k,v in ipairs(data.doors) do
-					if #(vector2(playerCoords.x, playerCoords.y) - vector2(v.objCoords.x, v.objCoords.y)) < 100 then
+					if #(playerCoords - v.objCoords) < 100 then
 						v.object = GetClosestObjectOfType(v.objCoords, 1.0, v.objHash, false, false, false)
 						if data.delete then
 							SetEntityAsMissionEntity(v.object, 1, 1)
@@ -245,7 +263,7 @@ function updateDoors(specificDoor)
 					elseif v.object then RemoveDoorFromSystem(v.doorHash) end
 				end
 			elseif not data.doors then
-				if #(vector2(playerCoords.x, playerCoords.y) - vector2(data.objCoords.x, data.objCoords.y)) < 100 then
+				if #(playerCoords - data.objCoords) < 100 then
 					if data.slides then data.object = GetClosestObjectOfType(data.objCoords, 5.0, data.objHash, false, false, false) else
 						data.object = GetClosestObjectOfType(data.objCoords, 1.0, data.objHash, false, false, false)
 					end
@@ -271,29 +289,29 @@ function updateDoors(specificDoor)
 			if not data.setText and data.doors then
 				for k,v in ipairs(data.doors) do
 					if k == 1 and DoesEntityExist(v.object) then
-						data.objCoords = v.objCoords
-					elseif k == 2 and DoesEntityExist(v.object) and data.objCoords then
-						local textDistance = data.objCoords - v.objCoords
-						data.objCoords = (data.objCoords - (textDistance / 2))
+						data.textCoords = v.objCoords
+					elseif k == 2 and DoesEntityExist(v.object) and data.textCoords then
+						local textDistance = data.textCoords - v.objCoords
+						data.textCoords = (data.textCoords - (textDistance / 2))
 						data.setText = true
 					end
-					if k == 2 and data.objCoords and data.slides then
+					if k == 2 and data.textCoords and data.slides then
 						if GetEntityHeightAboveGround(v.object) < 1 then
-							data.objCoords = vector3(data.objCoords.x, data.objCoords.y, data.objCoords.z+1.2)
+							data.textCoords = vector3(data.textCoords.x, data.textCoords.y, data.textCoords.z+1.2)
 						end
 					end
 				end
 			elseif not data.setText and not data.doors and DoesEntityExist(data.object) then
 				if data.garage == true then
-					data.objCoords = data.objCoords
+					data.textCoords = data.objCoords
 					data.setText = true
 				else
-					data.objCoords = setobjCoords(data)
+					data.textCoords = setTextCoords(data)
 					data.setText = true
 				end
 				if data.slides then
 					if GetEntityHeightAboveGround(data.object) < 1 then
-						data.objCoords = vector3(data.objCoords.x, data.objCoords.y, data.objCoords.z+1.6)
+						data.textCoords = vector3(data.textCoords.x, data.textCoords.y, data.textCoords.z+1.6)
 					end
 				end
 			end
@@ -329,8 +347,8 @@ Citizen.CreateThread(function()
 			end
 			local distance
 			for k,v in pairs(Config.DoorList) do
-				if v.setText and v.objCoords then
-					distance = #(vector2(v.objCoords.x, v.objCoords.y) - vector2(playerCoords.x, playerCoords.y))
+				if v.setText and v.textCoords then
+					distance = #(v.textCoords - playerCoords)
 					if v.setText and distance < v.maxDistance then
 						closestDoor, closestV, closestDistance = k, v, distance
 					end
@@ -347,20 +365,16 @@ Citizen.CreateThread(function()
 		playerPed = PlayerPedId()
 		playerCoords = GetEntityCoords(playerPed)
 		if doorCount ~= nil and doorCount ~= 0 and closestDistance and closestV.setText then
-			closestDistance = #(closestV.objCoords - playerCoords)
+			closestDistance = #(closestV.textCoords - playerCoords)
 			if closestDistance < closestV.maxDistance then
 				if not closestV.doors then
 					local doorState = DoorSystemGetDoorState(closestV.doorHash)
 					if closestV.locked and doorState ~= 1 then
-						QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, 'Locking')
-					elseif not closestV.locked and not IsAuthorized(closestV) then
-						if Config.ShowUnlockedText then QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
-					elseif not closestV.locked and IsAuthorized(closestV) then
-						if Config.ShowUnlockedText then QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, '~g~E ~w~- Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
-					elseif closestV.locked and not IsAuthorized(closestV) then
-						QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, 'Locked')
-					elseif closestV.locked and IsAuthorized(closestV) then
-						QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, '~g~E ~w~- Locked')
+						Draw3dNUI(closestV.textCoords, 'Locking')
+					elseif not closestV.locked then
+						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({type = "hide"}) isDrawing = false end end
+					else
+						Draw3dNUI(closestV.textCoords, 'Locked')
 					end
 				else
 					local door = {}
@@ -371,19 +385,16 @@ Citizen.CreateThread(function()
 					state[2] = DoorSystemGetDoorState(door[2].doorHash)
 					
 					if closestV.locked and (state[1] ~= 1 or state[2] ~= 1) then
-					elseif not closestV.locked and not IsAuthorized(closestV) then
-						if Config.ShowUnlockedText then QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, 'Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
-					elseif not closestV.locked and IsAuthorized(closestV) then
-						if Config.ShowUnlockedText then QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, '~g~E ~w~- Unlocked') else if isDrawing then SendNUIMessage ({action = "hide"}) isDrawing = false end end
-					elseif closestV.locked and not IsAuthorized(closestV) then
-						QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, 'Locked')
-					elseif closestV.locked and IsAuthorized(closestV) then
-						QBCore.Functions.DrawText3D(closestV.objCoords.x, closestV.objCoords.y, closestV.objCoords.z, '~g~E ~w~- Locked')
+						Draw3dNUI(closestV.textCoords, 'Locking')
+					elseif not closestV.locked then
+						if Config.ShowUnlockedText then Draw3dNUI(closestV.textCoords, 'Unlocked') else if isDrawing then SendNUIMessage ({type = "hide"}) isDrawing = false end end
+					else
+						Draw3dNUI(closestV.textCoords, 'Locked')
 					end
 				end
 			else
 				if closestDistance > closestV.maxDistance and isDrawing then
-					SendNUIMessage ({action = "hide"}) isDrawing = false
+					SendNUIMessage ({type = "hide"}) isDrawing = false
 				end
 				closestDoor, closestV, closestDistance = nil, nil, nil
 			end
@@ -393,31 +404,12 @@ Citizen.CreateThread(function()
 	end
 end)
 
-function IsAuthorized(doorID)
-	local canOpen = false
-	if QBCore.Functions.GetPlayerData().job == nil then
-		return false
-	end
-	if doorID.authorizedJobs then
-		for job,rank in pairs(doorID.authorizedJobs) do
-			if (job == PlayerJob.name --[[and rank <= PlayerJob.grade.level--]]) then
-				canOpen = true
-			end
-		end
-	end
-
-	if not canOpen and doorID.items then
-		canOpen = true -- Let the server determine if they have the item to open the door
-	end
-	return canOpen
-end
-
 exports('updateDoors', updateDoors)
 -- Use this export if doors do not load after a teleport event (such as /tp, /setcoords, /jail, etc)
 -- `exports.nui_doorlock:updateDoors()`
 
 RegisterCommand('doorlock', function()
-	if not isDead and not isCuffed and closestDoor and IsAuthorized(closestV) then
+	if not isDead and not isCuffed and closestDoor then
 		if IsControlPressed(0, 86) or IsControlReleased(0, 86) then key = 'e' end
 		local veh = GetVehiclePedIsIn(playerPed)
 		if veh and key == 'e' then
@@ -437,10 +429,10 @@ RegisterCommand('doorlock', function()
 		local locked = not closestV.locked
 		--debug(closestDoor, closestV)
 		if closestV.audioRemote then src = NetworkGetNetworkIdFromEntity(playerPed) else src = nil end
-		TriggerServerEvent('nui_doorlock:server:updateState', closestDoor, locked, src) -- Broadcast new state of the door to everyone
+		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, src) -- Broadcast new state of the door to everyone
 	end
 end)
-RegisterKeyMapping('doorlock', 'Interacteer met een deur', 'keyboard', 'e')
+RegisterKeyMapping('doorlock', Config.KeybingText, 'keyboard', 'e')
 
 RegisterNetEvent('lockpicks:UseLockpick')
 AddEventHandler('lockpicks:UseLockpick', function(isAdvanced)
@@ -491,6 +483,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		while not receivedDoorData do Citizen.Wait(100) end
 		receivedDoorData = false
 	end
+
 	--if not args[1] then print('/newdoor [doortype] [locked] [jobs]\nDoortypes: door, sliding, garage, double, doublesliding\nLocked: true or false\nJobs: Up to four can be added with the command') return end
 	if arg then doorType = arg.doortype else doorType = args[1] end
 	if arg then doorLocked = arg.doorlocked else doorLocked = not not args[1] end
@@ -530,7 +523,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		end
 		local maxDistance, slides, garage = 2.0, false, false
 		if doorType == 'sliding' then slides = true
-		elseif doorType == 'garage' then maxDistance, slides, garage = 6.0, true, true end
+		elseif doorType == 'garage' then slides, garage = 6.0, true, true end
 		if slides then maxDistance = 6.0 end
 		local doorHash = 'doorlock_'..#Config.DoorList + 1
 		AddDoorToSystem(doorHash, model, coords, false, false, false)
@@ -539,7 +532,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 		heading = GetEntityHeading(entity)
 		RemoveDoorFromSystem(doorHash)
 		if arg then doorname = arg.doorname end
-		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, false, doorname)
+		TriggerServerEvent('nui_doorlock:newDoorCreate', arg.configname, model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, false, doorname)
 		print('Successfully sent door data to the server')
 	elseif doorType == 'double' or doorType == 'doublesliding' then
 		local entity, coords, heading, model = {}, {}, {}, {}
@@ -601,7 +594,7 @@ AddEventHandler('nui_doorlock:newDoorSetup', function(args)
 			RemoveDoorFromSystem(doorHash[i])
 		end
 		if arg then doorname = arg.doorname end
-		TriggerServerEvent('nui_doorlock:newDoorCreate', model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, true, doorname)
+		TriggerServerEvent('nui_doorlock:newDoorCreate', arg.configname, model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, true, doorname)
 		print('Successfully sent door data to the server')
 		arg = nil
 	end
