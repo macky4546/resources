@@ -22,16 +22,23 @@ Citizen.CreateThread(function()
         local PlayerPed = PlayerPedId()
         local PlayerPos = GetEntityCoords(PlayerPed)
 
-            local dist = #(PlayerPos - vector3(-1876.14, 2060.96, 145.57))
+            local dist = #(PlayerPos - vector3(948.29, 34.11, 71.83))
             if dist < 10 then
                 InRange = true
-                DrawMarker(2, -1876.14, 2060.96, 145.57, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 255, 0, 0, 155, 0, 0, 0, 1, 0, 0, 0)
+                DrawMarker(2, 948.29, 34.11, 71.83, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 255, 0, 0, 155, 0, 0, 0, 1, 0, 0, 0)
                 if dist < 1 then
                    
                     DrawText3Ds(-1876.14, 2060.96, 145.57, '~g~E~w~ - Sell chips')
                     if IsControlJustPressed(0, 38) then
                         TriggerServerEvent('qb-casino:sharlock:sell')
                     end
+
+                
+                    DrawText3Ds(-1876.14, 2050.96, 145.57, '~g~E~w~ - buy chips')
+                    if IsControlJustPressed(0, 38) then
+                        TriggerServerEvent('qb-casino:sharlock:buy')
+                    end
+
                 end
             end
 
