@@ -9,7 +9,7 @@ config                                       = {}
 -- This will be multipurposed to also be a properties script. It will NOT be based on ESX or vRP as this is intended to be used for my custom framework but shouldn't be hard to convert.
 config.iplsCustomizable                      = true
 -- This will pin the interior in memory for quicker loading. This may cause memory issues if the server is running a lot of resources.
-config.pinInteriorInMemory                   = true
+config.pinInteriorInMemory                   = false
 --[[
     IPLs
 ]]
