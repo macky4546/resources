@@ -110,7 +110,7 @@ AddEventHandler('hospital:server:RevivePlayer', function(playerId, isOldMan)
 			if Player.Functions.RemoveMoney("cash", 5000, "revived-player") then
 				TriggerClientEvent('hospital:client:Revive', Patient.PlayerData.source)
 			else
-				TriggerClientEvent('QBCore:Notify', src, "Je hebt niet genoeg geld op zak..", "error")
+				TriggerClientEvent('QBCore:Notify', src, "You don't have enough money in your pocket..", "error")
 			end
 		else
 			TriggerClientEvent('hospital:client:Revive', Patient.PlayerData.source)
@@ -125,7 +125,7 @@ AddEventHandler('hospital:server:SendDoctorAlert', function()
 		local Player = QBCore.Functions.GetPlayer(v)
 		if Player ~= nil then 
 			if (Player.PlayerData.job.name == "doctor" and Player.PlayerData.job.onduty) then
-				TriggerClientEvent("hospital:client:SendAlert", v, "Er is een dokter nodig bij Pillbox Ziekenhuis")
+				TriggerClientEvent("hospital:client:SendAlert", v, "A doctor is needed at Pillbox Hospital")
 			end
 		end
 	end

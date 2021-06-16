@@ -242,7 +242,7 @@ AddEventHandler('qb-weed:client:placePlant', function(type, item)
 
     if currentHouse ~= nil then
         if ClosestPlant == 0 then
-            QBCore.Functions.Progressbar("plant_weed_plant", "Bezig met planten..", 8000, false, true, {
+            QBCore.Functions.Progressbar("plant_weed_plant", "Busy with plants..", 8000, false, true, {
                 disableMovement = true,
                 disableCarMovement = true,
                 disableMouse = false,
@@ -262,13 +262,13 @@ AddEventHandler('qb-weed:client:placePlant', function(type, item)
                 TriggerServerEvent('qb-weed:server:removeSeed', item.slot, type)
             end, function() -- Cancel
                 ClearPedTasks(ped)
-                QBCore.Functions.Notify("Proces geannuleerd..", "error")
+                QBCore.Functions.Notify("Process cancelled..", "error")
             end)
         else
-            QBCore.Functions.Notify('Geen plek a sah..', 'error', 3500)
+            QBCore.Functions.Notify('No spot a plant..', 'error', 3500)
         end
     else
-        QBCore.Functions.Notify('Het is hier niet veilig..', 'error', 3500)
+        QBCore.Functions.Notify('Its not safe here..', 'error', 3500)
     end
 end)
 
@@ -305,9 +305,9 @@ AddEventHandler('qb-weed:client:foodPlant', function(item)
 
             if plyDistance < 1.0 then
                 if plantData["plantStats"]["food"] == 100 then
-                    QBCore.Functions.Notify('De plant heeft geen voeding nodig..', 'error', 3500)
+                    QBCore.Functions.Notify('The plant does not need food..', 'error', 3500)
                 else
-                    QBCore.Functions.Progressbar("plant_weed_plant", "Plant aan het voeden..", math.random(4000, 8000), false, true, {
+                    QBCore.Functions.Progressbar("plant_weed_plant", "Feeding plants..", math.random(4000, 8000), false, true, {
                         disableMovement = true,
                         disableCarMovement = true,
                         disableMouse = false,
@@ -322,14 +322,14 @@ AddEventHandler('qb-weed:client:foodPlant', function(item)
                         TriggerServerEvent('qb-weed:server:foodPlant', currentHouse, newFood, plantData["plantSort"]["name"], plantData["plantStats"]["plantId"])
                     end, function() -- Cancel
                         ClearPedTasks(ped)
-                        QBCore.Functions.Notify("Proces geannuleerd..", "error")
+                        QBCore.Functions.Notify("Process cancelled..", "error")
                     end)
                 end
             else
-                QBCore.Functions.Notify("Geen plant a sah..", "error")
+                QBCore.Functions.Notify("No plant", "error")
             end
         else
-            QBCore.Functions.Notify("Geen plant a sah..", "error")
+            QBCore.Functions.Notify("No plant", "error")
         end
     end
 end)

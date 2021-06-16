@@ -528,11 +528,12 @@ Config.Stores = {
 	[19] =  {shopType = "barber",   x = 1931.5,       y = 3729.7,      z = 31.8},
 	[20] =  {shopType = "barber",   x = 1212.8,       y = -472.9,      z = 65.2},
 	[21] =  {shopType = "barber",   x = -32.9,        y = -152.3,      z = 56.1},
-	[22] =  {shopType = "barber",   x = -278.1,       y = 6228.5,      z = 30.7}
+	[22] =  {shopType = "barber",   x = -278.1,       y = 6228.5,      z = 30.7},
+    [23] =  {shopType = "clothing", x = 461.58,       y = -996.48,      z = 30.68}
 }
 
 Config.ClothingRooms = {
-    [1] = {requiredJob = "police", x = 1105.71, y = 115.26, z = 18.15, cameraLocation = {x = 1108.44, y = 115.43, z = 18.15, h = 92.24}},
+    [1] = {requiredJob = "police", x = 458.46, y = -999.10, z = 30.68, cameraLocation = {x = 458.46, y = -999.10, z = 30.68, h = 92.24}},
     [2] = {requiredJob = "doctor", x = 1462.64, y = 693.23, z = 33.51, cameraLocation = {x = 1462.76, y = 695.59, z = 33.51, h = 175.01}},
     [3] = {requiredJob = "ambulance", x = 1462.64, y = 693.23, z = 33.51, cameraLocation = {x = 1462.76, y = 695.59, z = 33.51, h = 175.01}},
     [4] = {requiredJob = "police", x = 314.76, y = 671.78, z = 14.73, cameraLocation = {x = 317.62, y = 671.86, z = 14.73, h = 91.53}},
