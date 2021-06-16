@@ -1071,7 +1071,7 @@ AddEventHandler('qb-houses:client:HomeInvasion', function()
                             end)
                             TriggerServerEvent('qb-houses:server:SetRamState', true, closesthouse)
                         else
-                            QBCore.Functions.Notify('Er is al iemand bezig met de deur..', 'error')
+                            QBCore.Functions.Notify('Someone is already working on the door..', 'error')
                         end
                     else
                         QBCore.Functions.Notify('19/5000 This house is already open..', 'error')
