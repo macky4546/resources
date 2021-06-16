@@ -72,9 +72,9 @@ Citizen.CreateThread(function()
                     DrawMarker(2, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
                     if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 1.5) then
                         if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Voertuig opbergen")
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Vehicle Shop")
                         else
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Voertuigen")
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Vehicles")
                         end
                         if IsControlJustReleased(0, Keys["E"]) then
                             if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
@@ -147,19 +147,19 @@ function MenuGarage()
     ped = GetPlayerPed(-1);
     MenuTitle = "Garage"
     ClearMenu()
-    Menu.addButton("Voertuigen", "VehicleList", nil)
-    Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
+    Menu.addButton("Vehicles", "VehicleList", nil)
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function VehicleList(isDown)
     ped = GetPlayerPed(-1);
-    MenuTitle = "Voertuigen:"
+    MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
         Menu.addButton(Config.Vehicles[k], "TakeOutVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
     end
         
-    Menu.addButton("Terug", "MenuGarage",nil)
+    Menu.addButton("Close", "MenuGarage",nil)
 end
 
 function TakeOutVehicle(vehicleInfo)

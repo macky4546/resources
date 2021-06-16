@@ -94,13 +94,13 @@ end)
 
 function CleanVehicle(vehicle)
 	TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_MAID_CLEAN", 0, true)
-	QBCore.Functions.Progressbar("repair_vehicle", "Bezig met poetsen...", math.random(10000, 20000), false, true, {
+	QBCore.Functions.Progressbar("repair_vehicle", "Brushing...", math.random(10000, 20000), false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
 		disableCombat = true,
 	}, {}, {}, {}, function() -- Done
-		QBCore.Functions.Notify("Voertuig schoon!")
+		QBCore.Functions.Notify("Vehicle clean!")
 		SetVehicleDirtLevel(vehicle)
         SetVehicleUndriveable(vehicle, false)
 		WashDecalsFromVehicle(vehicle, 1.0)
@@ -109,7 +109,7 @@ function CleanVehicle(vehicle)
 		ClearAllPedProps(GetPlayerPed(-1))
 		ClearPedTasks(GetPlayerPed(-1))
 	end, function() -- Cancel
-		QBCore.Functions.Notify("Mislukt!", "error")
+		QBCore.Functions.Notify("Failed!", "error")
 		ClearAllPedProps(GetPlayerPed(-1))
 		ClearPedTasks(GetPlayerPed(-1))
 	end)
@@ -153,7 +153,7 @@ function RepairVehicleFull(vehicle)
     else
         SetVehicleDoorOpen(vehicle, 4, false, false)
     end
-	QBCore.Functions.Progressbar("repair_vehicle", "Bezig met sleutelen..", math.random(20000, 30000), false, true, {
+	QBCore.Functions.Progressbar("repair_vehicle", "Working on keys..", math.random(20000, 30000), false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
@@ -164,7 +164,7 @@ function RepairVehicleFull(vehicle)
 		flags = 16,
 	}, {}, {}, function() -- Done
 		StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_player", 1.0)
-		QBCore.Functions.Notify("Voertuig gemaakt!")
+		QBCore.Functions.Notify("Vehicle created!")
 		SetVehicleEngineHealth(vehicle, 1000.0)
 		SetVehicleTyreFixed(vehicle, 0)
 		SetVehicleTyreFixed(vehicle, 1)
@@ -179,7 +179,7 @@ function RepairVehicleFull(vehicle)
 		TriggerServerEvent('qb-vehiclefailure:removeItem', "advancedrepairkit")
 	end, function() -- Cancel
 		StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_player", 1.0)
-		QBCore.Functions.Notify("Mislukt!", "error")
+		QBCore.Functions.Notify("Failed!", "error")
 		if (IsBackEngine(GetEntityModel(vehicle))) then
 			SetVehicleDoorShut(vehicle, 5, false)
 		else
@@ -194,7 +194,7 @@ function RepairVehicle(vehicle)
     else
         SetVehicleDoorOpen(vehicle, 4, false, false)
     end
-	QBCore.Functions.Progressbar("repair_vehicle", "Bezig met sleutelen..", math.random(10000, 20000), false, true, {
+	QBCore.Functions.Progressbar("repair_vehicle", "Working on keys..", math.random(10000, 20000), false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
@@ -205,7 +205,7 @@ function RepairVehicle(vehicle)
 		flags = 16,
 	}, {}, {}, function() -- Done
 		StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_player", 1.0)
-		QBCore.Functions.Notify("Voertuig gemaakt!")
+		QBCore.Functions.Notify("Vehicle created!")
 		SetVehicleEngineHealth(vehicle, 500.0)
 		SetVehicleTyreFixed(vehicle, 0)
 		SetVehicleTyreFixed(vehicle, 1)
@@ -220,7 +220,7 @@ function RepairVehicle(vehicle)
 		TriggerServerEvent('qb-vehiclefailure:removeItem', "repairkit")
 	end, function() -- Cancel
 		StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_player", 1.0)
-		QBCore.Functions.Notify("Mislukt!", "error")
+		QBCore.Functions.Notify("Failed!", "error")
 		if (IsBackEngine(GetEntityModel(vehicle))) then
 			SetVehicleDoorShut(vehicle, 5, false)
 		else
@@ -367,11 +367,11 @@ AddEventHandler('iens:repair', function()
 				healthPetrolTankLast=750.0
 					SetVehicleEngineOn(vehicle, true, false )
 				SetVehicleOilLevel(vehicle,(GetVehicleOilLevel(vehicle)/3)-0.5)
-				notification("~g~" .. repairCfg.fixMessages[fixMessagePos] .. ", en ga nu naar een garage!")
+				notification("~g~" .. repairCfg.fixMessages[fixMessagePos] .. ", and go to a garage now!")
 				fixMessagePos = fixMessagePos + 1
 				if fixMessagePos > repairCfg.fixMessageCount then fixMessagePos = 1 end
 			else
-				notification("~r~Je voertuig is te erg beschadigd!")
+				notification("~r~Your vehicle is too damaged!")			
 			end
 		else
 			notification("~y~" .. repairCfg.noFixMessages[noFixMessagePos] )
@@ -379,7 +379,7 @@ AddEventHandler('iens:repair', function()
 			if noFixMessagePos > repairCfg.noFixMessageCount then noFixMessagePos = 1 end
 		end
 	else
-		notification("~y~Je moet in een voertuig zitten om hem te reparen!")
+		notification("~y~You have to be in a vehicle to fix it!")
 	end
 end)
 
@@ -391,7 +391,7 @@ AddEventHandler('iens:repaira', function()
 		SetVehicleDirtLevel(vehicle)
 		SetVehicleUndriveable(vehicle, false)
 		WashDecalsFromVehicle(vehicle, 1.0)
-		notification("Voertuig gefixt!")
+		notification("Vehicle fixed!")
 		SetVehicleFixed(vehicle)
 		healthBodyLast=1000.0
 		healthEngineLast=1000.0
@@ -399,14 +399,14 @@ AddEventHandler('iens:repaira', function()
 		SetVehicleEngineOn(vehicle, true, false )
 		return
 	else
-		notification("Je moet in een voertuig zitten om hem te reparen!")
+		notification("You must be in a vehicle to fix it!")
 	end
 end)
 
 RegisterNetEvent('iens:besked')
 AddEventHandler('iens:besked', function()
 
-notification("~r~Er is wegenwacht beschikbaar bel die via je telefoon!")
+	notification("~r~There is roadside assistance available, call it on your phone!")
 
 end)
 

@@ -52,8 +52,7 @@ RegisterNUICallback('save', function(data)
             local ped = GetPlayerPed(-1)
             local veh = GetVehiclePedIsUsing(ped)
             setVehData(veh, data)
-            QBCore.Functions.Notify('Tjoenertjip v1.05: Voertuig aangepast!', 'error')
-
+            QBCore.Functions.Notify('TunerChip v1.05: Vehicle modified!', 'error')
             TriggerServerEvent('qb-tunerchip:server:TuneStatus', GetVehicleNumberPlateText(veh), true)
         end
     end)
@@ -70,9 +69,9 @@ AddEventHandler('qb-tunerchip:server:TuneStatus', function()
 
     QBCore.Functions.TriggerCallback('qb-tunerchip:server:GetStatus', function(status)
         if status then
-            TriggerEvent("chatMessage", "VOERTUIG STATUS", "warning", displayName..": Chiptuned: Ja")
+            TriggerEvent("chatMessage", "VEHICLE STATUS", "warning", displayName..": Chiptuned: Yes")
         else
-            TriggerEvent("chatMessage", "VOERTUIG STATUS", "warning", displayName..": Chiptuned: Nee")
+            TriggerEvent("chatMessage", "VEHICLE STATUS", "warning", displayName..": Chiptuned: No")
         end
     end, plate)
 end)
@@ -91,7 +90,7 @@ RegisterNUICallback('reset', function(data)
     local ped = GetPlayerPed(-1)
     local veh = GetVehiclePedIsUsing(ped)
     resetVeh(veh)
-    QBCore.Functions.Notify('Tjoenertjip v1.05: Voertuig is gereset!', 'error')
+    QBCore.Functions.Notify('TunerChip v1.05: Vehicle has been reset!', 'error')
 end)
 
 RegisterNetEvent('qb-tunerchip:client:openChip')
@@ -117,7 +116,7 @@ AddEventHandler('qb-tunerchip:client:openChip', function()
             QBCore.Functions.Notify("Geannuleerd..", "error")
         end)
     else
-        QBCore.Functions.Notify("Je zit niet in een voertuig..", "error")
+        QBCore.Functions.Notify("You are not in a vehicle..", "error")
     end
 end)
 

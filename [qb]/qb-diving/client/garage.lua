@@ -241,7 +241,7 @@ function MenuBoatDepot()
 
             for k, v in pairs(result) do
                 currentFuel = v.fuel
-                state = "Boothuis"
+                state = "boat house"
                 if v.state == 0 then
                     state = "Bulletin"
                 end
@@ -254,7 +254,7 @@ function MenuBoatDepot()
     end)
 end
 
-function VoertuigLijst()
+function VehicleLijst()
     ClearMenu()
     QBCore.Functions.TriggerCallback("qb-diving:server:GetMyBoats", function(result)
         ped = GetPlayerPed(-1);
@@ -268,7 +268,7 @@ function VoertuigLijst()
 
             for k, v in pairs(result) do
                 currentFuel = v.fuel
-                state = "Boothuis"
+                state = "boat house"
                 if v.state == 0 then
                     state = "Uit"
                 end

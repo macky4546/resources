@@ -321,14 +321,14 @@ Config.Products = {
     },   
     ["mustapha"] = {
         [1] = {
-            name = "parachute",
-            price = 2500,
-            amount = 10,
+            name = "casinochips",
+            price = 10,
+            amount = 5000,
             info = {},
             type = "item",
             slot = 1,
         },
-        [2] = {
+        --[[[2] = {
             name = "binoculars",
             price = 50,
             amount = 50,
@@ -343,7 +343,7 @@ Config.Products = {
             info = {},
             type = "item",
             slot = 3,
-        },
+        },]]
     },    
     ["weapons"] = {
         [1] = {
@@ -917,13 +917,13 @@ Config.Locations = {
         ["products"] = Config.Products["leisureshop"],
     },   
     ["mustapha"] = {
-        ["label"] = "Rental",
+        ["label"] = "Casino",
         ["type"] = "leisure",
         ["coords"] = {
             [1] = {
-                ["x"] = -31.18, 
-                ["y"] = -1397.537, 
-                ["z"] = 29.50
+                ["x"] = 948.29,
+                ["y"] = 34.11,
+                ["z"] = 71.83,
             }
         },
         ["products"] = Config.Products["mustapha"],

@@ -44,7 +44,7 @@ local isBusy = false
 local lastMenuPos = 1
 local lsc = {
 	inside = false,
-	title = "Voertuig Tuning",
+	title = "Vehicle Tuning",
 	currentmenu = "repair",
 	lastmenu = nil,
 	currentpos = nil,
@@ -1291,7 +1291,7 @@ local lsc = {
 			title = "CATEGORIES", 
 			name = "repair",
 			buttons = { 
-				{name = "Repair vehicle", description = "Repareer voertuig", costs = 0, centre = 0, font = 0, scale = 0.4}
+				{name = "Repair vehicle", description = "repair vehicle", costs = 0, centre = 0, font = 0, scale = 0.4}
 				
 			}
 	},
@@ -1745,7 +1745,7 @@ function DriveOutOfGarage(pos)
 
 	isBusy = true
 
-	QBCore.Functions.Progressbar("vehicletune_editvehicle", "Bezig met voertuig..", (editCount * 500), false, true, {
+	QBCore.Functions.Progressbar("vehicletune_editvehicle", "Busy with vehicle..", (editCount * 500), false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
@@ -1868,7 +1868,7 @@ Citizen.CreateThread(function()
 						end
 						if GetDistanceBetweenCoords(inside.x,inside.y,inside.z,GetEntityCoords(ped)) <= f(2.5) then
 							if pos.locked == false then
-								drawTxt("Druk ~b~ENTER~w~ om voertuig te ~b~BEWERKEN ",4,1,0.5,0.8,1.0,255,255,255,255)
+								drawTxt("Press ~b~ENTER~w~ to ~b~EDIT vehicle ",4,1,0.5,0.8,1.0,255,255,255,255)
 								if IsControlJustPressed(1,201) then
 									PlaySound(-1, "NAV_UP_DOWN", "HUD_FRONTEND_DEFAULT_SOUNDSET", 0, 0, 1)
 									lsc.currentpos = pos
@@ -2631,7 +2631,7 @@ Citizen.CreateThread(function()
 		SetBlipScale(item.blip, 0.8)
 		SetBlipAsShortRange(item.blip, true)
 		BeginTextCommandSetBlipName("STRING")
-		AddTextComponentString("Voertuigservice")
+		AddTextComponentString("Vehicle service")
 		EndTextCommandSetBlipName(item.blip)
 	end
 end)
@@ -2709,7 +2709,7 @@ function RepairVehicle(vehicle)
 		flags = 16,
 	}, {}, {}, function() -- Done
 		StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_player", 1.0)
-		QBCore.Functions.Notify("Voertuig gemaakt!")
+		QBCore.Functions.Notify("Vehicle made!")
 		SetVehicleEngineHealth(vehicle, 500.0)
 		SetVehicleTyreFixed(vehicle, 0)
 		SetVehicleTyreFixed(vehicle, 1)
@@ -2723,7 +2723,7 @@ function RepairVehicle(vehicle)
 		end
 	end, function() -- Cancel
 		StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_player", 1.0)
-		QBCore.Functions.Notify("Mislukt!", "error")
+		QBCore.Functions.Notify("Failed!", "error")
 		if (IsBackEngine(GetEntityModel(vehicle))) then
 			SetVehicleDoorShut(vehicle, 5, false)
 		else

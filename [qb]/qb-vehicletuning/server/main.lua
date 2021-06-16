@@ -109,13 +109,13 @@ function GetVehicleStatus(plate)
     return retval
 end
 
-QBCore.Commands.Add("setvehiclestatus", "Zet vehicle status", {{name="part", help="Type status dat je wilt bewerken"}, {name="amount", help="Level van de status"}}, true, function(source, args)
+QBCore.Commands.Add("setvehiclestatus", "Set vehicle status", {{name="part", help="Type of status you want to edit"}, {name="amount", help="Level of the status "}}, true, function(source, args)
     local part = args[1]:lower()
     local level = tonumber(args[2])
     TriggerClientEvent("vehiclemod:client:setPartLevel", source, part, level)
 end, "god")
 
-QBCore.Commands.Add("repareer", "Repareer een voertuig", {{name="part", help="Onderdeel dat je wilt repareren"}, {name="aantal", help="Aantal levels"}}, true, function(source, args)
+QBCore.Commands.Add("Repair", "Repair a vehicle", {{name="part", help="Part you want to repair"}, {name="number", help="Number of levels"}} , true, function(source, args)
     local part = args[1]:lower()
     local level = tonumber(args[2])
     local needAmount = level

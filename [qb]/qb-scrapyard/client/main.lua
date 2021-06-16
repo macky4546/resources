@@ -56,12 +56,12 @@ Citizen.CreateThread(function()
 					if vehicle ~= 0 and vehicle ~= nil then 
 						local vehpos = GetEntityCoords(vehicle)
 						if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, vehpos.x, vehpos.y, vehpos.z, true) < 2.5 and not isBusy then
-							DrawText3Ds(vehpos.x, vehpos.y, vehpos.z, "~g~E~w~ - Disassemble vehicle Voertuig")
+							DrawText3Ds(vehpos.x, vehpos.y, vehpos.z, "~g~E~w~ - Disassemble vehicle Vehicle")
 							if IsControlJustReleased(0, Keys["E"]) then
-								if IsVehicleValid(GetEntityModel(vehicle)) then 
-									ScrapVehicle(vehicle)
-								else
-									QBCore.Functions.Notify("Dit voertuig kan niet worden gesloopt..", "error")
+							if IsVehicleValid(GetEntityModel(vehicle)) then
+							ScrapVehicle(vehicle)
+							else
+							QBCore.Functions.Notify("This vehicle cannot be scrapped..", "error")
 								end
 							end
 						end

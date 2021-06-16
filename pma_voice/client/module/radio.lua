@@ -87,13 +87,15 @@ end
 --- sets the local players current radio channel and updates the server
 ---@param channel number the channel to set the player to, or 0 to remove them.
 exports('setRadioChannel', setRadioChannel)
+exports("getPlayerData", getPlayerData)
 -- mumble-voip compatability
 exports('SetRadioChannel', setRadioChannel)
+exports("getPlayerData", getPlayerData)
 
 --- exports removePlayerFromRadio
 --- sets the local players current radio channel and updates the server
 exports('removePlayerFromRadio', function()
-	exports("getPlayerData", getPlayerData)
+exports("getPlayerData", getPlayerData)
 
 	setRadioChannel(0)
 end)

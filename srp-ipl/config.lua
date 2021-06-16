@@ -23,7 +23,7 @@ config.pinInteriorInMemory                   = false
     cd /d C:\Server\server-data
     C:\Server\FXServer.exe  +exec server.cfg +set onesync legacy +set sv_enforceGameBuild 2060
 ]]
-config.diamondCasinoAndResort                = true  -- 1100.000, 220.000, -50.000/1295.000, 230.000, -50.000/1380.000, 200.000, -50.000/976.636, 70.295, 115.164
+config.diamondCasinoAndResort                = false  -- 1100.000, 220.000, -50.000/1295.000, 230.000, -50.000/1380.000, 200.000, -50.000/976.636, 70.295, 115.164
 config.penthouse                             = true  -- 976.636, 70.295, 115.164
 config.casinoCarPark                         = true  -- 1380.000, 200.000, -50.000
 -- Apartments

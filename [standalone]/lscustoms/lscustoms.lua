@@ -628,7 +628,7 @@ local function DriveOutOfGarage(pos)
 		
 		pos = currentpos
 
-		QBCore.Functions.Progressbar("vehicletune_editvehicle", "Bezig met voertuig..", (editCount * 500), false, false, {
+		QBCore.Functions.Progressbar("vehicletune_editvehicle", "Busy with vehicle..", (editCount * 500), false, false, {
 			disableMovement = true,
 			disableCarMovement = true,
 			disableMouse = false,
@@ -979,7 +979,7 @@ AddEventHandler("LSC:buttonSelected", function(name, button, canpurchase)
 			SetVehicleNumberPlateTextIndex(veh,button.plateindex)
 		end
 	elseif mname == "main" then
-		if name == "repareer voertuig" then
+		if name == "repair vehicle" then
 			if CanPurchase(price, canpurchase) then 
 				myveh.repair()
 				LSCMenu:ChangeMenu("categories")

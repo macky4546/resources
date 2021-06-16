@@ -158,7 +158,7 @@ function SplitStr(inputstr, sep)
 	end
 	return t
 end
-
+exports("getPlayerData", getPlayerData)
 exports("IsRadioOpen", IsRadioOpen)
 exports("IsRadioOn", IsRadioOn)
 exports("IsRadioAvailable", IsRadioAvailable)

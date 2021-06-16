@@ -60,9 +60,9 @@ Citizen.CreateThread(function()
                         DrawMarker(2, v.x, v.y, v.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 0, 0, 222, false, false, false, true, false, false, false)
                         if (GetDistanceBetweenCoords(pos, v.x, v.y, v.z, true) < 1.5) then
                             if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Voertuig opbergen")
+                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Vehicle Shop")
                             else
-                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Voertuigen")
+                                DrawText3D(v.x, v.y, v.z, "~g~E~w~ - Vehicles")
                             end
                             if IsControlJustReleased(0, Keys["E"]) then
                                 if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
@@ -392,19 +392,19 @@ function MenuGarage(isDown)
     ped = GetPlayerPed(-1);
     MenuTitle = "Garage"
     ClearMenu()
-    Menu.addButton("Mijn Voertuigen", "VehicleList", isDown)
-    Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
+    Menu.addButton("Vehicles", "VehicleList", isDown)
+    Menu.addButton("close Menu", "closeMenuFull", nil) 
 end
 
 function VehicleList(isDown)
     ped = GetPlayerPed(-1);
-    MenuTitle = "Voertuigen:"
+    MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
         Menu.addButton(Config.Vehicles[k], "TakeOutVehicle", {k, isDown}, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")
     end
         
-    Menu.addButton("Terug", "MenuGarage",nil)
+    Menu.addButton("Close", "MenuGarage",nil)
 end
 
 function TakeOutVehicle(vehicleInfo)

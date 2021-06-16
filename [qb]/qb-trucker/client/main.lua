@@ -319,7 +319,7 @@ end
 
 function VehicleList(isDown)
     ped = GetPlayerPed(-1);
-    MenuTitle = "Voertuigen:"
+    MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
         Menu.addButton(Config.Vehicles[k], "TakeOutVehicle", k, "Garage", " Motor: 100%", " Body: 100%", " Fuel: 100%")

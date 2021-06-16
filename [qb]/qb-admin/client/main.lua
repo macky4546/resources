@@ -855,9 +855,9 @@ AddEventHandler('qb-admin:client:SaveCar', function()
         if QBCore.Shared.VehicleModels[hash] ~= nil and next(QBCore.Shared.VehicleModels[hash]) ~= nil then
             TriggerServerEvent('qb-admin:server:SaveCar', props, QBCore.Shared.VehicleModels[hash], GetHashKey(veh), plate)
         else
-            QBCore.Functions.Notify('Je kan dit voertuig niet in je garage zetten..', 'error')
+            QBCore.Functions.Notify('You cannot put this vehicle in your garage..', 'error')
         end
     else
-        QBCore.Functions.Notify('Je zit niet in een voertuig..', 'error')
+        QBCore.Functions.Notify('You are not in a vehicle..', 'error')
     end
 end)

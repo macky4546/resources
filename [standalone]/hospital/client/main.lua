@@ -687,8 +687,8 @@ function MenuOutfits()
     ped = GetPlayerPed(-1);
     MenuTitle = "Outfits"
     ClearMenu()
-    Menu.addButton("Mijn Outfits", "OutfitsLijst", nil)
-    Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
+    Menu.addButton("Outfits", "OutfitsLijst", nil)
+    Menu.addButton("Close Menu", "closeMenuFull", nil) 
 end
 
 function changeOutfit()

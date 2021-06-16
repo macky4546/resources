@@ -56,6 +56,7 @@ function setPlayerRadio(source, radioChannel)
 	end
 end
 exports("SetRadioEnabled", SetRadioEnabled)
+exports("getPlayerData", getPlayerData)
 
 RegisterNetEvent('pma_voice:setPlayerRadio', function(radioChannel)
 	setPlayerRadio(source, radioChannel)

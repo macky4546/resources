@@ -173,9 +173,9 @@ function knockDoorAnim(home)
         knockingDoor = false
         Citizen.Wait(1000)
         if Config.Dealers[currentDealer]["name"] == "Ouweheer" then
-            TriggerEvent("chatMessage", "Dealer "..Config.Dealers[currentDealer]["name"], "normal", 'Goedendag mijn kind, wat kan ik voor je betekenen?')
-        else
-            TriggerEvent("chatMessage", "Dealer "..Config.Dealers[currentDealer]["name"], "normal", 'Yo '..myData.charinfo.firstname..', wat kan ik voor je betekenen?')
+            TriggerEvent("chatMessage", "Dealer "..Config.Dealers[currentDealer]["name"], "normal", 'Hello my child, what can I do for you?')
+            else
+            TriggerEvent("chatMessage", "Dealer "..Config.Dealers[currentDealer]["name"], "normal", 'Yo '..myData.charinfo.firstname..', what can I do for you?')
         end
         -- knockTimeout()
         dealerIsHome = true
@@ -192,7 +192,7 @@ function knockDoorAnim(home)
         TaskPlayAnim(PlayerPed, knockAnimLib, "exit", 3.0, 3.0, -1, 1, 0, false, false, false)
         knockingDoor = false
         Citizen.Wait(1000)
-        QBCore.Functions.Notify('Het lijkt erop dat er niemand thuis is..', 'error', 3500)
+        QBCore.Functions.Notify('Looks like no one is home..', 'error', 3500)
     end
 end
 
@@ -221,8 +221,8 @@ function requestDelivery()
     SetTimeout(math.random(10000, 30000), function()
         TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = Config.Dealers[currentDealer]["name"],
-            subject = "Aflever Locatie",
-            message = "Hier is alle informatie over je bezorging, <br>Locatie: "..waitingDelivery["locationLabel"].."<br>Spullen: <br> "..amount.."x "..QBCore.Shared.Items[waitingDelivery["itemData"]["item"]]["label"].."<br><br> Zorg dat je optijd bent!",
+            subject = "Delivery Location",
+            message = "Here is all the information about your delivery, <br>Location: "..waitingDelivery["locationLabel"].."<br>Stuff: <br> "..amount.."x "..QBCore.Shared .Items[waitingDelivery["itemData"]["item"]]["label"].."<br><br> Be on time!",
             button = {
                 enabled = true,
                 buttonEvent = "qb-drugs:client:setLocation",
@@ -330,7 +330,7 @@ function deliverStuff(activeDelivery)
         Citizen.Wait(500)
         TriggerEvent('animations:client:EmoteCommandStart', {"bumbin"})
         checkPedDistance()
-        QBCore.Functions.Progressbar("work_dropbox", "Producten afleveren..", 3500, false, true, {
+        QBCore.Functions.Progressbar("work_dropbox", "Deliver products..", 3500, false, true, {
             disableMovement = true,
             disableCarMovement = true,
             disableMouse = false,
@@ -339,7 +339,7 @@ function deliverStuff(activeDelivery)
             TriggerServerEvent('qb-drugs:server:succesDelivery', activeDelivery, true)
         end, function() -- Cancel
             ClearPedTasks(GetPlayerPed(-1))
-            QBCore.Functions.Notify("Geannuleerd..", "error")
+            QBCore.Functions.Notify("Canceled..", "error")
         end)
     else
         TriggerServerEvent('qb-drugs:server:succesDelivery', activeDelivery, false)
@@ -393,7 +393,7 @@ AddEventHandler('qb-drugs:client:robberyCall', function(msg, streetLabel, coords
     SetBlipAlpha(blip, transG)
     SetBlipScale(blip, 1.0)
     BeginTextCommandSetBlipName('STRING')
-    AddTextComponentString("112: Drugshandel")
+    AddTextComponentString("112: drug trafficking")
     EndTextCommandSetBlipName(blip)
     while transG ~= 0 do
         Wait(180 * 4)
@@ -419,13 +419,13 @@ AddEventHandler('qb-drugs:client:sendDeliveryMail', function(type, deliveryData)
         TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = Config.Dealers[deliveryData["dealer"]]["name"],
             subject = "Levering",
-            message = "Ik krijg klachten over je bezorging, laat dit mij niet vaker overkomen..."
+            message = "I get complaints about your delivery, please don't let this happen to me again..."
         })
     elseif type == 'late' then
         TriggerServerEvent('qb-phone:server:sendNewMail', {
             sender = Config.Dealers[deliveryData["dealer"]]["name"],
-            subject = "Levering",
-            message = "Je was niet optijd.. Had je belangrijkere dingen te doen dan zaken?"
+            subject = "Delivery",
+            message = "You weren't on time.. Did you have more important things to do than business?"
         })
     end
 end)

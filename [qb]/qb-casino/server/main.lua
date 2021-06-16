@@ -68,27 +68,3 @@ AddEventHandler("onResourceStart", function(resourceName)
 end)
 
 SetExports()
-
-
-RegisterServerEvent("qb-casino:sharlock:buy")
-AddEventHandler("qb-casino:sharlock:buy", function()
-    local src = source
-    local price = 10
-    local Player = QBCore.Functions.GetPlayer(src)
-    if Player.PlayerData.items ~= nil and next(Player.PlayerData.items) ~= nil then 
-        for k, v in pairs(Player.PlayerData.items) do 
-            if Player.PlayerData.items[k] ~= nil then 
-                if ItemList[Player.PlayerData.items[k].name] ~= nil then 
-                    price = price + (ItemList[Player.PlayerData.items[k].name] * Player.PlayerData.items[k].amount)
-                    Player.Functions.RemoveItem(Player.PlayerData.items[k].name, Player.PlayerData.items[k].amount, k)
-                end
-            end
-        end
-        Player.Functions.RemoveMoney("cash", price, "bought-casino-chips")
-        TriggerClientEvent('inventory:client:ItemBox', source, QBCore.Shared.Items['casinochips'], "add")
-        TriggerClientEvent('QBCore:Notify', src, "You bought your chips for $"..price)
-        TriggerEvent("qb-log:server:CreateLog", "casino", "Chips", "blue", "**"..GetPlayerName(src) .. "** got $"..price.." for buying the Chips")
-        else
-        TriggerClientEvent('QBCore:Notify', src, "You have no chips..")
-    end
-end)

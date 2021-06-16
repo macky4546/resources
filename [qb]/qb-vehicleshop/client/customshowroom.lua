@@ -34,7 +34,7 @@ Citizen.CreateThread(function()
 
                 if dist < 2 then
                     if veh == testritveh then
-                        DrawText3Ds(bringcoords.x, bringcoords.y, bringcoords.z, '~g~E~w~ - Voertuig inleveren')
+                        DrawText3Ds(bringcoords.x, bringcoords.y, bringcoords.z, '~g~E~w~ - Return vehicle')
                         if IsControlJustPressed(0, Keys["E"]) then
                             testritveh = 0
                             QBCore.Functions.DeleteVehicle(veh)
@@ -54,7 +54,7 @@ end)
 
 CustomVehicleCats = {
     ["coupes"] = {
-        label = "Geimporteerde Voertuigen",
+        label = "Import Vehicles",
         vehicles = {}
     },
 }
@@ -81,7 +81,7 @@ CustomVehicleShop = {
 			title = "CATEGORIES",
 			name = "main",
 			buttons = {
-				{name = "Voertuigen", description = ""},
+				{name = "Vehicle", description = ""},
 			}
 		},
 		["vehicles"] = {
@@ -200,9 +200,8 @@ Citizen.CreateThread(function()
             if dist < 2 then
                 if PlayerJob ~= nil then
                     if PlayerJob.name == "cardealer" then
-                        DrawText3Ds(QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.x, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.y, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.z + 1.9, '~g~G~w~ - Voertuig veranderen')
-                        DrawText3Ds(QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.x, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.y, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.z + 1.75, '~b~/verkoop [id]~w~ - Voertuig verkopen ~b~/testrit~w~ - Testrit maken')
-                        
+                        DrawText3Ds(QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.x, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.y, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.z + 1.9, '~g~G~w~ - Change vehicle')                        
+                        DrawText3Ds(QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.x, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.y, QBCustom.ShowroomPositions[ClosestCustomVehicle].coords.z + 1.75, '~b~/sales [id]~w~ - Sell vehicle ~b~/test drive~w~ - Take a test drive')                        
                         if not CustomVehicleShop.opened then
                             if IsControlJustPressed(0, Keys["G"]) then
                                 if CustomVehicleShop.opened then
@@ -379,10 +378,10 @@ AddEventHandler('qb-vehicleshop:client:SellCustomVehicle', function(TargetId)
         if VehicleDist < 2.5 then
             TriggerServerEvent('qb-vehicleshop:server:SellCustomVehicle', TargetId, ClosestCustomVehicle)
         else
-            QBCore.Functions.Notify("Je bent niet bij het voertuig in de buurt!", "error")
+            QBCore.Functions.Notify("You are not near the vehicle!", "error")
         end
     else
-        QBCore.Functions.Notify("Niemand in de buurt!", "error")
+        QBCore.Functions.Notify("Nobody around!", "error")
     end
 end)
 
@@ -508,7 +507,7 @@ function CustomButtonSelected(button)
     local btn = button.name
     
 	if this == "main" then
-		if btn == "Voertuigen" then
+		if btn == "Vehicles" then
 			OpenCustomMenu('coupes')
 		end
 	end

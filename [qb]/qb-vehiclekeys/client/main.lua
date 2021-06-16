@@ -212,7 +212,7 @@ function LockVehicle()
                         TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 5, "lock", 0.3)
                         SetVehicleDoorsLocked(veh, 2)
                         if(GetVehicleDoorLockStatus(veh) == 2)then
-                            QBCore.Functions.Notify("Voertuig vergrendeld!")
+                            QBCore.Functions.Notify("Vehicle locked!")
                         else
                             QBCore.Functions.Notify("Something went wrong whit the locking system!")
                         end
@@ -222,7 +222,7 @@ function LockVehicle()
                         TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 5, "unlock", 0.3)
                         SetVehicleDoorsLocked(veh, 1)
                         if(GetVehicleDoorLockStatus(veh) == 1)then
-                            QBCore.Functions.Notify("Voertuig ontgrendeld!")
+                            QBCore.Functions.Notify("Vgear unlocked!")
                         else
                             QBCore.Functions.Notify("Something went wrong whit the locking system!")
                         end

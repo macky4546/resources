@@ -496,11 +496,11 @@ end
 
 function HouseKeysMenu()
     ped = PlayerPedId();
-    MenuTitle = "Sleutels"
+    MenuTitle = "Keyholder"
     ClearMenu()
     QBCore.Functions.TriggerCallback('qb-houses:server:getHouseKeyHolders', function(holders)
         ped = PlayerPedId();
-        MenuTitle = "Sleutelhouders:"
+        MenuTitle = "Key Holders:"
         ClearMenu()
         if holders == nil or next(holders) == nil then
             QBCore.Functions.Notify("No key holders found..", "error", 3500)
@@ -510,7 +510,7 @@ function HouseKeysMenu()
                 Menu.addButton(holders[k].firstname .. " " .. holders[k].lastname, "optionMenu", holders[k]) 
             end
         end
-        Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
+        Menu.addButton("Close Menu", "closeMenuFull", nil) 
     end, closesthouse)
 end
 
@@ -526,8 +526,8 @@ function optionMenu(citizenData)
     ped = PlayerPedId();
     MenuTitle = "What now?"
     ClearMenu()
-    Menu.addButton("Verwijder sleutel", "removeHouseKey", citizenData) 
-    Menu.addButton("Terug", "HouseKeysMenu",nil)
+    Menu.addButton("Remove House Key", "removeHouseKey", citizenData) 
+    Menu.addButton("close", "HouseKeysMenu",nil)
 end
 
 function removeHouseKey(citizenData)
@@ -847,7 +847,7 @@ function CreateInstuctionScaleform(scaleform)
     PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
     PushScaleformMovieFunctionParameterInt(1)
     InstructionButton(GetControlInstructionalButton(1, 194, true))
-    InstructionButtonMessage("Sluit Camera")
+    InstructionButtonMessage("Close Camera")
     PopScaleformMovieFunctionVoid()
 
     PushScaleformMovieFunction(scaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
