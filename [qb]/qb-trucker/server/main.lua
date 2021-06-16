@@ -14,21 +14,21 @@ AddEventHandler('qb-trucker:server:DoBail', function(bool, vehInfo)
         if Player.PlayerData.money.cash >= Config.BailPrice then
             Bail[Player.PlayerData.citizenid] = Config.BailPrice
             Player.Functions.RemoveMoney('cash', Config.BailPrice, "tow-received-bail")
-            TriggerClientEvent('QBCore:Notify', src, 'Je hebt de borg van 1000,- betaald (Cash)', 'success')
+            TriggerClientEvent('QBCore:Notify', src, 'You have paid the deposit of 1000,- (Cash)', 'success')
             TriggerClientEvent('qb-trucker:client:SpawnVehicle', src, vehInfo)
         elseif Player.PlayerData.money.bank >= Config.BailPrice then
             Bail[Player.PlayerData.citizenid] = Config.BailPrice
             Player.Functions.RemoveMoney('bank', Config.BailPrice, "tow-received-bail")
-            TriggerClientEvent('QBCore:Notify', src, 'Je hebt de borg van 1000,- betaald (Bank)', 'success')
+            TriggerClientEvent('QBCore:Notify', src, 'You have paid the deposit of 1000,- (Bank)', 'success')
             TriggerClientEvent('qb-trucker:client:SpawnVehicle', src, vehInfo)
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet genoeg contant, de borg is 1000,-', 'error')
+            TriggerClientEvent('QBCore:Notify', src, 'You dont have enough cash, the deposit is 1000,-', 'error')
         end
     else
         if Bail[Player.PlayerData.citizenid] ~= nil then
             Player.Functions.AddMoney('cash', Bail[Player.PlayerData.citizenid], "trucker-bail-paid")
             Bail[Player.PlayerData.citizenid] = nil
-            TriggerClientEvent('QBCore:Notify', src, 'Je hebt de borg van 1000,- terug gekregen', 'success')
+            TriggerClientEvent('QBCore:Notify', src, 'You got the deposit of 1000,- back', 'success')
         end
     end
 end)
@@ -54,6 +54,6 @@ AddEventHandler('qb-trucker:server:01101110', function(drops)
     local payment = price - taxAmount
     Player.Functions.AddJobReputation(1)
     Player.Functions.AddMoney("bank", payment, "trucker-salary")
-    TriggerClientEvent('chatMessage', source, "BAAN", "warning", "Je hebt je salaris ontvangen van: $"..payment..", bruto: $"..price.." (waarvan $"..bonus.." bonus) en $"..taxAmount.." belasting ("..PaymentTax.."%)")
+    TriggerClientEvent('chatMessage', source, "JOB", "warning", "You received your salary from: $"..payment..", gross: $"..price.." (of which $"..bonus .." bonus) and $"..taxAmount.." tax ("..PaymentTax.."%)")
 end)
 

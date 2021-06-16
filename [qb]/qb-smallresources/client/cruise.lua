@@ -13,9 +13,9 @@ Citizen.CreateThread(function()
                 if IsPedInAnyVehicle(GetPlayerPed(-1)) then
                     cruiseSpeed = Speed
                     if cruiseOn then
-                        QBCore.Functions.Notify("Begrenzer uitgeschakeld!")
+                        QBCore.Functions.Notify("Limiter disabled!")
                     else
-                        QBCore.Functions.Notify("Begrenzer gezet op "..tostring(math.floor(cruiseSpeed * 3.6)).."km/u")
+                        QBCore.Functions.Notify("Limiter set to "..tostring(math.floor(cruiseSpeed * 3.6)).."MP/H")
                     end
                     TriggerEvent("seatbelt:client:ToggleCruise")
                 end
