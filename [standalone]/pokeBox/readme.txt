@@ -1,0 +1,1 @@
+["pokeBox"] = {["name"] = "pokeBox", ["label"] = "Pokemon TCG Box", ["weight"] = 50, ["type"] = "item", ["image"] = "pokeBox.png", ["unique"] = true, ["useable"] = true, ["shouldClose"] = true, ["combinable"] = nil, ["description"] = "Pokemon TCG Storage Box"},
