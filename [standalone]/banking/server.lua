@@ -26,10 +26,10 @@ AddEventHandler('bank:deposit', function(amount)
     local amount = tonumber(amount)
     if cashamount >= amount and amount > 0 then
       ply.Functions.RemoveMoney('cash', amount, "Bank depost")
-      TriggerEvent("qb-log:server:CreateLog", "banking", "Deposit", "green", "**"..GetPlayerName(src) .. "** heeft $"..amount.." op zijn bank gezet.")
-      ply.Functions.AddMoney('bank', amount, "Bank depost")
+      TriggerEvent("qb-log:server:CreateLog", "banking", "Deposit", "green", "**"..GetPlayerName(src) .. "** has $"..amount.." on its banked.")
+      ply.Functions.AddMoney('bank', amount, "Bank deposit")
     else
-      TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet voldoende geld op zak..', 'error')
+      TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money in your pocket..', 'error')
     end
 end)
 
