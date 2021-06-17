@@ -47,7 +47,7 @@ AddEventHandler('qb-companies:server:createCompany', function(name)
                             money = 0,
                         }
                         TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
-                        TriggerClientEvent('QBCore:Notify', src, "Gefeliciteerd, je bent trotse eigenaar van: "..companyLabel)
+                        TriggerClientEvent('QBCore:Notify', src, "Congratulations, you are the proud owner of:"..companyLabel)
                     else
                         Player.Functions.RemoveMoney("bank", Config.CompanyPrice, "company-created")
                         QBCore.Functions.ExecuteSql(false, "INSERT INTO `companies` (`name`, `label`, `owner`) VALUES ('"..companyName.."', '"..companyLabel.."', '"..Player.PlayerData.citizenid.."')")
@@ -59,19 +59,19 @@ AddEventHandler('qb-companies:server:createCompany', function(name)
                             money = 0,
                         }
                         TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
-                        TriggerClientEvent('QBCore:Notify', src, "Gefeliciteerd, je bent trotse eigenaar van: "..companyLabel)
+                        TriggerClientEvent('QBCore:Notify', src, "Congratulations, you are the proud owner of:"..companyLabel)
                     end
                 else
-                    TriggerClientEvent('QBCore:Notify', src, 'De naam: ' .. companyLabel .. ' is bezet..', 'error', 4000)
+                    TriggerClientEvent('QBCore:Notify', src, 'The name: ' .. companyLabel .. ' is busy..', 'error', 4000)
                 end
             else
-                TriggerClientEvent('QBCore:Notify', src, 'Naam mag niet leeg zijn..', 'error', 4000)
+                TriggerClientEvent('QBCore:Notify', src, 'Name cannot be empty..', 'error', 4000)
             end
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Naam mag niet leeg zijn..', 'error', 4000)
+            TriggerClientEvent('QBCore:Notify', src, 'Name cannot be empty..', 'error', 4000)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Je hebt niet genoeg geld..', 'error', 4000)
+        TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money..', 'error', 4000)
     end
 end)
 
@@ -86,12 +86,12 @@ AddEventHandler('qb-companies:server:removeCompany', function(companyName)
             Config.Companies[companyName] = nil
             TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
             TriggerClientEvent("qb-phone:client:setupCompanies", src)
-            TriggerClientEvent("qb-phone:client:InPhoneNotify", src, "Bedrijven", "success", "Je hebt " .. companyLabel .. " verwijderd!")
+            TriggerClientEvent("qb-phone:client:InPhoneNotify", src, "Companies", "success", "You deleted " .. companyLabel .. "!")
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Je bent geen eigenaar van dit bedrijf..', 'error', 4000)
+            TriggerClientEvent('QBCore:Notify', src, 'You do not own this company..', 'error', 4000)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Naam mag niet leeg zijn..', 'error', 4000)
+        TriggerClientEvent('QBCore:Notify', src, 'Name cannot be empty..', 'error', 4000)
     end
 end)
 
@@ -106,7 +106,7 @@ AddEventHandler('qb-companies:server:quitCompany', function(companyName)
 
             TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
             TriggerClientEvent("qb-phone:client:setupCompanies", src)
-            TriggerClientEvent("qb-phone:client:InPhoneNotify", src, "Bedrijven", "success", "Je hebt ontslag genomen bij" .. companyLabel .. "!")
+            TriggerClientEvent("qb-phone:client:InPhoneNotify", src, "Companies", "success", "You resigned from" .. companyLabel .. "!")
 
             local updatedEmployees = {}
             for employee, info in pairs(Config.Companies[companyName].employees) do
@@ -114,10 +114,10 @@ AddEventHandler('qb-companies:server:quitCompany', function(companyName)
             end
             QBCore.Functions.ExecuteSql(false, "UPDATE `companies` SET `employees` = '"..json.encode(updatedEmployees).."' WHERE `name` = '"..escapeSqli(companyName).."'")
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Je bent geen eigenaar van dit bedrijf..', 'error', 4000)
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Naam mag niet leeg zijn..', 'error', 4000)
+            TriggerClientEvent('QBCore:Notify', src, 'You do not own this company..', 'error', 4000)
+            end
+        else
+            TriggerClientEvent('QBCore:Notify', src, 'Name cannot be empty..', 'error', 4000)
     end
 end)
 
@@ -137,16 +137,16 @@ AddEventHandler('qb-companies:server:addEmployee', function(playerCitizenId, com
                 }
                 QBCore.Functions.ExecuteSql(false, "UPDATE `companies` SET `employees` = '"..json.encode(Config.Companies[companyName].employees).."' WHERE `name` = '"..escapeSqli(companyName).."'")
                 TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
-                TriggerClientEvent('QBCore:Notify', src, 'Je hebt ' .. OtherPlayer.PlayerData.firstname .. ' ' .. OtherPlayer.PlayerData.lastname .. ' toegevoegd bij werknemers (rank: '..rank..')')
-                TriggerClientEvent('QBCore:Notify', OtherPlayer.PlayerData.source, 'Je bent toegevoegd bij bedrijf ' .. Config.Companies[companyName].label .. "(rank: " ..rank..")")
+                TriggerClientEvent('QBCore:Notify', src, 'You added ' .. OtherPlayer.PlayerData.firstname .. ' ' .. OtherPlayer.PlayerData.lastname .. ' on employees (rank: '..rank..')' )
+                TriggerClientEvent('QBCore:Notify', OtherPlayer.PlayerData.source, 'You have been added to company ' .. Config.Companies[companyName].label .. "(rank: " ..rank..")")
             else
-                TriggerClientEvent('QBCore:Notify', src, 'Min rank is 1 en max rank is '..(Config.MaxRank-1)..'..', 'error', 4000)
+                TriggerClientEvent('QBCore:Notify', src, 'Min rank is 1 and max rank is '..(Config.MaxRank-1)..'..', 'error', 4000)
             end
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Je bent geen eigenaar van dit bedrijf..', 'error', 4000)
+            TriggerClientEvent('QBCore:Notify', src, 'You do not own this company..', 'error', 4000)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Persoon is niet aanwezig..', 'error', 4000)
+        TriggerClientEvent('QBCore:Notify', src, 'Person is not present..', 'error', 4000)
     end
 end)
 
@@ -163,9 +163,9 @@ AddEventHandler('qb-companies:server:alterEmployee', function(playerCitizenId, c
                     Config.Companies[companyName].employees[otherCitizenId].rank = newRank
                     QBCore.Functions.ExecuteSql(false, "UPDATE `companies` SET `employees` = '"..json.encode(Config.Companies[companyName].employees).."' WHERE `name` = '"..escapeSqli(companyName).."'")
                     TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
-                    TriggerClientEvent('QBCore:Notify', src, 'Werknemer rank geupdate naar: ' ..newRank)
+                    TriggerClientEvent('QBCore:Notify', src, 'Employee rank updated to: ' ..newRank)
                 else
-                    TriggerClientEvent('QBCore:Notify', src, 'Persoon kan niet verder gepromoveerd worden..', 'error', 4000)
+                    TriggerClientEvent('QBCore:Notify', src, 'Person cannot be promoted further..', 'error', 4000)
                 end
             else
                 local newRank = Config.Companies[companyName].employees[otherCitizenId].rank - 1
@@ -173,16 +173,16 @@ AddEventHandler('qb-companies:server:alterEmployee', function(playerCitizenId, c
                     Config.Companies[companyName].employees[otherCitizenId].rank = newRank
                     QBCore.Functions.ExecuteSql(false, "UPDATE `companies` SET `employees` = '"..json.encode(Config.Companies[companyName].employees).."' WHERE `name` = '"..escapeSqli(companyName).."'")
                     TriggerClientEvent("qb-companies:client:setCompanies", -1, Config.Companies)
-                    TriggerClientEvent('QBCore:Notify', src, 'Werknemer rank geupdate naar: ' ..newRank)
+                    TriggerClientEvent('QBCore:Notify', src, 'Employee rank updated to: ' ..newRank)
                 else
-                    TriggerClientEvent('QBCore:Notify', src, 'Persoon kan niet verder omlaag..', 'error', 4000)
+                    TriggerClientEvent('QBCore:Notify', src, 'Person cant go down..', 'error', 4000)
                 end
             end
         else
-            TriggerClientEvent('QBCore:Notify', src, 'Persoon is geen werknemer van jouw bedrijf..', 'error', 4000)
+            TriggerClientEvent('QBCore:Notify', src, 'Person is not an employee of your company..', 'error', 4000)
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'Je bent geen eigenaar van dit bedrijf..', 'error', 4000)
+        TriggerClientEvent('QBCore:Notify', src, 'You do not own this company..', 'error', 4000)
     end
 end)
 

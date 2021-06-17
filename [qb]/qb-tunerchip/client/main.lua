@@ -99,7 +99,7 @@ AddEventHandler('qb-tunerchip:client:openChip', function()
     local inVehicle = IsPedInAnyVehicle(ped)
 
     if inVehicle then
-        QBCore.Functions.Progressbar("connect_laptop", "Tunerlaptop wordt aangesloten..", 2000, false, true, {
+        QBCore.Functions.Progressbar("connect_laptop", "Tuner laptop is connected..", 2000, false, true, {
             disableMovement = true,
             disableCarMovement = true,
             disableMouse = false,

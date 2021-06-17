@@ -129,15 +129,15 @@ QBCore.Commands.Add("Repair", "Repair a vehicle", {{name="part", help="Part you 
         TriggerClientEvent("vehiclemod:client:repairPart", source, part, level, needAmount)
     else
         if neededItem == nil then 
-            TriggerClientEvent('QBCore:Notify', source, "Je mist " .. level .. " " .. QBCore.Shared.Items[Config.RepairCost[part]]["label"] , "error", 5000)
+            TriggerClientEvent('QBCore:Notify', source, "You miss " .. level .. " " .. QBCore.Shared.Items[Config.RepairCost[part]]["label"] , "error", 5000)
         else
-            TriggerClientEvent('QBCore:Notify', source, "Je mist " .. (level - neededItem.amount) .. " " .. QBCore.Shared.Items[Config.RepairCost[part]]["label"] , "error", 5000)
+            TriggerClientEvent('QBCore:Notify', source, "You miss " .. (level - neededItem.amount) .. " " .. QBCore.Shared.Items[Config.RepairCost[part]]["label"] , "error", 5000)
         end
         
     end
 end)
 
--- QBCore.Commands.Add("vehstatus", "Krijg vehicle status", {}, false, function(source, args)
+-- QBCore.Commands.Add("vehstatus", "Get vehicle status", {}, false, function(source, args)
 --     local Player = QBCore.Functions.GetPlayer(souce)
 
 --     if Player.PlayerData.job.name == "mechanic" then
