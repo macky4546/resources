@@ -11,7 +11,7 @@ Config.CheckVersionDelay = 60 -- Minutes
 Config.PhoneNumber = true
 
 -- use mdt notifications for 911 calls instead of WF_Alerts
-Config.Default911 = false
+Config.Default911 = true
 
 -- enable alerts when cops break the law and print to console
 Config.Debug = true
