@@ -42,7 +42,8 @@ Config.Vehicles = {
     ["ambulance"] = "Ambulance",
 }
 
-Config.Whitelist = {}
+Config.Whitelist = {
+}
 
 Config.Helicopter = "polmav"
 

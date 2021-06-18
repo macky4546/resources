@@ -3,11 +3,9 @@ game 'gta5'
 
 version '2.6.4'
 description 'https://github.com/thelindat/linden_outlawalert'
-versioncheck 'https://raw.githubusercontent.com/thelindat/linden_outlawalert/master/fxmanifest.lua'
 
 client_scripts {
     'locales/en.lua',
-    'client/esx.lua',
     'client/main.lua',
 }
 
@@ -15,7 +13,7 @@ shared_script 'config.lua'
 
 server_scripts {
     'locales/en.lua',
-    'server.lua',
+    'server/main.lua',
 }
 
 ui_page {
