@@ -26,7 +26,6 @@ end
 Config.Objects = {
     ["cone"] = {model = `prop_roadcone02a`, freeze = false},
     ["barier"] = {model = `prop_barrier_work06a`, freeze = true},
-    ["schotten"] = {model = `prop_snow_sign_road_06g`, freeze = true},
     ["tent"] = {model = `prop_gazebo_03`, freeze = true},
     ["light"] = {model = `prop_worklight_03b`, freeze = true},
 }
@@ -85,8 +84,10 @@ Config.Locations = {
 
 Config.ArmoryWhitelist = {}
 
-Config.Helicopter = "POLMAV"
-
+Config.Helicopter = {
+    "POLMAV",
+    "sheriffmav"
+}
 Config.SecurityCameras = {
     hideradar = true,
     cameras = {
@@ -128,21 +129,26 @@ Config.SecurityCameras = {
 }
 
 Config.Vehicles = {
-    ["pd"] = "Police Car 1",
-    ["pd2"] = "Police Car 2",
-    ["pd3"] = "Police Car 3",
-    ["pd4"] = "Police Car 4",
-    ["pd5"] = "Police Car 5",
-    ["pd6"] = "Police Car 6",
-    ["pd7"] = "Police Car 7",
-    ["pd8"] = "Police Car 8",
-    ["pd9"] = "Police Car 9",
-    ["pd10"] = "Police Car 10",
-    ["pd11"] = "Police Car 11",
-    ["pd12"] = "Police Car 12",
-    ["pd13"] = "Police Car 13",
-    ["pd14"] = "Police Car 14",
-}
+    ["pd"] = "LSPD 1",
+    ["pd2"] = "LSPD 2",
+    ["pd3"] = "LSPD 3",
+    ["pd4"] = "LSPD 4",
+    ["pd5"] = "LSPD 5",
+    ["pd6"] = "LSPD 6",
+    ["pd7"] = "LSPD 7",
+    ["pd8"] = "LSPD 8",
+    ["pd9"] = "LSPD 9",
+    ["pd10"] = "LSPD 10",
+    ["pd11"] = "LSPD 11",
+    ["pd12"] = "LSPD 12",
+    ["pd13"] = "LSPD 13",
+    ["pd14"] = "LSPD 14",
+    ["bcso1"] = "BCSO 1",
+    ["bcso2"] = "BCSO 2",
+    ["bcso3"] = "BCSO 3",
+    ["bcso4"] = "BCSO 4",
+    ["bcso5"] = "BCSO 5",
+    ["bcso6"] = "BCSO 6",
 
 Config.WhitelistedVehicles = {}
 
