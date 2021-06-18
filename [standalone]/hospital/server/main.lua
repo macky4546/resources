@@ -139,9 +139,9 @@ AddEventHandler('hospital:server:MakeDeadCall', function(blipSettings, gender, s
 	if gender == 1 then genderstr = "Vrouw" end
 
 	if street2 ~= nil then
-		TriggerClientEvent("112:client:SendAlert", -1, "Een ".. genderstr .." gewond bij " ..street1 .. " "..street2, blipSettings)
+		TriggerClientEvent("112:client:SendAlert", -1, "A "..genderstr .." injured at "..street1 .." "..street2, blipSettings)
 	else
-		TriggerClientEvent("112:client:SendAlert", -1, "Een ".. genderstr .." gewond bij "..street1, blipSettings)
+	TriggerClientEvent("112:client:SendAlert", -1, "A "..genderstr.." injured at "..street1, blipSettings)
 	end
 end)
 
@@ -210,91 +210,91 @@ QBCore.Functions.CreateCallback('hospital:GetPlayerBleeding', function(source, c
 	end
 end)
 
-QBCore.Commands.Add("status", "Check gezondheid van een persoon", {}, false, function(source, args)
+QBCore.Commands.Add("status", "Check a person's health", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player.PlayerData.job.name == "doctor" or Player.PlayerData.job.name == "ambulance" then
-		TriggerClientEvent("hospital:client:CheckStatus", source)
+	TriggerClientEvent("hospital:client:CheckStatus", source)
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
+	TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
 	end
-end)
-
-QBCore.Commands.Add("genees", "Help de verwondingen van een persoon", {}, false, function(source, args)
+	end)
+	
+QBCore.Commands.Add("Heal", "Help a person's injuries", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player.PlayerData.job.name == "doctor" or Player.PlayerData.job.name == "ambulance" then
-		TriggerClientEvent("hospital:client:TreatWounds", source)
+	TriggerClientEvent("hospital:client:TreatWounds", source)
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
+	TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
 	end
-end)
+	end)
 
-QBCore.Commands.Add("revivep", "Help een persoon omhoog", {}, false, function(source, args)
-	local Player = QBCore.Functions.GetPlayer(source)
-	if Player.PlayerData.job.name == "doctor" then
+QBCore.Commands.Add("revivep", "Help a person up", {}, false, function(source, args)
+		local Player = QBCore.Functions.GetPlayer(source)
+		if Player.PlayerData.job.name == "doctor" then
 		TriggerClientEvent("hospital:client:RevivePlayer", source)
-	else
+		else
 		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
-	end
-end)
-
-QBCore.Commands.Add("revive", "Revive een speler of jezelf", {{name="id", help="Speler ID (mag leeg zijn)"}}, false, function(source, args)
-	if args[1] ~= nil then
+		end
+		end)
+		
+QBCore.Commands.Add("revive", "Revive a player or yourself", {{name="id", help="Player ID (can be empty)"}}, false, function(source, args)
+		if args[1] ~= nil then
 		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
 		if Player ~= nil then
-			TriggerClientEvent('hospital:client:Revive', Player.PlayerData.source)
+		TriggerClientEvent('hospital:client:Revive', Player.PlayerData.source)
 		else
-			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Speler is niet online!")
+		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
 		end
-	else
+		else
 		TriggerClientEvent('hospital:client:Revive', source)
-	end
-end, "admin")
+		end
+		end, "admin")
 
-QBCore.Commands.Add("setpain", "Zet een pijn voor jezelf of iemand anders", {{name="id", help="Speler ID (mag leeg zijn)"}}, false, function(source, args)
-	if args[1] ~= nil then
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		if Player ~= nil then
+QBCore.Commands.Add("setpain", "Put a pain on yourself or someone else", {{name="id", help="Player ID (can be empty)"}}, false, function(source, args )
+			if args[1] ~= nil then
+			local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+			if Player ~= nil then
 			TriggerClientEvent('hospital:client:SetPain', Player.PlayerData.source)
-		else
-			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Speler is niet online!")
-		end
-	else
-		TriggerClientEvent('hospital:client:SetPain', source)
-	end
-end, "god")
-
-QBCore.Commands.Add("kill", "Vermoord een speler of jezelf", {{name="id", help="Speler ID (mag leeg zijn)"}}, false, function(source, args)
-	if args[1] ~= nil then
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		if Player ~= nil then
+			else
+			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+			end
+			else
+			TriggerClientEvent('hospital:client:SetPain', source)
+			end
+			end, "god")
+			
+QBCore.Commands.Add("kill", "Kill a player or yourself", {{name="id", help="Player ID (can be empty)"}}, false, function(source, args)
+			if args[1] ~= nil then
+			local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+			if Player ~= nil then
 			TriggerClientEvent('hospital:client:KillPlayer', Player.PlayerData.source)
-		else
-			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Speler is niet online!")
-		end
-	else
-		TriggerClientEvent('hospital:client:KillPlayer', source)
-	end
-end, "god")
+			else
+			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+			end
+			else
+			TriggerClientEvent('hospital:client:KillPlayer', source)
+			end
+			end, "god")
 
-QBCore.Commands.Add("setambulance", "Geef de ambulance baan aan iemand ", {{name="id", help="Speler ID"}}, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local Myself = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then 
-        if ((Myself.PlayerData.job.name == "ambulance" or Myself.PlayerData.job.name == "doctor") and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
-            Player.Functions.SetJob("ambulance")
-        end
-    end
-end)
-
-QBCore.Commands.Add("setdoctor", "Geef de doctor baan aan iemand ", {{name="id", help="Speler ID"}}, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local Myself = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then 
-        if ((Myself.PlayerData.job.name == "ambulance" or Myself.PlayerData.job.name == "doctor") and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
-            Player.Functions.SetJob("doctor")
-        end
-    end
-end)
+QBCore.Commands.Add("setambulance", "Give the ambulance job to someone", {{name="id", help="Player ID"}}, true, function(source, args)
+				local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+				local Myself = QBCore.Functions.GetPlayer(source)
+				if Player ~= nil then
+					if ((Myself.PlayerData.job.name == "ambulance" or Myself.PlayerData.job.name == "doctor") and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
+						Player.Functions.SetJob("ambulance")
+					end
+				end
+			end)
+			
+QBCore.Commands.Add("setdoctor", "Give someone the doctor job", {{name="id", help="Player ID"}}, true, function(source, args)
+				local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+				local Myself = QBCore.Functions.GetPlayer(source)
+				if Player ~= nil then
+					if ((Myself.PlayerData.job.name == "ambulance" or Myself.PlayerData.job.name == "doctor") and Myself.PlayerData.job.onduty) and IsHighCommand(Myself.PlayerData.citizenid) then
+						Player.Functions.SetJob("doctor")
+					end
+				end
+			end)
 
 QBCore.Functions.CreateUseableItem("bandage", function(source, item)
 	local Player = QBCore.Functions.GetPlayer(source)

@@ -14,12 +14,12 @@ Citizen.CreateThread(function()
 			if IsEntityDead(playerPed) and not isDead then
 				local killer, killerWeapon = NetworkGetEntityKillerOfPlayer(player)
                 local killerId = NetworkGetPlayerIndexFromPed(killer)
-                local killerName = killerId ~= -1 and GetPlayerName(killerId) .. " " .. "("..GetPlayerServerId(killerId)..")" or "Zichzelf of NPC"
-                local weaponLabel = QBCore.Shared.Weapons[killerWeapon] ~= nil and QBCore.Shared.Weapons[killerWeapon]["label"] or "Unknown"
-                local weaponName = QBCore.Shared.Weapons[killerWeapon] ~= nil and QBCore.Shared.Weapons[killerWeapon]["name"] or "Unknown_Weapon"
-                TriggerServerEvent("qb-log:server:CreateLog", "death", GetPlayerName(player) .. " ("..GetPlayerServerId(player)..") is dood", "red", "**".. killerName .. "** heeft ".. GetPlayerName(player) .." vermoord met **".. weaponLabel .. "** (" .. weaponName .. ")")
+                local killerName = killerId ~= -1 and GetPlayerName(killerId) .. " " .. "("..GetPlayerServerId(killerId)..")" or "Himself or NPC"
+                 local weaponLabel = QBCore.Shared.Weapons[killerWeapon] ~= nil and QBCore.Shared.Weapons[killerWeapon]["label"] or "Unknown"
+                 local weaponName = QBCore.Shared.Weapons[killerWeapon] ~= nil and QBCore.Shared.Weapons[killerWeapon]["name"] or "Unknown_Weapon"
+                 TriggerServerEvent("qb-log:server:CreateLog", "death", GetPlayerName(player) .. " ("..GetPlayerServerId(player)..") is dead", "red", "**".. killerName .. "** killed ".. GetPlayerName(player) .." with **".. weaponLabel .. "** (" .. weaponName .. ")")
  
-                deathTime = Config.DeathTime
+                 deathTime = Config.DeathTime
 
                 OnDeath()
                 
@@ -43,11 +43,11 @@ Citizen.CreateThread(function()
             EnableControlAction(0, Keys['F1'], true)
             EnableControlAction(0, Keys['HOME'], true)
             
-            if not isInHospitalBed then 
+            if not isInHospitalBed then
                 if deathTime > 0 then
-                    DrawTxt(0.89, 1.44, 1.0,1.0,0.6, "RESPAWN OVER: ~b~" .. math.ceil(deathTime) .. "~w~ SECONDEN", 255, 255, 255, 255)
+                    DrawTxt(0.89, 1.44, 1.0,1.0,0.6, "RESPAWN OVER: ~b~" .. math.ceil(deathTime) .. "~w~ SECONDS", 255, 255, 255, 255)
                 else
-                    DrawTxt(0.89, 1.44, 1.0,1.0,0.6, "~w~ HOUD ~b~E ~w~INGEDRUKT OM TE RESPAWNEN ($"..Config.BillCost..")", 255, 255, 255, 255)
+                    DrawTxt(0.89, 1.44, 1.0,1.0,0.6, "~w~ PRESS & HOLD ~b~E ~w~ TO RESPAWN ($"..Config.BillCost..")", 255, 255, 255, 255)
                 end
             end
 

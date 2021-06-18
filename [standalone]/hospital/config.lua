@@ -37,18 +37,16 @@ Config.Locations = {
 }
 
 Config.Vehicles = {
-    ["asprinter"] = "Mercedes-Benz Sprinter",
-    ["aeklasse"] = "Mercedes-Benz E-Klasse",
+    ["ambualnce"] = "Ambulance",
 }
 
 Config.Whitelist = {
-    "GAA35566",
 }
 
-Config.Helicopter = "alifeliner"
+Config.Helicopter = "seasparrow"
 
 Config.Items = {
-    label = "Ziekenhuis Kluis",
+    label = "Hospital Vault",
     slots = 30,
     items = {
         [1] = {
@@ -268,17 +266,17 @@ Config.StaggerAreas = {
 }
 
 Config.WoundStates = {
-    'geïrriteerd',
-    'nogal pijnlijk',
-    'pijnlijk',
-    'erg pijnlijk',
+    'irritated',
+    'rather painful',
+    'painful',
+    'very painful',
 }
 
 Config.BleedingStates = {
-    [1] = {label = 'klein beetje aan het bloeden..', damage = 10, chance = 50},
-    [2] = {label = 'redelijk aan het bloeden..', damage = 15, chance = 65},
-    [3] = {label = 'veel aan het bloeden..', damage = 20, chance = 65},
-    [4] = {label = 'hevig aan het bloeden..', damage = 25, chance = 75},
+    [1] = {label = 'bleeding a little..', damage = 10, chance = 50},
+    [2] = {label = 'bleeding fairly..', damage = 15, chance = 65},
+    [3] = {label = 'bleeding a lot..', damage = 20, chance = 65},
+    [4] = {label = 'bleeding profusely..', damage = 25, chance = 75},
 }
 
 Config.MovementRate = {
