@@ -146,7 +146,7 @@ Config.Vehicles = {
     ["bcso4"] = "BCSO 4",
     ["bcso5"] = "BCSO 5",
     ["bcso6"] = "BCSO 6",
-
+}
 Config.WhitelistedVehicles = {}
 
 Config.AmmoLabels = {

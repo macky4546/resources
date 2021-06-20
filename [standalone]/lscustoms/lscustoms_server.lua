@@ -16,11 +16,11 @@ AddEventHandler("LSC:buttonSelected", function(name, button)
 			if Player.Functions.RemoveMoney("cash", button.price, "lscustoms-bought") then
 				TriggerClientEvent("LSC:buttonSelected", source, name, button, true)
 				TriggerEvent("qb-log:server:sendLog", Player.PlayerData.citizenid, "vehicleupgraded", {name=name, moneyType="cash", price=button.price, plate="unkown"})
-				TriggerEvent("qb-log:server:CreateLog", "vehicleupgrades", "Upgrade purchased", "green", "**"..GetPlayerName(src).."** purchased an upgrade ("..name. .") for $" .. button.price)			elseif bankBalance >= button.price then
+				TriggerEvent("qb-log:server:CreateLog", "vehicleupgrades", "Upgrade purchased", "green", "**"..GetPlayerName(src).."** purchased an upgrade ("..name..") for $" .. button.price)			elseif bankBalance >= button.price then
 				Player.Functions.RemoveMoney("bank", button.price, "lscustoms-bought")
 				TriggerClientEvent("LSC:buttonSelected", source, name, button, true)
 				TriggerEvent("qb-log:server:sendLog", Player.PlayerData.citizenid, "vehicleupgraded", {name=name, moneyType="bank", price=button.price, plate="unkown"})
-				TriggerEvent("qb-log:server:CreateLog", "vehicleupgrades", "Upgrade purchased", "green", "**"..GetPlayerName(src).."** purchased an upgrade ("..name. .") for $" .. button.price)			else
+				TriggerEvent("qb-log:server:CreateLog", "vehicleupgrades", "Upgrade purchased", "green", "**"..GetPlayerName(src).."** purchased an upgrade ("..name..") for $" .. button.price)			else
 				TriggerClientEvent("LSC:buttonSelected", source, name, button, false)
 			end
 		end

@@ -10,32 +10,32 @@ local Keys = {
 	["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
 }
 
-PSCore = nil 
+QBCore = nil 
 
 local PlayerData = {}
 
 Citizen.CreateThread(function()
-    while PSCore == nil do
-        TriggerEvent('PSCore:GetObject', function(obj) PSCore = obj end)
+    while QBCore == nil do
+        TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
         Citizen.Wait(200)
     end
 	
-	while PSCore.Functions.GetPlayerData().job == nil do
+	while QBCore.Functions.GetPlayerData().job == nil do
 		Citizen.Wait(10)
 	end
-	PlayerData = PSCore.Functions.GetPlayerData()
+	PlayerData = QBCore.Functions.GetPlayerData()
 end)
 
-RegisterNetEvent('PSCore:Client:OnPlayerLoaded')
-AddEventHandler('PSCore:Client:OnPlayerLoaded', function()
-    PSCore.Functions.GetPlayerData(function(PlayerData)
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
+AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    QBCore.Functions.GetPlayerData(function(PlayerData)
         PlayerJob = PlayerData.job
-        PlayerData = PSCore.Functions.GetPlayerData()
+        PlayerData = QBCore.Functions.GetPlayerData()
     end)
 end)
 
-RegisterNetEvent('PSCore:Client:OnJobUpdate')
-AddEventHandler('PSCore:Client:OnJobUpdate', function(JobInfo)
+RegisterNetEvent('QBCore:Client:OnJobUpdate')
+AddEventHandler('QBCore:Client:OnJobUpdate', function(JobInfo)
     PlayerData.job = JobInfo
 end)
 
@@ -45,7 +45,7 @@ RegisterCommand('create', function(source)
     if PlayerData.job.isboss == true then
         TriggerServerEvent('society:server:createSociety', PlayerData.job.name)
     else
-        PSCore.Functions.Notify("You are not the owner of your business", "error")
+        QBCore.Functions.Notify("You are not the owner of your business", "error")
     end
 end)
 
