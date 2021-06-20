@@ -181,7 +181,7 @@ Config.Products = {
             slot = 9,
         },
         [10] = {
-            name = "firework2",
+            name = "fishingbait",
             price = 50,
             amount = 50,
             info = {},
@@ -189,7 +189,7 @@ Config.Products = {
             slot = 10,
         },
         [11] = {
-            name = "firework3",
+            name = "fishingrod",
             price = 50,
             amount = 50,
             info = {},
@@ -197,8 +197,8 @@ Config.Products = {
             slot = 11,
         },
         [12] = {
-            name = "firework4",
-            price = 50,
+            name = "harness",
+            price = 200,
             amount = 50,
             info = {},
             type = "item",
@@ -791,7 +791,7 @@ Config.Locations = {
         ["products"] = Config.Products["hardware"],
     },   
     ["coffeeshop"] = {
-        ["label"] = "Superfly",
+        ["label"] = "Smoke On The Water",
         ["type"] = "hardware",
         ["coords"] = {
             [1] = {
@@ -911,7 +911,7 @@ Config.Locations = {
         ["products"] = Config.Products["weapons"],
     },
     ["seaword1"] = {
-        ["label"] = "Sea Word",
+        ["label"] = "Sea World",
         ["type"] = "sea",
         ["coords"] = {
             [1] = {
@@ -923,7 +923,7 @@ Config.Locations = {
         ["products"] = Config.Products["gearshop"],
     },
     ["leisureshop"] = {
-        ["label"] = "Vrijetijdswinkel",
+        ["label"] = "leisure shop",
         ["type"] = "leisure",
         ["coords"] = {
             [1] = {
@@ -935,7 +935,7 @@ Config.Locations = {
         ["products"] = Config.Products["leisureshop"],
     },   
     ["mustapha"] = {
-        ["label"] = "Rental Mustapha",
+        ["label"] = "Rental Shop",
         ["type"] = "leisure",
         ["coords"] = {
             [1] = {

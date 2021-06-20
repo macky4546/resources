@@ -59,11 +59,11 @@ Config.Locations = {
             name = "247supermarket3",
             coords = {x = -3245.85, y = 1008.25, z = 12.83, h = 90.5},
         },
-        [8] = {
+        [20] = {
             name = "247supermarket4",
             coords = {x = 1735.54, y = 6416.28, z = 35.03, h = 332.5},
         },
-        [9] = {
+        [21] = {
             name = "247supermarket5",
             coords = {x = 1702.84, y = 4917.28, z = 42.22, h = 323.5},
         },
@@ -111,5 +111,5 @@ Config.Locations = {
 }
 
 Config.Vehicles = {
-    ["deliveryt1"] = "Amazon Delivery",
+    ["mule"] = "Amazon Delivery",
 }

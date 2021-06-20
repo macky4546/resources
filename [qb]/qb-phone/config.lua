@@ -90,16 +90,16 @@ Config.PhoneApplications = {
         slot = 8,
         Alerts = 0,
     },
-    ["crypto"] = {
+    --[[["crypto"] = {
         app = "crypto",
         color = "#004682",
         icon = "fas fa-chart-pie",
         tooltipText = "Crypto",
         job = false,
         blockedjobs = {},
-        slot = 9,
+        slot = 14,
         Alerts = 0,
-    },
+    },]]
     ["racing"] = {
         app = "racing",
         color = "#353b48",
@@ -107,7 +107,7 @@ Config.PhoneApplications = {
         tooltipText = "Racing",
         job = false,
         blockedjobs = {"police"},
-        slot = 10,
+        slot = 14,
         Alerts = 0,
     },
     ["houses"] = {
@@ -117,7 +117,7 @@ Config.PhoneApplications = {
         tooltipText = "Houses",
         job = false,
         blockedjobs = {},
-        slot = 11,
+        slot = 9,
         Alerts = 0,
     },
     ["meos"] = {
@@ -127,7 +127,7 @@ Config.PhoneApplications = {
         tooltipText = "MDT",
         job = "police",
         blockedjobs = {},
-        slot = 12,
+        slot = 10,
         Alerts = 0,
     },
     ["lawyers"] = {
@@ -138,7 +138,7 @@ Config.PhoneApplications = {
         tooltipPos = "right",
         job = false,
         blockedjobs = {},
-        slot = 13,
+        slot = 11,
         Alerts = 0,
     },
     ["store"] = {
@@ -150,7 +150,7 @@ Config.PhoneApplications = {
         style = "padding-right: .3vh; font-size: 2.2vh";
         job = false,
         blockedjobs = {},
-        slot = 14,
+        slot = 12,
         Alerts = 0,
     },
      ["trucker"] = {
@@ -161,10 +161,10 @@ Config.PhoneApplications = {
          tooltipPos = "right",
          job = false,
          blockedjobs = {},
-         slot = 15,
+         slot = 13,
          Alerts = 0,
      },
-     ["taxi"] = {
+    --[[ ["taxi"] = {
         app = "taxi",
         color = "#25d366",
         icon = "fas fa-taxi",
@@ -175,7 +175,7 @@ Config.PhoneApplications = {
         blockedjobs = {},
         slot = 16,
         Alerts = 0,
-    },
+    },]]
 }
 Config.MaxSlots = 20
 

@@ -3,7 +3,12 @@ local startCountDown
 local testDriveEntity
 local lastPlayerCoords
 local hashListLoadedOnMemory = {}
-local vehcategory = nil
+local vehcategory
+local cameracoords
+local pointcamera
+local spawnvehicle
+local buyspawn
+local blip
 local inTheShop = false
 local profileName
 local profileMoney
@@ -36,6 +41,11 @@ Citizen.CreateThread(function()
                     DrawText3Ds(actualShop.x, actualShop.y, actualShop.z + 0.2, '[~g~E~w~] - Browse Vehicle Shop')
                     if IsControlJustPressed(0, 38) then
                         vehcategory = Config.Shops[i].category
+                        cameracoords = Config.Shops[i].cameracoords
+                        pointcamera = Config.Shops[i].pointcamera
+                        spawnvehicle = Config.Shops[i].spawnvehicle
+                        buyspawn = Config.Shops[i].buyspawn
+                        testdrive = Config.Shops[i].testdrive
                         OpenVehicleShop()
                     end
                 end
@@ -83,7 +93,6 @@ end)
 
 RegisterNetEvent('qb-vehicleshop.vehiclesInfos')
 AddEventHandler('qb-vehicleshop.vehiclesInfos', function() 
-    print(vehcategory)
     for k,v in pairs(QBCore.Shared.Vehicles) do 
         if v.shop == vehcategory then
             vehiclesTable[v.category] = {}   
@@ -120,11 +129,11 @@ function OpenVehicleShop()
     )
     SetNuiFocus(true, true)
     RequestCollisionAtCoord(x, y, z)
-    cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", 974.1, -2997.94, -39.00, 216.5, 0.00, 0.00, 60.00, false, 0)
-    PointCamAtCoord(cam, 979.1, -3003.00, -40.50)
+    cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", cameracoords.x, cameracoords.y, cameracoords.z, 0.00, 0.00, 0.00, 50.00, false, 0)
+    PointCamAtCoord(cam, pointcamera.x, pointcamera.y, pointcamera.z)
+    SetFocusPosAndVel(cameracoords.x, cameracoords.y, cameracoords.z, 0.0, 0.0, 0.0)
     SetCamActive(cam, true)
     RenderScriptCams(true, true, 1, true, true)
-    SetFocusPosAndVel(974.1, -2997.94, -39.72, 0.0, 0.0, 0.0)
     DisplayHud(false)
     DisplayRadar(false)
 
@@ -146,10 +155,8 @@ function updateSelectedVehicle(model)
     if lastSelectedVehicleEntity ~= nil then
         DeleteEntity(lastSelectedVehicleEntity)
     end
-  --  lastSelectedVehicleEntity = CreateVehicle(hash, 404.99, -949.60, -99.98, 50.117, 0, 1)
-    
-  lastSelectedVehicleEntity = CreateVehicle(hash, 978.19, -3001.99, -40.62, 89.5, 0, 1)
 
+    lastSelectedVehicleEntity = CreateVehicle(hash, spawnvehicle.x, spawnvehicle.y, spawnvehicle.z, spawnvehicle.w, 0, 1)
 
     local vehicleData = {}
 
@@ -229,20 +236,11 @@ RegisterNUICallback(
 RegisterNUICallback(
     "Buy",
     function(data, cb)
-
         local newPlate     = GeneratePlate()
         local vehicleProps = QBCore.Functions.GetVehicleProperties(lastSelectedVehicleEntity)
         vehicleProps.plate = newPlate
-
         TriggerServerEvent('qb-vehicleshop.CheckMoneyForVeh',data.modelcar, data.sale, data.name, vehicleProps)
-
         Wait(1500)        
-        -- SendNUIMessage(
-        --     {
-        --         type = "updateMoney",
-        --         playerMoney = profileMoney
-        --     }
-        -- )
     end
 )
 
@@ -259,8 +257,7 @@ AddEventHandler('qb-vehicleshop.spawnVehicle', function(model, plate)
             Citizen.Wait(10)
         end
     end
-    
-    local vehicleBuy = CreateVehicle(hash, -11.87, -1080.87, 25.71, 132.0, 1, 1)
+    local vehicleBuy = CreateVehicle(hash, buyspawn.x, buyspawn.y, buyspawn.z, buyspawn.w, 1, 1)
     SetPedIntoVehicle(PlayerPedId(), vehicleBuy, -1)
     SetVehicleNumberPlateText(vehicleBuy, plate)
     TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicleBuy))
@@ -292,8 +289,7 @@ RegisterNUICallback(
             if testDriveEntity ~= nil then
                 DeleteEntity(testDriveEntity)
             end
-        
-            testDriveEntity = CreateVehicle(hash, -11.87, -1080.87, 25.71, 132.0, 1, 1)
+            testDriveEntity = CreateVehicle(hash, testdrive.x, testdrive.y, testdrive.z, testdrive.w, 1, 1)
             SetPedIntoVehicle(PlayerPedId(), testDriveEntity, -1)
             TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(testDriveEntity))
             local timeGG = GetGameTimer()
@@ -408,24 +404,21 @@ function drawTxt(text,font,x,y,scale,r,g,b,a)
 	DrawText(x,y)
 end
 
-
-local blip 
-
 -- Create Blips
 Citizen.CreateThread(function ()
-
-    for i = 1, #Config.Blip do    
-        local actualShop = Config.Blip[i]
-        blip = AddBlipForCoord(actualShop.x, actualShop.y, actualShop.z)
-
-        SetBlipSprite (blip, 326)
-        SetBlipDisplay(blip, 4)
-        SetBlipScale  (blip, 0.8)
-        SetBlipAsShortRange(blip, true)
-
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString('Car Dealer')
-        EndTextCommandSetBlipName(blip)
+    for i = 1, #Config.Blips do    
+        local actualShop = Config.Blips[i].blip
+        if actualShop ~= nil then
+            blip = AddBlipForCoord(actualShop.x, actualShop.y, actualShop.z)
+            SetBlipSprite(blip, Config.Blips[i].blipsprite)
+            SetBlipColour(blip, Config.Blips[i].blipcolor)
+            SetBlipDisplay(blip, 4)
+            SetBlipScale(blip, 0.8)
+            SetBlipAsShortRange(blip, true)
+            BeginTextCommandSetBlipName("STRING")
+            AddTextComponentString(Config.Blips[i].blipname)
+            EndTextCommandSetBlipName(blip)
+        end
     end
 end)
 
