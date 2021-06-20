@@ -180,7 +180,7 @@ Config.Products = {
             type = "item",
             slot = 9,
         },
-        [10] = {
+        --[[[10] = {
             name = "fishingbait",
             price = 50,
             amount = 50,
@@ -195,14 +195,14 @@ Config.Products = {
             info = {},
             type = "item",
             slot = 11,
-        },
+        },]]
         [12] = {
             name = "harness",
             price = 200,
             amount = 50,
             info = {},
             type = "item",
-            slot = 12,
+            slot = 10,
         },
         [13] = {
             name = "fitbit",
@@ -210,7 +210,7 @@ Config.Products = {
             amount = 150,
             info = {},
             type = "item",
-            slot = 13,
+            slot = 11,
         },
         [14] = {
             name = "cleaningkit",
@@ -218,7 +218,7 @@ Config.Products = {
             amount = 150,
             info = {},
             type = "item",
-            slot = 14,
+            slot = 12,
         },
     },
     ["coffeeshop"] = {
