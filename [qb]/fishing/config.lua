@@ -31,42 +31,20 @@ Config.FishingItems = {
         ["name"] = "fishingbait",
         ["label"] = "Fishing Bait"
     },
-    ["fish"] = {
-        ["price"] = 25 
-    },
-    ["stripedbass"] = {
-        ["price"] = 50
-    },
-    ["bluefish"] = {
-        ["price"] = 50
-    },
-    ["redfish"] = {
-        ["price"] = 100 
-    },
-    ["pacifichalibut"] = {
-        ["price"] = 100 
-    },
-    ["goldfish"] = {
-        ["price"] = 100
-    },
-    ["largemouthbass"] = {
-        ["price"] = 500
-    },
-    ["salmon"] = {
-        ["price"] = 500
-    },
-    ["catfish"] = {
-        ["price"] = 500
-    },
-    ["tigersharkmeat"] = {
-        ["price"] = 500
-    },
-    ["stingraymeat"] = {
-        ["price"] = 1000
-    },
-    ["killerwhalemeat"] = {
-        ["price"] = 1000
-    },
+["fish"] 			 		 	 = {["name"] = "fish", 							["label"] = "Fish",                     ["weight"] = 10,      ["type"] = "item",      ["image"] = "fish.png",                  ["price"] = 100,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["killerwhalemeat"] 			 = {["name"] = "killerwhalemeat", 				["label"] = "killerwhalemeat",          ["weight"] = 10,      ["type"] = "item",      ["image"] = "killerwhalemeat.png",       ["price"] = 1000,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["stingraymeat"] 			     = {["name"] = "stingraymeat", 				    ["label"] = "stingraymeat",              ["weight"] = 11,      ["type"] = "item",      ["image"] = "stingraymeat.png",         ["price"] = 1000,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["tigersharkmeat"] 			     = {["name"] = "tigersharkmeat", 				["label"] = "tigersharkmeat",            ["weight"] = 11,      ["type"] = "item",      ["image"] = "tigersharkmeat.png",       ["price"] = 500,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["catfish"] 			         = {["name"] = "catfish", 				        ["label"] = "catfish",                   ["weight"] = 11,      ["type"] = "item",      ["image"] = "catfish.png",              ["price"] = 500,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["salmon"] 			             = {["name"] = "salmon", 				        ["label"] = "salmon",                    ["weight"] = 11,      ["type"] = "item",      ["image"] = "salmon.png",               ["price"] = 500,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["largemouthbass"] 			     = {["name"] = "largemouthbass", 				["label"] = "largemouthbass",            ["weight"] = 11,      ["type"] = "item",      ["image"] = "largemouthbass.png",       ["price"] = 500,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["goldfish"] 			         = {["name"] = "goldfish", 			        	["label"] = "goldfish",                  ["weight"] = 11,      ["type"] = "item",      ["image"] = "goldfish.png",             ["price"] = 100,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["redfish"] 			         = {["name"] = "redfish", 			        	["label"] = "redfish",                   ["weight"] = 11,      ["type"] = "item",      ["image"] = "redfish.png",              ["price"] = 100,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["bluefish"] 			         = {["name"] = "bluefish", 			        	["label"] = "bluefish",                  ["weight"] = 11,      ["type"] = "item",      ["image"] = "bluefish.png",             ["price"] = 100,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["stripedbass"] 			     = {["name"] = "stripedbass", 			        ["label"] = "stripedbass",               ["weight"] = 11,      ["type"] = "item",      ["image"] = "stripedbass.png",          ["price"] = 100,       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+["fishingrod"] 			 		 = {["name"] = "fishingrod", 					["label"] = "Fishing Rod", 				["weight"] = 3, 		["type"] = "item", 		["image"] = "fishingrod.png",       	 ["price"] = 1000,		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A fishing rod for adventures with friends!!"},	
+["fishingbait"] 			 	 = {["name"] = "fishingbait", 					["label"] = "Fish Bait", 				["weight"] = 1, 		["type"] = "item", 		["image"] = "fishingbait.png", 		     ["price"] = 1000,	    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A fish bait"},
+
 }
 
 Config.FishingZones = {
@@ -146,3 +124,4 @@ Config.FishingZones = {
         ["secret"] = true,
     }
 }
+
