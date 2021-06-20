@@ -19,6 +19,7 @@ server_scripts {
 	"shared.lua",
 	"server/main.lua",
 	"server/functions.lua",
+	"server/loops.lua",
 	"server/player.lua",
 	"server/events.lua",
 	"server/commands.lua",

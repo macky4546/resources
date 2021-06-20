@@ -40,7 +40,6 @@ Citizen.CreateThread(function()
         while not HasNamedPtfxAssetLoaded(asset) do
             Citizen.Wait(1)
         end
-        print('done')
     end
     local asset2 = "proj_xmas_firework"
     if not HasNamedPtfxAssetLoaded(asset2) then
@@ -48,7 +47,6 @@ Citizen.CreateThread(function()
         while not HasNamedPtfxAssetLoaded(asset2) do
             Citizen.Wait(1)
         end
-        print('done')
     end
     local asset3 = "proj_indep_firework_v2"
     if not HasNamedPtfxAssetLoaded(asset3) then
@@ -56,7 +54,6 @@ Citizen.CreateThread(function()
         while not HasNamedPtfxAssetLoaded(asset3) do
             Citizen.Wait(1)
         end
-        print('done')
     end
     local asset4 = "proj_indep_firework"
     if not HasNamedPtfxAssetLoaded(asset4) then
@@ -64,19 +61,18 @@ Citizen.CreateThread(function()
         while not HasNamedPtfxAssetLoaded(asset4) do
             Citizen.Wait(1)
         end
-        print('done')
     end
     while true do
         Citizen.Wait(1)
         if fireworkTime > 0 and fireworkLoc ~= nil then
-            DrawText3Ds(fireworkLoc.x, fireworkLoc.y, fireworkLoc.z, "Vuurwerk over ~r~"..fireworkTime)
+            DrawText3Ds(fireworkLoc.x, fireworkLoc.y, fireworkLoc.z, "Firework over ~r~"..fireworkTime)
         end
     end
 end)
 
 RegisterNetEvent("fireworks:client:UseFirework")
 AddEventHandler("fireworks:client:UseFirework", function(itemName, assetName)
-    QBCore.Functions.Progressbar("spawn_object", "Object plaatsen..", 3000, false, true, {
+    QBCore.Functions.Progressbar("spawn_object", "Placing object..", 3000, false, true, {
         disableMovement = true,
         disableCarMovement = true,
         disableMouse = false,
@@ -86,13 +82,13 @@ AddEventHandler("fireworks:client:UseFirework", function(itemName, assetName)
         anim = "drop_front",
         flags = 16,
     }, {}, {}, function() -- Done
-        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
         TriggerServerEvent("QBCore:Server:RemoveItem", itemName, 1)
         TriggerEvent("inventory:client:ItemBox", QBCore.Shared.Items[itemName], "remove")
-        local pos = GetEntityCoords(GetPlayerPed(-1))
+        local pos = GetEntityCoords(PlayerPedId())
         DoFireWork(assetName, pos)
     end, function() -- Cancel
-        StopAnimTask(GetPlayerPed(-1), "anim@narcotics@trash", "drop_front", 1.0)
+        StopAnimTask(PlayerPedId(), "anim@narcotics@trash", "drop_front", 1.0)
         QBCore.Functions.Notify("Geannuleerd..", "error")
     end)
 end)

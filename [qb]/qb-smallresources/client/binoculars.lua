@@ -8,21 +8,9 @@ local speed_ud = 8.0 -- speed by which the camera pans up-down
 local binoculars = false
 local fov = (fov_max+fov_min)*0.5
 
-local Keys = {
-    ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
-    ["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
-    ["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-    ["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-    ["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-    ["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70,
-    ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-    ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-    ["NENTER"] = 201, ["N4"] = 108, ["N5"] = 60, ["N6"] = 107, ["N+"] = 96, ["N-"] = 97, ["N7"] = 117, ["N8"] = 61, ["N9"] = 118
-}
-
 local keybindEnabled = false -- When enabled, binocular are available by keybind
-local binocularKey = Keys["X"]
-local storeBinoclarKey = Keys["BACKSPACE"]
+local binocularKey = 73
+local storeBinoclarKey = 177
 
 --THREADS--
 
@@ -31,15 +19,15 @@ Citizen.CreateThread(function()
 
         Citizen.Wait(1500)
 
-        local lPed = GetPlayerPed(-1)
+        local lPed = PlayerPedId()
         local vehicle = GetVehiclePedIsIn(lPed)
 
         if binoculars then
             binoculars = true
             if not ( IsPedSittingInAnyVehicle( lPed ) ) then
                 Citizen.CreateThread(function()
-                    TaskStartScenarioInPlace(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS", 0, 1)
-                    PlayAmbientSpeech1(GetPlayerPed(-1), "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
+                    TaskStartScenarioInPlace(lPed, "WORLD_HUMAN_BINOCULARS", 0, 1)
+                    PlayAmbientSpeech1(lPed, "GENERIC_CURSE_MED", "SPEECH_PARAMS_FORCE")
                 end)
             end
 
@@ -56,8 +44,6 @@ Citizen.CreateThread(function()
                 Citizen.Wait(10)
             end
 
-            local lPed = GetPlayerPed(-1)
-            local vehicle = GetVehiclePedIsIn(lPed)
             local cam = CreateCam("DEFAULT_SCRIPTED_FLY_CAMERA", true)
 
             AttachCamToEntity(cam, lPed, 0.0,0.0,1.0, true)
@@ -68,10 +54,10 @@ Citizen.CreateThread(function()
             PushScaleformMovieFunctionParameterInt(0) -- 0 for nothing, 1 for LSPD logo
             PopScaleformMovieFunctionVoid()
 
-            while binoculars and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == vehicle) and IsPedUsingScenario(GetPlayerPed(-1), "WORLD_HUMAN_BINOCULARS") and true do
+            while binoculars and not IsEntityDead(lPed) and (GetVehiclePedIsIn(lPed) == vehicle) and IsPedUsingScenario(PlayerPedId(), "WORLD_HUMAN_BINOCULARS") and true do
                 if IsControlJustPressed(0, storeBinoclarKey) then -- Toggle binoculars
                     PlaySoundFrontend(-1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", false)
-                    ClearPedTasks(GetPlayerPed(-1))
+                    ClearPedTasks(lPed)
                     binoculars = false
                 end
 
@@ -103,7 +89,7 @@ RegisterNetEvent('binoculars:Toggle')
 AddEventHandler('binoculars:Toggle', function()
     binoculars = not binoculars
     if not binoculars then
-        ClearPedTasks(GetPlayerPed(-1))
+        ClearPedTasks(PlayerPedId())
     end
 end)
 
@@ -135,12 +121,12 @@ function CheckInputRotation(cam, zoomvalue)
         new_z = rotation.z + rightAxisX*-1.0*(speed_ud)*(zoomvalue+0.1)
         new_x = math.max(math.min(20.0, rotation.x + rightAxisY*-1.0*(speed_lr)*(zoomvalue+0.1)), -89.5)
         SetCamRot(cam, new_x, 0.0, new_z, 2)
-        SetEntityHeading(GetPlayerPed(-1),new_z)
+        SetEntityHeading(PlayerPedId(),new_z)
     end
 end
 
 function HandleZoom(cam)
-    local lPed = GetPlayerPed(-1)
+    local lPed = PlayerPedId()
     if not ( IsPedSittingInAnyVehicle( lPed ) ) then
 
         if IsControlJustPressed(0,241) then -- Scrollup

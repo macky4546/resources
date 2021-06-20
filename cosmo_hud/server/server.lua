@@ -28,8 +28,8 @@ end
 
 local ResetStress = false
 
-RegisterServerEvent("cosmo_hud:Server:UpdateStress")
-AddEventHandler('cosmo_hud:Server:UpdateStress', function(StressGain)
+RegisterServerEvent("qb-hud:Server:UpdateStress")
+AddEventHandler('qb-hud:Server:UpdateStress', function(StressGain)
 	local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
@@ -50,8 +50,8 @@ AddEventHandler('cosmo_hud:Server:UpdateStress', function(StressGain)
 	end
 end)
 
-RegisterServerEvent('cosmo_hud:Server:GainStress')
-AddEventHandler('cosmo_hud:Server:GainStress', function(amount)
+RegisterServerEvent('qb-hud:Server:GainStress')
+AddEventHandler('qb-hud:Server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
@@ -73,8 +73,8 @@ AddEventHandler('cosmo_hud:Server:GainStress', function(amount)
 	end
 end)
 
-RegisterServerEvent('cosmo_hud:Server:RelieveStress')
-AddEventHandler('cosmo_hud:Server:RelieveStress', function(amount)
+RegisterServerEvent('qb-hud:Server:RelieveStress')
+AddEventHandler('qb-hud:Server:RelieveStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
@@ -94,4 +94,17 @@ AddEventHandler('cosmo_hud:Server:RelieveStress', function(amount)
         Player.Functions.SetMetaData("stress", newStress)
         TriggerClientEvent('QBCore:Notify', src, 'You Are Relaxing')
 	end
+end)
+
+-- Seatbelt
+
+RegisterServerEvent('seatbelt:server:PlaySound')
+AddEventHandler('seatbelt:server:PlaySound', function(action, passengers)
+    pass = json.decode(passengers)
+    if Config.playSoundForPassengers then
+        for _, ped in ipairs(pass) do
+            local vol = (source == ped and Config.volume or Config.passengerVolume)
+            TriggerClientEvent('seatbelt:client:PlaySound', ped, action, vol)
+        end
+    end
 end)

@@ -106,7 +106,7 @@ Config.PhoneApplications = {
         icon = "fas fa-flag-checkered",
         tooltipText = "Racing",
         job = false,
-        blockedjobs = {},
+        blockedjobs = {"police"},
         slot = 10,
         Alerts = 0,
     },
@@ -132,9 +132,9 @@ Config.PhoneApplications = {
     },
     ["lawyers"] = {
         app = "lawyers",
-        color = "#353b48",
+        color = "#26d4ce",
         icon = "fas fa-user-tie",
-        tooltipText = "Lawyers Office",
+        tooltipText = "Services",
         tooltipPos = "right",
         job = false,
         blockedjobs = {},
@@ -157,13 +157,25 @@ Config.PhoneApplications = {
          app = "trucker",
          color = "#cccc33",
          icon = "fas fa-truck-moving",
-         tooltipText = "Dumbo",
+         tooltipText = "Amazoom",
          tooltipPos = "right",
          job = false,
          blockedjobs = {},
-         slot = 17,
+         slot = 15,
          Alerts = 0,
      },
+     ["taxi"] = {
+        app = "taxi",
+        color = "#25d366",
+        icon = "fas fa-taxi",
+        tooltipText = "Taxi",
+        tooltipPos = "right",
+        style = "font-size: 2.8vh";
+        job = false,
+        blockedjobs = {},
+        slot = 16,
+        Alerts = 0,
+    },
 }
 Config.MaxSlots = 20
 
@@ -180,7 +192,7 @@ Config.StoreApps = {
         slot = 15,
         Alerts = 0,
         password = true,
-        creator = "Qbus",
+        creator = "Guardian",
         title = "Territory",
     },
 }

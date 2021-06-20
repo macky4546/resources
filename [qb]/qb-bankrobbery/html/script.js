@@ -75,9 +75,9 @@ function init($param) {
     $("#circle2").rotate(angle);
     $("#container > p").html("KLIK");
     if($param!=1)
-        $("#container > p").append("<br><h4>op het juiste moment</h4>");
+        $("#container > p").append("<br><h4>at the right time</h4>");
     else
-        $("#container > p").append("<br><h4>op het juiste moment</h4>");
+        $("#container > p").append("<br><h4>at the right time</h4>");
     $('.time').addClass('done');
 }
 
@@ -106,7 +106,7 @@ $(document).ready(function() {
         if (distance < HitDistance) {
             // if (unghi > MainAngle - 25 && unghi < MainAngle + 25) {
             MainDigits--;
-            $.post("http://qb-bankrobbery/thermiteclick");
+            $.post("https://qb-bankrobbery/thermiteclick");
             // If game over, hide the game, display end of game options
             if (!MainDigits) {
                 $("#circle").addClass("hidden");
@@ -196,18 +196,18 @@ Thermite.Open = function(data) {
 }
 
 Thermite.Failed = function() {
-    if (active) $.post("http://qb-bankrobbery/thermitefailed");
+    if (active) $.post("https://qb-bankrobbery/thermitefailed");
     active = false;
     Thermite.Close();
 }
 
 Thermite.Success = function() {
-    if (active) $.post("http://qb-bankrobbery/thermitesuccess");
+    if (active) $.post("https://qb-bankrobbery/thermitesuccess");
     active = false;
     Thermite.Close();
 }
 
 Thermite.Close = function() {
     $('.thermite-container').css("display", "none");
-    $.post('http://qb-bankrobbery/closethermite');
+    $.post('https://qb-bankrobbery/closethermite');
 }

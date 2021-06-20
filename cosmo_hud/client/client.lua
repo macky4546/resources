@@ -1,6 +1,8 @@
-local isDriving = false;
-local isLoggedIn = false;
-local nitrous = 0;
+local isDriving = false
+local isLoggedIn = false
+local nitrous = 0
+local hunger = nil
+local thirst = nil
 
 QBCore = nil
 Citizen.CreateThread(function()
@@ -25,20 +27,28 @@ AddEventHandler('cosmo_hud:client:UpdateNitrous', function(hasNitrous)
     nitrous = hasNitrous
 end)
 
+RegisterNetEvent("hud:client:UpdateNeeds")
+AddEventHandler("hud:client:UpdateNeeds", function(newHunger, newThirst)
+    hunger = newHunger
+    thirst = newThirst
+end)
+
 Citizen.CreateThread(function()
     while true do
         Wait(100)
-        if Config.UnitOfSpeed == "kmh" then
-            SpeedMultiplier = 3.6
-        elseif Config.UnitOfSpeed == "mph" then
-            SpeedMultiplier = 2.236936
-        end
-        if isDriving and IsPedInAnyVehicle(PlayerPedId(), true) then
-            local veh = GetVehiclePedIsUsing(PlayerPedId(), false)
-            local speed = math.floor(GetEntitySpeed(veh) * SpeedMultiplier)
-            local vehhash = GetEntityModel(veh)
-            local maxspeed = GetVehicleModelMaxSpeed(vehhash) * 3.6
-            SendNUIMessage({speed = speed, maxspeed = maxspeed})
+        if isLoggedIn then
+            if Config.UnitOfSpeed == "kmh" then
+                SpeedMultiplier = 3.6
+            elseif Config.UnitOfSpeed == "mph" then
+                SpeedMultiplier = 2.236936
+            end
+            if isDriving and IsPedInAnyVehicle(PlayerPedId(), true) then
+                local veh = GetVehiclePedIsUsing(PlayerPedId(), false)
+                local speed = math.floor(GetEntitySpeed(veh) * SpeedMultiplier)
+                local vehhash = GetEntityModel(veh)
+                local maxspeed = GetVehicleModelMaxSpeed(vehhash) * 3.6
+                SendNUIMessage({speed = speed, maxspeed = maxspeed})
+            end
         end
     end
 end)
@@ -46,15 +56,17 @@ end)
 Citizen.CreateThread(function()
     while true do
         Wait(1000)
-        if Config.ShowSpeedo then
-            if IsPedInAnyVehicle(PlayerPedId(), false) and
-                not IsPedInFlyingVehicle(PlayerPedId()) and
-                not IsPedInAnySub(PlayerPedId()) then
-                isDriving = true
-                SendNUIMessage({showSpeedo = true})
-            elseif not IsPedInAnyVehicle(PlayerPedId(), false) then
-                isDriving = false
-                SendNUIMessage({showSpeedo = false})
+        if isLoggedIn then
+            if Config.ShowSpeedo then
+                if IsPedInAnyVehicle(PlayerPedId(), false) and
+                    not IsPedInFlyingVehicle(PlayerPedId()) and
+                    not IsPedInAnySub(PlayerPedId()) then
+                    isDriving = true
+                    SendNUIMessage({showSpeedo = true})
+                elseif not IsPedInAnyVehicle(PlayerPedId(), false) then
+                    isDriving = false
+                    SendNUIMessage({showSpeedo = false})
+                end
             end
         end
     end
@@ -79,15 +91,15 @@ Citizen.CreateThread(function()
             	end
 
                 -- Hunger
-                local hunger = PlayerData.metadata["hunger"]
+                local hunger = hunger
                 -- Thirst
-                local thirst = PlayerData.metadata["thirst"]
+                local thirst = thirst
                 -- Stress
                 local stress = PlayerData.metadata["stress"]
 
                 -- Radio
                 if Config.UseRadio then
-                    local radioStatus = exports("IsRadioOn", IsRadioOn)
+                    local radioStatus = exports["rp-radio"]:IsRadioOn()
                     SendNUIMessage({radio = radioStatus})
                 end
 

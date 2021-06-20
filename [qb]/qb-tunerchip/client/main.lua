@@ -1,23 +1,9 @@
-Keys = {
-    ["ESC"] = 322, ["F1"] = 288, ["F2"] = 289, ["F3"] = 170, ["F5"] = 166, ["F6"] = 167, ["F7"] = 168, ["F8"] = 169, ["F9"] = 56, ["F10"] = 57,
-    ["~"] = 243, ["1"] = 157, ["2"] = 158, ["3"] = 160, ["4"] = 164, ["5"] = 165, ["6"] = 159, ["7"] = 161, ["8"] = 162, ["9"] = 163, ["-"] = 84, ["="] = 83, ["BACKSPACE"] = 177,
-    ["TAB"] = 37, ["Q"] = 44, ["W"] = 32, ["E"] = 38, ["R"] = 45, ["T"] = 245, ["Y"] = 246, ["U"] = 303, ["P"] = 199, ["["] = 39, ["]"] = 40, ["ENTER"] = 18,
-    ["CAPS"] = 137, ["A"] = 34, ["S"] = 8, ["D"] = 9, ["F"] = 23, ["G"] = 47, ["H"] = 74, ["K"] = 311, ["L"] = 182,
-    ["LEFTSHIFT"] = 21, ["Z"] = 20, ["X"] = 73, ["C"] = 26, ["V"] = 0, ["B"] = 29, ["N"] = 249, ["M"] = 244, [","] = 82, ["."] = 81,
-    ["LEFTCTRL"] = 36, ["LEFTALT"] = 19, ["SPACE"] = 22, ["RIGHTCTRL"] = 70,
-    ["HOME"] = 213, ["PAGEUP"] = 10, ["PAGEDOWN"] = 11, ["DELETE"] = 178,
-    ["LEFT"] = 174, ["RIGHT"] = 175, ["TOP"] = 27, ["DOWN"] = 173,
-}
-
 QBCore = nil
 
 Citizen.CreateThread(function() 
-    while true do
-        Citizen.Wait(10)
-        if QBCore == nil then
-            TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
-            Citizen.Wait(200)
-        end
+    while QBCore == nil do
+        TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
+        Citizen.Wait(200)
     end
 end)
 
@@ -25,6 +11,8 @@ end)
 
 local inTuner = false
 local RainbowNeon = false
+
+LastEngineMultiplier = 1.0
 
 function setVehData(veh,data)
     local multp = 0.12
@@ -34,6 +22,7 @@ function setVehData(veh,data)
     SetVehicleHandlingFloat(veh, "CHandlingData", "fInitialDriveForce", data.boost * multp)
     SetVehicleHandlingFloat(veh, "CHandlingData", "fDriveInertia", data.acceleration * multp)
     SetVehicleEnginePowerMultiplier(veh, data.gearchange * multp)
+    LastEngineMultiplier = data.gearchange * multp
     SetVehicleHandlingFloat(veh, "CHandlingData", "fDriveBiasFront", dTrain*1.0)
     SetVehicleHandlingFloat(veh, "CHandlingData", "fBrakeBiasFront", data.breaking * multp)
 end
@@ -49,10 +38,11 @@ end
 RegisterNUICallback('save', function(data)
     QBCore.Functions.TriggerCallback('qb-tunerchip:server:HasChip', function(HasChip)
         if HasChip then
-            local ped = GetPlayerPed(-1)
+            local ped = PlayerPedId()
             local veh = GetVehiclePedIsUsing(ped)
             setVehData(veh, data)
-            QBCore.Functions.Notify('TunerChip v1.05: Vehicle modified!', 'error')
+            QBCore.Functions.Notify('TunerChip v1.05: Vehicle Tuned!', 'error')
+
             TriggerServerEvent('qb-tunerchip:server:TuneStatus', GetVehicleNumberPlateText(veh), true)
         end
     end)
@@ -60,7 +50,7 @@ end)
 
 RegisterNetEvent('qb-tunerchip:server:TuneStatus')
 AddEventHandler('qb-tunerchip:server:TuneStatus', function()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     local closestVehicle = GetClosestVehicle(GetEntityCoords(ped), 5.0, 0, 70)
     local plate = GetVehicleNumberPlateText(closestVehicle)
     local vehModel = GetEntityModel(closestVehicle)
@@ -69,9 +59,9 @@ AddEventHandler('qb-tunerchip:server:TuneStatus', function()
 
     QBCore.Functions.TriggerCallback('qb-tunerchip:server:GetStatus', function(status)
         if status then
-            TriggerEvent("chatMessage", "VEHICLE STATUS", "warning", displayName..": Chiptuned: Yes")
+            TriggerEvent("chatMessage", "Vehicle Status", "warning", displayName..": Chiptuned: Yes")
         else
-            TriggerEvent("chatMessage", "VEHICLE STATUS", "warning", displayName..": Chiptuned: No")
+            TriggerEvent("chatMessage", "Vehicle Status", "warning", displayName..": Chiptuned: No")
         end
     end, plate)
 end)
@@ -87,7 +77,7 @@ RegisterNUICallback('checkItem', function(data, cb)
 end)
 
 RegisterNUICallback('reset', function(data)
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     local veh = GetVehiclePedIsUsing(ped)
     resetVeh(veh)
     QBCore.Functions.Notify('TunerChip v1.05: Vehicle has been reset!', 'error')
@@ -95,11 +85,11 @@ end)
 
 RegisterNetEvent('qb-tunerchip:client:openChip')
 AddEventHandler('qb-tunerchip:client:openChip', function()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     local inVehicle = IsPedInAnyVehicle(ped)
 
     if inVehicle then
-        QBCore.Functions.Progressbar("connect_laptop", "Tuner laptop is connected..", 2000, false, true, {
+        QBCore.Functions.Progressbar("connect_laptop", "Tunerchip v1.05: Vehicle Has Been Reset!", 2000, false, true, {
             disableMovement = true,
             disableCarMovement = true,
             disableMouse = false,
@@ -109,14 +99,14 @@ AddEventHandler('qb-tunerchip:client:openChip', function()
             anim = "machinic_loop_mechandplayer",
             flags = 16,
         }, {}, {}, function() -- Done
-            StopAnimTask(GetPlayerPed(-1), "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 1.0)
+            StopAnimTask(PlayerPedId(), "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 1.0)
             openTunerLaptop(true)
         end, function() -- Cancel
-            StopAnimTask(GetPlayerPed(-1), "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 1.0)
-            QBCore.Functions.Notify("Geannuleerd..", "error")
+            StopAnimTask(PlayerPedId(), "anim@amb@clubhouse@tutorial@bkr_tut_ig3@", "machinic_loop_mechandplayer", 1.0)
+            QBCore.Functions.Notify("Canceled", "error")
         end)
     else
-        QBCore.Functions.Notify("You are not in a vehicle..", "error")
+        QBCore.Functions.Notify("You Are Not In A Vehicle", "error")
     end
 end)
 
@@ -165,7 +155,7 @@ RegisterNUICallback('saveNeon', function(data)
     QBCore.Functions.TriggerCallback('qb-tunerchip:server:HasChip', function(HasChip)
         if HasChip then
             if not data.rainbowEnabled then
-                local ped = GetPlayerPed(-1)
+                local ped = PlayerPedId()
                 local veh = GetVehiclePedIsIn(ped)
 
                 if tonumber(data.neonEnabled) == 1 then
@@ -187,7 +177,7 @@ RegisterNUICallback('saveNeon', function(data)
                     RainbowNeon = false
                 end
             else
-                local ped = GetPlayerPed(-1)
+                local ped = PlayerPedId()
                 local veh = GetVehiclePedIsIn(ped)
 
                 if tonumber(data.neonEnabled) == 1 then
@@ -235,7 +225,7 @@ RegisterNUICallback('saveHeadlights', function(data)
         if HasChip then
             if data.rainbowEnabled then
                 RainbowHeadlight = true
-                local ped = GetPlayerPed(-1)
+                local ped = PlayerPedId()
                 local veh = GetVehiclePedIsIn(ped)
                 local value = tonumber(data.value)
 
@@ -261,7 +251,7 @@ RegisterNUICallback('saveHeadlights', function(data)
                 SetVehicleHeadlightsColour(veh, value)
             else
                 RainbowHeadlight = false
-                local ped = GetPlayerPed(-1)
+                local ped = PlayerPedId()
                 local veh = GetVehiclePedIsIn(ped)
                 local value = tonumber(data.value)
 
@@ -280,3 +270,21 @@ function openTunerLaptop(bool)
     })
     inTuner = bool
 end
+
+RegisterNUICallback('SetStancer', function(data, cb)
+    local fOffset = data.fOffset * 100 / 1000
+    local fRotation = data.fRotation * 100 / 1000
+    local rOffset = data.rOffset * 100 / 1000
+    local rRotation = data.rRotation * 100 / 1000
+
+    print(fOffset)
+    print(fRotation)
+    print(rOffset)
+    print(rRotation)
+
+    local ped = PlayerPedId()
+    local veh = GetVehiclePedIsIn(ped)
+    
+    exports["vstancer"]:SetVstancerPreset(veh, -fOffset, -fRotation, -rOffset, -rRotation)
+end)
+

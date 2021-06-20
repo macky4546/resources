@@ -1,22 +1,41 @@
 local seatbeltOn = false
+local harnessOn = false
+local harnessHp = 20
+harnessData = {}
 local SpeedBuffer = {}
 local vehVelocity = {x = 0.0, y = 0.0, z = 0.0}
 local vehHealth = 0.0
 Citizen.CreateThread(function()
     while true do
         Citizen.Wait(1)
-        if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
-            seatbeltOn = false
-        end
+        local ped = PlayerPedId()
         
-        if IsControlJustReleased(0, Keys["G"]) then 
-            if IsPedInAnyVehicle(GetPlayerPed(-1)) and GetVehicleClass(GetVehiclePedIsIn(GetPlayerPed(-1))) ~= 8 and GetVehicleClass(GetVehiclePedIsIn(GetPlayerPed(-1))) ~= 13 and GetVehicleClass(GetVehiclePedIsIn(GetPlayerPed(-1))) ~= 14 then
-                if seatbeltOn then
-                    TriggerServerEvent("InteractSound_SV:PlayOnSource", "carunbuckle", 0.25)
-                else
-                    TriggerServerEvent("InteractSound_SV:PlayOnSource", "carbuckle", 0.25)
+        if IsControlJustReleased(0, 47) then 
+            if not harnessOn then
+                if IsPedInAnyVehicle(ped) and GetVehicleClass(GetVehiclePedIsIn(ped)) ~= 8 and GetVehicleClass(GetVehiclePedIsIn(ped)) ~= 13 and GetVehicleClass(GetVehiclePedIsIn(ped)) ~= 14 then
+                    if seatbeltOn then
+                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "carunbuckle", 0.25)
+                    else
+                        TriggerServerEvent("InteractSound_SV:PlayOnSource", "carbuckle", 0.25)
+                    end
+                    TriggerEvent("seatbelt:client:ToggleSeatbelt")
                 end
-                TriggerEvent("seatbelt:client:ToggleSeatbelt")
+            else
+                QBCore.Functions.Progressbar("harness_equip", "Race harnas af doen..", 5000, false, true, {
+                    disableMovement = false,
+                    disableCarMovement = false,
+                    disableMouse = false,
+                    disableCombat = true,
+                }, {}, {}, {}, function() -- Done
+                    ToggleHarness(false)
+                end)
+            end
+        end
+
+        if IsPedInAnyVehicle(ped) then
+            if harnessOn then
+                DisableControlAction(0, 75, true)
+                DisableControlAction(27, 75, true)
             end
         end
     end
@@ -47,7 +66,7 @@ Citizen.CreateThread(function()
     local modifierDensity = true
     while true do
         Citizen.Wait(5)
-        local playerPed = GetPlayerPed(-1)
+        local playerPed = PlayerPedId()
         local currentVehicle = GetVehiclePedIsIn(playerPed, false)
         local driverPed = GetPedInVehicleSeat(currentVehicle, -1)
         if currentVehicle ~= nil and currentVehicle ~= false and currentVehicle ~= 0 then
@@ -75,24 +94,44 @@ Citizen.CreateThread(function()
                     if frameBodyChange > 18.0 then
                         if not seatbeltOn and not IsThisModelABike(currentVehicle) then
                             if math.random(math.ceil(lastFrameVehiclespeed)) > 60 then
-                                EjectFromVehicle()                           
+                                if not harnessOn then
+                                    EjectFromVehicle()
+                                else
+                                    harnessHp = harnessHp - 1
+                                    TriggerServerEvent('seatbelt:DoHarnessDamage', harnessHp, harnessData)
+                                end
                             end
-                        elseif seatbeltOn and not IsThisModelABike(currentVehicle) then
+                        elseif (seatbeltOn or harnessOn) and not IsThisModelABike(currentVehicle) then
                             if lastFrameVehiclespeed > 150 then
                                 if math.random(math.ceil(lastFrameVehiclespeed)) > 150 then
-                                    EjectFromVehicle()                           
+                                    if not harnessOn then
+                                        EjectFromVehicle()
+                                    else
+                                        harnessHp = harnessHp - 1
+                                        TriggerServerEvent('seatbelt:DoHarnessDamage', harnessHp, harnessData)
+                                    end                     
                                 end
                             end
                         end
                     else
                         if not seatbeltOn and not IsThisModelABike(currentVehicle) then
                             if math.random(math.ceil(lastFrameVehiclespeed)) > 60 then
-                                EjectFromVehicle()                           
+                                if not harnessOn then
+                                    EjectFromVehicle()
+                                else
+                                    harnessHp = harnessHp - 1
+                                    TriggerServerEvent('seatbelt:DoHarnessDamage', harnessHp, harnessData)
+                                end                        
                             end
-                        elseif seatbeltOn and not IsThisModelABike(currentVehicle) then
+                        elseif (seatbeltOn or harnessOn) and not IsThisModelABike(currentVehicle) then
                             if lastFrameVehiclespeed > 120 then
                                 if math.random(math.ceil(lastFrameVehiclespeed)) > 200 then
-                                    EjectFromVehicle()                           
+                                    if not harnessOn then
+                                        EjectFromVehicle()
+                                    else
+                                        harnessHp = harnessHp - 1
+                                        TriggerServerEvent('seatbelt:DoHarnessDamage', harnessHp, harnessData)
+                                    end                     
                                 end
                             end
                         end
@@ -174,17 +213,61 @@ function GetFwd(entity)
 end
 
 function EjectFromVehicle()
-    local veh = GetVehiclePedIsIn(GetPlayerPed(-1),false)
+    local ped = PlayerPedId()
+    local veh = GetVehiclePedIsIn(ped,false)
     local coords = GetOffsetFromEntityInWorldCoords(veh, 1.0, 0.0, 1.0)
-    SetEntityCoords(GetPlayerPed(-1),coords)
+    SetEntityCoords(ped,coords)
     Citizen.Wait(1)
-    SetPedToRagdoll(GetPlayerPed(-1), 5511, 5511, 0, 0, 0, 0)
-    SetEntityVelocity(GetPlayerPed(-1), veloc.x*4,veloc.y*4,veloc.z*4)
-    local ejectspeed = math.ceil(GetEntitySpeed(GetPlayerPed(-1)) * 8)
-    SetEntityHealth( GetPlayerPed(-1), (GetEntityHealth(GetPlayerPed(-1)) - ejectspeed) )
+    SetPedToRagdoll(ped, 5511, 5511, 0, 0, 0, 0)
+    SetEntityVelocity(ped, veloc.x*4,veloc.y*4,veloc.z*4)
+    local ejectspeed = math.ceil(GetEntitySpeed(ped) * 8)
+    SetEntityHealth(ped, (GetEntityHealth(ped) - ejectspeed) )
 end
 
 RegisterNetEvent("seatbelt:client:ToggleSeatbelt")
-AddEventHandler("seatbelt:client:ToggleSeatbelt", function()
-    seatbeltOn = not seatbeltOn
+AddEventHandler("seatbelt:client:ToggleSeatbelt", function(toggle)
+    if toggle == nil then
+        seatbeltOn = not seatbeltOn
+    else
+        seatbeltOn = toggle
+    end
 end)
+
+function ToggleHarness(toggle)
+    harnessOn = toggle
+    seatbeltOn = false
+    if not toggle then
+        harnessHp = 10
+        TriggerEvent("seatbelt:client:ToggleSeatbelt", true)
+    else
+        TriggerEvent("seatbelt:client:ToggleSeatbelt", false)
+    end
+    TriggerEvent('qb-hud:client:ToggleHarness', toggle)
+end
+
+RegisterNetEvent('seatbelt:client:UseHarness')
+AddEventHandler('seatbelt:client:UseHarness', function(ItemData)
+    local ped = PlayerPedId()
+    local inveh = IsPedInAnyVehicle(ped)
+    if inveh and not IsThisModelABike(GetEntityModel(GetVehiclePedIsIn(ped))) then
+        if not harnessOn then
+            QBCore.Functions.Progressbar("harness_equip", "Race harnas om doen..", 5000, false, true, {
+                disableMovement = false,
+                disableCarMovement = false,
+                disableMouse = false,
+                disableCombat = true,
+            }, {}, {}, {}, function() -- Done
+                ToggleHarness(true)
+                TriggerServerEvent('equip:harness', ItemData)
+            end)
+            harnessHp = ItemData.info.uses
+            harnessData = ItemData
+        end
+    else
+        QBCore.Functions.Notify('Je zit niet in een auto.', 'error', 3500)
+    end
+end)
+
+function HasHarness()
+    return harnessOn
+end

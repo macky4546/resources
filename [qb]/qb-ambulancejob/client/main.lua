@@ -413,9 +413,12 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    exports.spawnmanager:setAutoSpawn(false)
     local ped = PlayerPedId()
     SetEntityMaxHealth(ped, 200)
     SetEntityHealth(ped, 200)
+    SetPlayerHealthRechargeMultiplier(ped, 0.0)
+    SetPlayerHealthRechargeLimit(ped, 0.0)
     isLoggedIn = true
     TriggerServerEvent("hospital:server:SetDoctor")
     Citizen.CreateThread(function()

@@ -296,7 +296,7 @@ AddEventHandler("mdt:saveOffenderChanges", function(id, changes, identifier)
 		end
 		
 		if changes.licenses_removed then
-			local xPlayer = RLCore.Functions.GetPlayerByCitizenId(citizenid)
+			local xPlayer = QBCore.Functions.GetPlayerByCitizenId(citizenid)
 
 			if xPlayer then
 				local licenses = xPlayer.PlayerData['metadata']['licences']
@@ -661,10 +661,13 @@ function GetLicenses(identifier, cb)
 end
 
 function GetCharacterName(source)
-	local xPlayer = QBCore.Functions.GetPlayer(source)
-	if xPlayer then
-		return xPlayer.PlayerData.charinfo.firstname
-	end
+    local Player = QBCore.Functions.GetPlayer(source)
+    if Player ~= nil then
+        local firstname = Player.PlayerData.charinfo.firstname
+        local lastname = Player.PlayerData.charinfo.lastname
+        local name = firstname .. ' ' .. lastname
+        return name
+    end
 end
 
 function tprint (tbl, indent)

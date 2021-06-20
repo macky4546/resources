@@ -7,16 +7,12 @@ end)
 
 QBCore.Functions.CreateUseableItem("armor", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
-	if Player.Functions.RemoveItem(item.name, 1, item.slot) then
-        TriggerClientEvent("consumables:client:UseArmor", source)
-    end
+    TriggerClientEvent("consumables:client:UseArmor", source)
 end)
 
 QBCore.Functions.CreateUseableItem("heavyarmor", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
-	if Player.Functions.RemoveItem(item.name, 1, item.slot) then
-        TriggerClientEvent("consumables:client:UseHeavyArmor", source)
-    end
+    TriggerClientEvent("consumables:client:UseHeavyArmor", source)
 end)
 
 -- QBCore.Functions.CreateUseableItem("smoketrailred", function(source, item)
@@ -33,7 +29,7 @@ QBCore.Functions.CreateUseableItem("parachute", function(source, item)
     end
 end)
 
-QBCore.Commands.Add("parachuteuit", "Take off your parachute", {}, false, function(source, args)
+QBCore.Commands.Add("resetparachute", "Resets Parachute", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
         TriggerClientEvent("consumables:client:ResetParachute", source)
 end)
@@ -150,11 +146,11 @@ QBCore.Functions.CreateUseableItem("firework4", function(source, item)
     TriggerClientEvent("fireworks:client:UseFirework", source, item.name, "scr_indep_fireworks")
 end)
 
-QBCore.Commands.Add("vestuit", "Take off your vest", {}, false, function(source, args)
+QBCore.Commands.Add("resetarmor", "Resets Vest (Police Only)", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == "police" then
         TriggerClientEvent("consumables:client:ResetArmor", source)
     else
-        TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "This command is for emergency services!")
+        TriggerClientEvent('QBCore:Notify', source,  "For Emergency Service Only", "error")
     end
 end)

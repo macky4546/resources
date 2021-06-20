@@ -1,17 +1,3 @@
-QBCore = nil
-
-Citizen.CreateThread(function() 
-    while true do
-        Citizen.Wait(10)
-        if QBCore == nil then
-            TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)    
-            Citizen.Wait(200)
-        end
-    end
-end)
-
--- code
-
 function DrawText3Ds(x, y, z, text)
 	SetTextScale(0.35, 0.35)
     SetTextFont(4)
@@ -27,22 +13,54 @@ function DrawText3Ds(x, y, z, text)
     ClearDrawOrigin()
 end
 
+local StringCharset = {}
+local NumberCharset = {}
+
+for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end
+for i = 65,  90 do table.insert(StringCharset, string.char(i)) end
+for i = 97, 122 do table.insert(StringCharset, string.char(i)) end
+
+RandomInt = function(length)
+	if length > 0 then
+		return RandomInt(length-1) .. NumberCharset[math.random(1, #NumberCharset)]
+	else
+		return ''
+	end
+end
+
+RandomStr = function(length)
+	if length > 0 then
+		return RandomStr(length-1) .. StringCharset[math.random(1, #StringCharset)]
+	else
+		return ''
+	end
+end
+
+function SetWeaponSeries()
+    for k, v in pairs(Config.Products["weapons"]) do
+        if k < 9 then
+            Config.Products["weapons"][k].info.serie = tostring(RandomInt(2) .. RandomStr(3) .. RandomInt(1) .. RandomStr(2) .. RandomInt(3) .. RandomStr(4))
+        end
+    end
+end
+
 Citizen.CreateThread(function()
     while true do
         local InRange = false
-        local PlayerPed = GetPlayerPed(-1)
+        local PlayerPed = PlayerPedId()
         local PlayerPos = GetEntityCoords(PlayerPed)
 
         for shop, _ in pairs(Config.Locations) do
             local position = Config.Locations[shop]["coords"]
             for _, loc in pairs(position) do
-                local dist = GetDistanceBetweenCoords(PlayerPos, loc["x"], loc["y"], loc["z"])
+                local dist = #(PlayerPos - vector3(loc["x"], loc["y"], loc["z"]))
                 if dist < 10 then
                     InRange = true
                     DrawMarker(2, loc["x"], loc["y"], loc["z"], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.25, 0.2, 0.1, 255, 255, 255, 155, 0, 0, 0, 1, 0, 0, 0)
                     if dist < 1 then
                         DrawText3Ds(loc["x"], loc["y"], loc["z"] + 0.15, '~g~E~w~ - Shop')
-                        if IsControlJustPressed(0, Config.Keys["E"]) then
+                        if IsControlJustPressed(0, 38) then -- E
+			    SetWeaponSeries()
                             local ShopItems = {}
                             ShopItems.label = Config.Locations[shop]["label"]
                             ShopItems.items = Config.Locations[shop]["products"]

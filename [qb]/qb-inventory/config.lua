@@ -35,7 +35,7 @@ Config.BinObjects = {
 
 Config.VendingItem = {
     [1] = {
-        name = "cocacola",
+        name = "kurkakola",
         price = 4,
         amount = 50,
         info = {},

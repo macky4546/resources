@@ -339,7 +339,7 @@ AddEventHandler('police:server:spawnObject', function(type)
     local src = source
     local objectId = CreateObjectId()
     Objects[objectId] = type
-    TriggerClientEvent("police:client:spawnObject", -1, objectId, type, src)
+    TriggerClientEvent("police:client:spawnObject", src, objectId, type, src)
 end)
 
 RegisterServerEvent('police:server:deleteObject')
@@ -738,11 +738,10 @@ end) ]]
 
 function IsHighCommand(citizenid)
     local retval = false
-    for k, v in pairs(Config.ArmoryWhitelist) do
-        if v == citizenid then
-            retval = true
-        end
-    end
+    local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+	if Player.PlayerData.job.grade.level >= 3 then
+    	    retval = true
+	end
     return retval
 end
 
@@ -802,7 +801,7 @@ end)
 QBCore.Commands.Add("mdt", "Open MDT (Police Only)", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == "police" then
-        TriggerClientEvent("mdt:hotKeyOpen", source)
+        TriggerClientEvent("police:client:toggleDatabank", source)
     else
         TriggerClientEvent('QBCore:Notify', source, 'For Emergency Services Only', 'error')
     end
@@ -936,7 +935,7 @@ QBCore.Commands.Add("plateinfo", "Run A Plate (Police Only)", {{name="plate", he
     end
 end)
 
-QBCore.Commands.Add("impoundp", "Impound With Price (Police Only)", {{name="price", help="Price for how much the person has to pay (may be empty)"}}, false, function(source, args)
+QBCore.Commands.Add("depot", "Impound With Price (Police Only)", {{name="prijs", help="Price for how much the person has to pay (may be empty)"}}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
     if Player.PlayerData.job.name == "police" then
         TriggerClientEvent("police:client:ImpoundVehicle", source, false, tonumber(args[1]))
@@ -1143,11 +1142,9 @@ QBCore.Functions.CreateCallback('police:server:IsPoliceForcePresent', function(s
     for k, v in pairs(QBCore.Functions.GetPlayers()) do
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then 
-            for _, citizenid in pairs(Config.ArmoryWhitelist) do
-                if citizenid == Player.PlayerData.citizenid then
-                    retval = true
-                    break
-                end
+            if Player.PlayerData.job.name == "police" and Player.PlayerData.grade.level >= 2 then
+	    	retval = true
+	    	break
             end
         end
     end
@@ -1165,15 +1162,3 @@ RegisterServerEvent('police:server:SyncSpikes')
 AddEventHandler('police:server:SyncSpikes', function(table)
     TriggerClientEvent('police:client:SyncSpikes', -1, table)
 end)
-
-QBCore.Commands.Add("setpolice", "Give the police job to someone ", {{name="id", help="Player ID"}}, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    local Myself = QBCore.Functions.GetPlayer(source)
-    if Player ~= nil then 
-        if (Myself.PlayerData.job.name == "unemployed" and Myself.PlayerData.job.onduty)  then
-            Player.Functions.SetJob("police")
-        end
-    end
-end)
-
-

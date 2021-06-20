@@ -662,8 +662,7 @@ AddEventHandler("inventory:client:CheckWeapon", function(weaponName)
 end)
 
 RegisterNetEvent("inventory:client:AddDropItem")
-AddEventHandler("inventory:client:AddDropItem", function(dropId, player)
-    local coords = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(player)))
+AddEventHandler("inventory:client:AddDropItem", function(dropId, player, coords)
     local forward = GetEntityForwardVector(GetPlayerPed(GetPlayerFromServerId(player)))
 	local x, y, z = table.unpack(coords + forward * 0.5)
     Drops[dropId] = {
@@ -678,12 +677,12 @@ end)
 
 RegisterNetEvent("inventory:client:RemoveDropItem")
 AddEventHandler("inventory:client:RemoveDropItem", function(dropId)
-    local ped = PlayerPedId()
     Drops[dropId] = nil
 end)
 
 RegisterNetEvent("inventory:client:DropItemAnim")
 AddEventHandler("inventory:client:DropItemAnim", function()
+    local ped = PlayerPedId()
     SendNUIMessage({
         action = "close",
     })

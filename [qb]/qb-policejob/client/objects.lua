@@ -137,7 +137,7 @@ AddEventHandler('police:client:spawnObject', function(objectId, type, player)
     local heading = GetEntityHeading(GetPlayerPed(GetPlayerFromServerId(player)))
     local forward = GetEntityForwardVector(PlayerPedId())
     local x, y, z = table.unpack(coords + forward * 0.5)
-    local spawnedObj = CreateObject(Config.Objects[type].model, x, y, z, false, false, false)
+    local spawnedObj = CreateObject(Config.Objects[type].model, x, y, z, true, false, false)
     PlaceObjectOnGroundProperly(spawnedObj)
     SetEntityHeading(spawnedObj, heading)
     FreezeEntityPosition(spawnedObj, Config.Objects[type].freeze)
@@ -158,8 +158,8 @@ function GetClosestPoliceObject()
     local dist = nil
 
     for id, data in pairs(ObjectList) do
+        local dist2 = #(pos - vector3(ObjectList[id].coords.x, ObjectList[id].coords.y, ObjectList[id].coords.z))
         if current ~= nil then
-            local dist2 = #(pos - vector3(ObjectList[id].coords.x, ObjectList[id].coords.y, ObjectList[id].coords.z))
             if dist2 < dist then
                 current = id
                 dist = dist2
