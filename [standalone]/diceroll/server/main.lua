@@ -1,7 +1,6 @@
 QBCore = nil
 
-TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end) -- Getest op mn eigen framework dus moet je ff verandere naar t inladen van ESX
-
+TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end) 
 QBCore.Commands.Add("roll", "Roll some dice :)", {{name="number", help="Number of dice"}, {name="sides", help="Number of sides of dice" }}, true, function(source, args) -- Own add command function should you replace to esx version
     local amount = tonumber(args[1])
     local sides = tonumber(args[2])

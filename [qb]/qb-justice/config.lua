@@ -12,18 +12,5 @@ Config.Keys = {
 }
 
 Config.Locations = {
-    ["courthouse"] = {
-        enter = {
-            x = 234.83, 
-            y = -390.8, 
-            z = -84.94, 
-            h = 178.5,
-        },
-        exit = {
-            x = 233.01, 
-            y = -411.27, 
-            z = 48.11, 
-            h = 342.5,
-        },
-    }
+
 }

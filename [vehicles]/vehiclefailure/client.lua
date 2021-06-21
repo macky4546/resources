@@ -153,7 +153,7 @@ function RepairVehicleFull(vehicle)
     else
         SetVehicleDoorOpen(vehicle, 4, false, false)
     end
-	QBCore.Functions.Progressbar("repair_vehicle", "Working on keys..", math.random(20000, 30000), false, true, {
+	QBCore.Functions.Progressbar("repair_vehicle", "Working on vehicle..", math.random(20000, 30000), false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
@@ -194,7 +194,7 @@ function RepairVehicle(vehicle)
     else
         SetVehicleDoorOpen(vehicle, 4, false, false)
     end
-	QBCore.Functions.Progressbar("repair_vehicle", "Working on keys..", math.random(10000, 20000), false, true, {
+	QBCore.Functions.Progressbar("repair_vehicle", "Working on vehicle..", math.random(10000, 20000), false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,

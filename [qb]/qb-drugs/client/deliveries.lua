@@ -253,7 +253,7 @@ end
 
 function setMapBlip(x, y)
     SetNewWaypoint(x, y)
-    QBCore.Functions.Notify('De route naar aflever locatie staat aangegeven op je card.', 'success');
+    QBCore.Functions.Notify('The route to the delivery location is indicated on your card.', 'success');
 end
 
 RegisterNetEvent('qb-drugs:client:setLocation')
@@ -262,7 +262,7 @@ AddEventHandler('qb-drugs:client:setLocation', function(locationData)
         activeDelivery = locationData
     else
         setMapBlip(activeDelivery["coords"]["x"], activeDelivery["coords"]["y"])
-        QBCore.Functions.Notify('Je hebt nog een levering open staan...')
+        QBCore.Functions.Notify('You still have a delivery open...')
         return
     end
 
@@ -285,7 +285,7 @@ AddEventHandler('qb-drugs:client:setLocation', function(locationData)
                 if dist < 15 then
                     inDeliveryRange = true
                     if dist < 1.5 then
-                        DrawText3D(activeDelivery["coords"]["x"], activeDelivery["coords"]["y"], activeDelivery["coords"]["z"], '[E] '..activeDelivery["amount"]..'x '..QBCore.Shared.Items[activeDelivery["itemData"]["item"]]["label"]..' afleveren.')
+                        DrawText3D(activeDelivery["coords"]["x"], activeDelivery["coords"]["y"], activeDelivery["coords"]["z"], '[E] '..activeDelivery["amount"]..'x '..QBCore.Shared.Items[activeDelivery["itemData"]["item"]]["label"]..' to deliver.')
 
                         if IsControlJustPressed(0, Keys["E"]) then
                             deliverStuff(activeDelivery)

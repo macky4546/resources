@@ -8,7 +8,7 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-    local blip = AddBlipForCoord(416.61, -1084.57, 30.05)
+    local blip = AddBlipForCoord(230.80, -425.95, 48.07)
 	SetBlipSprite(blip, 304)
 	SetBlipDisplay(blip, 4)
 	SetBlipScale(blip, 0.6)
@@ -26,7 +26,7 @@ AddEventHandler("qb-justice:client:showLawyerLicense", function(sourceId, data)
     if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, sourcePos.x, sourcePos.y, sourcePos.z, true) < 2.0) then
         TriggerEvent('chat:addMessage', {
             template = '<div class="chat-message advert"><div class="chat-message-body"><strong>{0}:</strong><br><br> <strong>ID:</strong> {1} <br><strong>First Name:</strong> {2} <br><strong>Last name:</strong> {3} <br><strong>BSN:</strong> {4} </div></div>',
-            args = {'Advocatenpas', data.id, data.firstname, data.lastname, data.citizenid}
+            args = {'Lawyer card', data.id, data.firstname, data.lastname, data.citizenid}
         })
     end
 end)

@@ -711,7 +711,7 @@ Config.JobInteractions = {
                 },
                 {
                     id    = 'escort',
-                    title = 'Escorteren',
+                    title = 'Escort',
                     icon = '#general',
                     type = 'client',
                     event = 'police:client:EscortPlayer',

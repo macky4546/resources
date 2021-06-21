@@ -20,11 +20,11 @@ Citizen.CreateThread(function()
 			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, true) < 2.5 then 
 				if not Houses[ClosestHouse].locked or HasKey(ClosestHouse) then 
 					if HasKey(ClosestHouse) and not Houses[ClosestHouse].locked then 
-						DrawText3D(Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, "[~g~E~w~] om naar binnen te gaan / [~g~L~w~] om deur op slot te doen")
-					elseif HasKey(ClosestHouse) and Houses[ClosestHouse].locked then 
-						DrawText3D(Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, "[~g~E~w~] om naar binnen te gaan / [~g~L~w~] om deur open te doen")
-					else 
-						DrawText3D(Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, "[~g~E~w~] om naar binnen te gaan")
+						DrawText3D(Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, "[~g~E~w~] to enter / [~g~L~w~] to lock door")
+					elseif HasKey(ClosestHouse) and Houses[ClosestHouse].locked then
+						DrawText3D(Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, "[~g~E~w~] to enter / [~g~L~w~] to open door")
+					else
+						DrawText3D(Houses[ClosestHouse].coords.enter.x, Houses[ClosestHouse].coords.enter.y, Houses[ClosestHouse].coords.enter.z, "[~g~E~w~] to enter ")
 					end
 					if IsControlJustReleased(0, Keys["E"]) then 
 						TriggerServerEvent("InteractSound_SV:PlayOnSource", "houses_door_open", 1.0)
@@ -54,11 +54,11 @@ Citizen.CreateThread(function()
 		elseif InHouse ~= nil and not DecoMode then
 			if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, true) < 2.5 then 
 				if HasKey(InHouse) and not Houses[InHouse].locked then 
-					DrawText3D(Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, "[~g~E~w~] om naar buiten te gaan / [~g~L~w~] om deur op slot te doen")
-				elseif HasKey(InHouse) and Houses[InHouse].locked then 
-					DrawText3D(Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, "[~g~E~w~] om naar buiten te gaan / [~g~L~w~] om deur open te doen")
-				else 
-					DrawText3D(Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, "[~g~E~w~] om naar buiten te gaan")
+					DrawText3D(Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, "[~g~E~w~] to go outside / [~g~L~w~] to lock door")
+				elseif HasKey(InHouse) and Houses[InHouse].locked then
+					DrawText3D(Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, "[~g~E~w~] to go outside / [~g~L~w~] to open door")
+				else
+					DrawText3D(Houses[InHouse].coords.exit.x, Houses[InHouse].coords.exit.y, Houses[InHouse].coords.exit.z, "[~g~E~w~] to go outside ")
 				end
 				if IsControlJustReleased(0, Keys["E"]) then 
 					TriggerServerEvent("InteractSound_SV:PlayOnSource", "houses_door_open", 1.0)
