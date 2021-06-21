@@ -1,7 +1,7 @@
 
-# OSM x QBUS | BURGERS JOB | Custom Job for McDonalds MLO
+# OSM x QBUS | BURGERS JOB | Custom Job for burgershot MLO
 
-#### A Taco-Inspired McDonalds Job for an MLO (by UT MODZ). It is a WIP Job for servers who want to boost their RPs by increasing number of Legal Jobs in the City. With lots of config vars, it can be configured as required. It is by default a job that would require time to be spent on, and would yeild good earnings. 
+#### A Taco-Inspired burgershot Job for an MLO (by UT MODZ). It is a WIP Job for servers who want to boost their RPs by increasing number of Legal Jobs in the City. With lots of config vars, it can be configured as required. It is by default a job that would require time to be spent on, and would yeild good earnings. 
 
 ### [My Discord Server](https://discord.gg/bfPKqNhQPQ) (You can boost it if you like my work :)
 ### [MLO Preview](https://www.youtube.com/watch?v=qHw63IeCcJs) is available on My Discord Server as well as R5M Forum.
@@ -16,7 +16,7 @@
 #### - Locations adapted well to the Beautiful MLO by [UT MODZ](https://www.youtube.com/channel/UCLyHsvgL80IIatiWyhG-TjA)
 #### - New Items added and all the code and images are also attached with the resource. 
 
-#### Blips are there on the Map for `McDonalds Outlet` and `McDonalds Storage`
+#### Blips are there on the Map for `burgershot Outlet` and `burgershot Storage`
 
 ## Instructions for Installation / Setup 
 

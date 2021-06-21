@@ -48,10 +48,10 @@ AddEventHandler('qb-admin:server:serverKick', function(reason)
 end)
 
 local suffix = {
-    "hihi",
+    "haha",
     "#yolo",
-    "hmm slurpie",
-    "yeet terug naar esx",
+    "hmmm slurpy",
+    "yeet back to esx",
 }
 
 RegisterServerEvent('qb-admin:server:banPlayer')

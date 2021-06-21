@@ -24,10 +24,6 @@ Config.BlacklistedScenarios = {
         "WORLD_VEHICLE_MILITARY_PLANES_BIG",
     },
     ['GROUPS'] = {
-        2017590552,
-        2141866469,
-        1409640232,
-        `ng_planes`,
     }
 }
 

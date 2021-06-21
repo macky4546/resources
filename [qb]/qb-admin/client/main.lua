@@ -214,18 +214,18 @@ Citizen.CreateThread(function()
     }
 
     local bans = {
-        "1 uur",
-        "6 uur",
-        "12 uur",
-        "1 dag",
-        "3 dagen",
+        "1 hour",
+        "6 hours",
+        "12 hours",
+        "1 day",
+        "3 days",
         "1 week",
-        "1 maand",
-        "3 maanden",
-        "6 maanden",
-        "1 jaar",
+        "1 month",
+        "3 month",
+        "6 month",
+        "1 year",
         "Perm",
-        "Zelf",
+        "Self",
     }
 
     local times = {
@@ -408,13 +408,13 @@ Citizen.CreateThread(function()
                 local target = GetPlayerServerId(currentPlayer)
                 TriggerServerEvent("qb-admin:server:Freeze", target, isFreeze)
             end
-            -- if WarMenu.CheckBox("Spectate", isSpectating, function(checked) isSpectating = checked end) then
-            --     local target = GetPlayerFromServerId(GetPlayerServerId(currentPlayer))
-            --     local targetPed = GetPlayerPed(target)
-            --     local targetCoords = GetEntityCoords(targetPed)
+             if WarMenu.CheckBox("Spectate", isSpectating, function(checked) isSpectating = checked end) then
+                 local target = GetPlayerFromServerId(GetPlayerServerId(currentPlayer))
+                 local targetPed = GetPlayerPed(target)
+                 local targetCoords = GetEntityCoords(targetPed)
 
-            --     SpectatePlayer(targetPed, isSpectating)
-            -- end
+                 SpectatePlayer(targetPed, isSpectating)
+             end
             if WarMenu.MenuButton("Open Inventory", currentPlayer) then
                 local targetId = GetPlayerServerId(currentPlayer)
 
@@ -456,25 +456,25 @@ Citizen.CreateThread(function()
 
                 TriggerServerEvent('qb-admin:server:setPermissions', target, group)
 
-                QBCore.Functions.Notify('Je hebt '..GetPlayerName(currentPlayer)..'\'s groep is veranderd naar '..group.label)
+                QBCore.Functions.Notify('You have '..GetPlayerName(currentPlayer)..'\'s group has changed to '..group.label)
             end
             WarMenu.Display()
         elseif WarMenu.IsMenuOpened('adminOptions') then
-            if WarMenu.ComboBox('Ban lengte', bans, currentBanIndex, selectedBanIndex, function(currentIndex, selectedIndex)
+            if WarMenu.ComboBox('Ban length', bans, currentBanIndex, selectedBanIndex, function(currentIndex, selectedIndex)
                 currentBanIndex = currentIndex
                 selectedBanIndex = selectedIndex
             end) then
                 local time = BanTimes[currentBanIndex]
                 local index = currentBanIndex
                 if index == 12 then
-                    DisplayOnscreenKeyboard(1, "Tijd", "", "Lengte", "", "", "", 128 + 1)
+                    DisplayOnscreenKeyboard(1, "Time", "", "Length", "", "", "", 128 + 1)
                     while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
                         Citizen.Wait(7)
                     end
                     time = tonumber(GetOnscreenKeyboardResult())
                     time = time * 3600
                 end
-                DisplayOnscreenKeyboard(1, "Reden", "", "Reden", "", "", "", 128 + 1)
+                DisplayOnscreenKeyboard(1, "Reason", "", "Reason", "", "", "", 128 + 1)
 				while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
 					Citizen.Wait(7)
 				end
@@ -485,7 +485,7 @@ Citizen.CreateThread(function()
                 end
             end
             if WarMenu.MenuButton('Kick', currentPlayer) then
-                DisplayOnscreenKeyboard(1, "Reden", "", "Reden", "", "", "", 128 + 1)
+                DisplayOnscreenKeyboard(1, "Reason", "", "Reason", "", "", "", 128 + 1)
 				while UpdateOnscreenKeyboard() ~= 1 and UpdateOnscreenKeyboard() ~= 2 do
 					Citizen.Wait(7)
 				end
@@ -500,7 +500,7 @@ Citizen.CreateThread(function()
             for k, v in pairs(AvailableWeatherTypes) do
                 if WarMenu.MenuButton(AvailableWeatherTypes[k].label, 'weatherOptions') then
                     TriggerServerEvent('qb-weathersync:server:setWeather', AvailableWeatherTypes[k].weather)
-                    QBCore.Functions.Notify('Weer is veranderd naar: '..AvailableWeatherTypes[k].label)
+                    QBCore.Functions.Notify('Weather has changed to: '..AvailableWeatherTypes[k].label)
                 end
             end
             
@@ -664,7 +664,7 @@ Citizen.CreateThread(function()
                 
                 DrawEntityBoundingBox(entity, color)
                 DrawLine(position.x, position.y, position.z, coords.x, coords.y, coords.z, color.r, color.g, color.b, color.a)
-                QBAdmin.Functions.DrawText3D(entityCoord.x, entityCoord.y, entityCoord.z, "Obj: " .. entity .. " Model: " .. GetEntityModel(entity).. " \nDruk [~g~E~s~] om dit object te verwijderen!", 2)
+                QBAdmin.Functions.DrawText3D(entityCoord.x, entityCoord.y, entityCoord.z, "Obj: " .. entity .. " Model: " .. GetEntityModel(entity).. " \nPress [~g~E~s~] to delete this object!", 2)
 
                 -- When E pressed then remove targeted entity
                 if IsControlJustReleased(0, 38) then

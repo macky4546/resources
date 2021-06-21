@@ -34,7 +34,7 @@ local DropOffs = {
 }
 
 local TacoShop = {
-	[1] =  { ['x'] = 63.74,['y'] = 270.8,['z'] = 110.37,['h'] = 0.0, ['info'] = 'McDonalds Outlet'},
+	[1] =  { ['x'] = 63.74,['y'] = 270.8,['z'] = 110.37,['h'] = 0.0, ['info'] = 'burgershot Outlet'},
 }
 -- Code
 

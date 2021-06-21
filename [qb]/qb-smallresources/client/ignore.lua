@@ -54,7 +54,7 @@ function EnumeratePeds()
 	return EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed)
 end
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
     StartAudioScene("CHARACTER_CHANGE_IN_SKY_SCENE")
     SetAudioFlag("PoliceScannerDisabled", true)
     while true do
@@ -78,7 +78,7 @@ Citizen.CreateThread(function()
 
     	Citizen.Wait(10)
 	end
-end)
+end)]]
 
 Citizen.CreateThread(function()
 	for ped in EnumeratePeds() do

@@ -39,15 +39,12 @@ Config.Locations = {
 }
 
 Config.Vehicles = {
-    ["asprinter"] = "Mercedes-Benz Sprinter",
-    ["aeklasse"] = "Mercedes-Benz E-Klasse",
+    ["ambulance"] = "Ambulance",
 }
 
-Config.Whitelist = {
-    "GAA35566",
-}
+Config.Whitelist = {}
 
-Config.Helicopter = "alifeliner"
+Config.Helicopter = "polmav"
 
 Config.Items = {
     label = "Hospital safe",

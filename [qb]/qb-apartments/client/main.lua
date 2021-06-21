@@ -108,7 +108,7 @@ Citizen.CreateThread(function()
                 if IsOwned then
                     local pos = GetEntityCoords(GetPlayerPed(-1))
                     if(GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Apartments.Locations[ClosestHouse].coords.enter.x, Apartments.Locations[ClosestHouse].coords.enter.y,Apartments.Locations[ClosestHouse].coords.enter.z, true) < 1.2)then
-                        QBCore.Functions.DrawText3D(Apartments.Locations[ClosestHouse].coords.enter.x, Apartments.Locations[ClosestHouse].coords.enter.y, Apartments.Locations[ClosestHouse].coords.enter.z, '~g~E~w~ - Ga in appartement')
+                        QBCore.Functions.DrawText3D(Apartments.Locations[ClosestHouse].coords.enter.x, Apartments.Locations[ClosestHouse].coords.enter.y, Apartments.Locations[ClosestHouse].coords.enter.z, '~g~E~w~ - Enter Apartment')
                         if IsControlJustPressed(0, Keys["E"]) then
                             QBCore.Functions.TriggerCallback('apartments:GetOwnedApartment', function(result)
                                 if result ~= nil then
@@ -118,14 +118,14 @@ Citizen.CreateThread(function()
                         end
                     end
                 elseif not IsOwned then
-                    --[[local pos = GetEntityCoords(GetPlayerPed(-1))
+                    local pos = GetEntityCoords(GetPlayerPed(-1))
                     if(GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Apartments.Locations[ClosestHouse].coords.enter.x, Apartments.Locations[ClosestHouse].coords.enter.y,Apartments.Locations[ClosestHouse].coords.enter.z, true) < 1.2)then
-                        QBCore.Functions.DrawText3D(Apartments.Locations[ClosestHouse].coords.enter.x, Apartments.Locations[ClosestHouse].coords.enter.y, Apartments.Locations[ClosestHouse].coords.enter.z, '~g~G~w~ - Verander van appartement')
+                        QBCore.Functions.DrawText3D(Apartments.Locations[ClosestHouse].coords.enter.x, Apartments.Locations[ClosestHouse].coords.enter.y, Apartments.Locations[ClosestHouse].coords.enter.z, '~g~G~w~ - Change apartment')
                         if IsControlJustPressed(0, Keys["G"]) then
                             TriggerServerEvent("apartments:server:UpdateApartment", ClosestHouse)
                             IsOwned = true
                         end
-                    end]]--
+                    end
                 end
             end
         end
@@ -259,13 +259,13 @@ function EnterApartment(house, apartmentId, new)
                 Citizen.Wait(500)
                 SetRainFxIntensity(0.0)
                 TriggerEvent('qb-weathersync:client:DisableSync')
-                -- TriggerEvent('tb-weed:client:getHousePlants', house)
+                TriggerEvent('qb-weed:client:getHousePlants', house)
                 Citizen.Wait(100)
                 SetWeatherTypePersist('EXTRASUNNY')
                 SetWeatherTypeNow('EXTRASUNNY')
                 SetWeatherTypeNowPersist('EXTRASUNNY')
                 NetworkOverrideClockTime(23, 0, 0)
-                --TriggerEvent('instances:client:JoinInstance', apartmentId, house)
+                TriggerEvent('instances:client:JoinInstance', apartmentId, house)
                 TriggerServerEvent('qb-apartments:server:SetInsideMeta', house, apartmentId, true)
                 
 
@@ -289,13 +289,13 @@ function EnterApartment(house, apartmentId, new)
             Citizen.Wait(500)
             SetRainFxIntensity(0.0)
             TriggerEvent('qb-weathersync:client:DisableSync')
-            -- TriggerEvent('tb-weed:client:getHousePlants', house)
+            TriggerEvent('qb-weed:client:getHousePlants', house)
             Citizen.Wait(100)
             SetWeatherTypePersist('EXTRASUNNY')
             SetWeatherTypeNow('EXTRASUNNY')
             SetWeatherTypeNowPersist('EXTRASUNNY')
             NetworkOverrideClockTime(23, 0, 0)
-            --TriggerEvent('instances:client:JoinInstance', apartmentId, house)
+            TriggerEvent('instances:client:JoinInstance', apartmentId, house)
             
 
             TriggerServerEvent("InteractSound_SV:PlayOnSource", "houses_door_close", 0.1)
@@ -314,7 +314,7 @@ function EnterApartment(house, apartmentId, new)
 end
 
 function LeaveApartment(house)
-    --TriggerEvent('instances:client:LeaveInstance')
+    TriggerEvent('instances:client:LeaveInstance')
     TriggerServerEvent("InteractSound_SV:PlayOnSource", "houses_door_open", 0.1)
     openHouseAnim()
     DoScreenFadeOut(500)

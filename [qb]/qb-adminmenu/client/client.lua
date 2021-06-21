@@ -83,12 +83,12 @@ local menu_button11 = menu5:AddButton({
     value = menu6,
     description = 'Change The Weather'
 })
---[[ local menu_button12 = menu5:AddButton({
+local menu_button12 = menu5:AddButton({
     icon = '😃',
     label = 'Manage Dealers',
     value = menu7,
     description = 'Create/Delete Dealers'
-}) ]]
+})
 local menu_buttom13 = menu5:AddSlider({
     icon = '⏲️',
     label = 'Server Time',
@@ -401,13 +401,13 @@ function OpenPlayerMenus(player)
             label = "Ban",
             value = "ban",
             description = "Ban " .. player.cid .. " you need to give a reason"
-        }
---[[         [11] = {
+        },
+         [11] = {
             icon = '🎟️',
             label = "Permissions",
             value = "perms",
             description = "Give " .. player.cid .. " Permissions"
-        } ]]
+        }
     }
     for k, v in ipairs(elements) do
         local menu_button10 = Players:AddButton({

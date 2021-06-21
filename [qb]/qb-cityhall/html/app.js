@@ -13,7 +13,7 @@ qbCityhall.Close = function() {
     $(".container").fadeOut(150, function(){
         qbCityhall.ResetPages();
     });
-    $.post('http://qb-cityhall/close');
+    $.post('https://qb-cityhall/close');
 
     $(selectedJob).removeClass("job-selected");
     $(selectedIdentity).removeClass("job-selected");
@@ -32,7 +32,7 @@ $(document).ready(function(){
                 qbCityhall.Open(event.data);
                 break;
             case "close":
-                qbCityhall.Close(event.data);
+                qbCityhall.Close();
                 break;
         }
     })
@@ -57,10 +57,10 @@ $('.cityhall-option-block').click(function(e){
 
     if (blockPage == "identity") {
         $(".identity-page-blocks").html("");
-        $(".identity-page-blocks").html('<div class="identity-page-block" data-type="id-card" onmouseover="'+hoverDescription("id-card")+'" onmouseout="'+hoverDescription("id-card")+'"><p>ID-card</p></div>');
-        $.post('http://qb-cityhall/requestLicenses', JSON.stringify({}), function(licenses){
+        $(".identity-page-blocks").html('<div class="identity-page-block" data-type="id_card" onmouseover="'+hoverDescription("id_card")+'" onmouseout="'+hoverDescription("id_card")+'"><p>Birth Certificate</p></div>');
+
+        $.post('https://qb-cityhall/requestLicenses', JSON.stringify({}), function(licenses){
             $.each(licenses, function(i, license){
-                console.log(license.licenseType)
                 var elem = '<div class="identity-page-block" data-type="'+license.idType+'" onmouseover="hoverDescription("'+license.idType+'")" onmouseout="hoverDescription("'+license.idType+'")"><p>'+license.label+'</p></div>';
                 $(".identity-page-blocks").append(elem);
             });
@@ -70,12 +70,12 @@ $('.cityhall-option-block').click(function(e){
 
 hoverDescription = function(type) {
     if (!mouseOver) {
-        if (type == "id-card") {
+        if (type == "id_card") {
             $(".hover-description").fadeIn(10);
-            $(".hover-description").html('<p>You are required to carry an ID card on you. <br>This is for you to identify yourself at any time.</p>');
-        } else if (type == "drivers license") {
+            $(".hover-description").html('<p>You are required to carry an ID card on you while driving.</p>');
+        } else if (type == "driver_license") {
             $(".hover-description").fadeIn(10);
-            $(".hover-description").html('<p>If you drive a vehicle you are required to be able to show a drivers license<br> when requested.</p>');
+            $(".hover-description").html('<p>If you are driving a vehicle, you are required to present a driving license <br> at the time it is requested</p>');
         }
     } else {
         if(selectedIdentity == null) {
@@ -91,6 +91,7 @@ $(document).on("click", ".identity-page-block", function(e){
     e.preventDefault();
 
     var idType = $(this).data('type');
+    console.log(idType)
 
     selectedIdentityType = idType;
 
@@ -98,12 +99,12 @@ $(document).on("click", ".identity-page-block", function(e){
         $(this).addClass("identity-selected");
         $(".hover-description").fadeIn(10);
         selectedIdentity = this;
-        if (idType== "id-card") {
+        if (idType == "id_card") {
             $(".request-identity-button").fadeIn(100);
-            $(".request-identity-button").html("<p>ID-card to request ($50,-)</p>")
+            $(".request-identity-button").html("<p>Click Here to Buy a Birth Certificate for $50</p>")
         } else {
             $(".request-identity-button").fadeIn(100);
-            $(".request-identity-button").html("<p>drivers license to request ($50,-)</p>")
+            $(".request-identity-button").html("<p>Click Here to Buy a Driver License for $50</p>")
         }
     } else if (selectedIdentity == this) {
         $(this).removeClass("identity-selected");
@@ -113,10 +114,10 @@ $(document).on("click", ".identity-page-block", function(e){
         $(selectedIdentity).removeClass("identity-selected");
         $(this).addClass("identity-selected");
         selectedIdentity = this;
-        if($(this).data('type') == "id-card") {
-            $(".request-identity-button").html("<p>ID-card to request ($50,-)</p>")
+        if($(this).data('type') == "id_card") {
+            $(".request-identity-button").html("<p>You paid $50 for a Birth Certificate</p>")
         } else {
-            $(".request-identity-button").html("<p>drivers license to request ($50,-)</p>")
+            $(".request-identity-button").html("<p>You paid $50 for a Driver License</p>")
         }
     }
 });
@@ -124,7 +125,7 @@ $(document).on("click", ".identity-page-block", function(e){
 $(".request-identity-button").click(function(e){
     e.preventDefault();
 
-    $.post('http://qb-cityhall/requestId', JSON.stringify({
+    $.post('https://qb-cityhall/requestId', JSON.stringify({
         idType: selectedIdentityType
     }))
 
@@ -156,7 +157,7 @@ $(document).on("click", ".job-page-block", function(e){
 $(document).on('click', '.apply-job-button', function(e){
     e.preventDefault();
 
-    $.post('http://qb-cityhall/applyJob', JSON.stringify({
+    $.post('https://qb-cityhall/applyJob', JSON.stringify({
         job: selectedJobId
     }))
 
