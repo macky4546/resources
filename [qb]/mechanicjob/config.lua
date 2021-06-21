@@ -3,7 +3,7 @@ Config = {}
 Config.AttachedVehicle = nil
 
 Config.AuthorizedIds = {
-    "insertcitizenidhere",
+    "PAD82880",
 }
 
 Config.MaxStatusValues = {
@@ -90,17 +90,15 @@ Config.Plates = {
 }
 
 Config.Locations = {
-    ["exit"] = {x = 945.13, y = -975.84, z = 39.49, h = 181.5, r = 1.0},
-    ["stash"] = {x = 947.62, y = -972.46, z = 39.49, h = 274.5, r = 1.0},
-    ["duty"] = {x = 950.73, y = -968.64, z = 39.5, h = 180.5, r = 1.0},
-    ["vehicle"] = {x = 937.93, y = -990.7, z = 38.42, h = 94.5, r = 1.0}, 
+    ["exit"] = {x = -30.26, y = -1678.63, z = 29.47, h = 181.5, r = 1.0},
+    ["stash"] = {x = -8.95, y = -1658.63, z = 29.47, h = 274.5, r = 1.0},
+    ["duty"] = {x = -34.58, y = -1667.84, z = 29.47, h = 180.5, r = 1.0},
+    ["vehicle"] = {x = -42.98, y = -1684.42, z = 29.41, h = 94.5, r = 1.0}, 
 }
 
 Config.Vehicles = {
     ["flatbed"] = "Flatbed",
-    ["towtruck"] = "Towtruck",
     ["minivan"] = "Minivan",
-    ["blista"] = "Blista",
 }
 
 Config.MinimalMetersForDamage = {
