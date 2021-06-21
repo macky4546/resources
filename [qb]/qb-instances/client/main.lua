@@ -53,7 +53,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(1)
 		if InWorld ~= 0 then
@@ -63,4 +63,4 @@ Citizen.CreateThread(function()
 			RemoveVehiclesFromGeneratorsInArea(pos.x - 100.0, pos.y - 100.0, pos.z - 100.0, pos.x + 100.0, pos.y + 100.0, pos.z + 100.0)
 		end
 	end
-end)
+end)]]
