@@ -105,7 +105,6 @@ Citizen.CreateThread(function()
 
                 -- Voice
                 local voicedata = LocalPlayer.state["proximity"]
-                exports('setVoiceProperty', setVoiceProperty)
                 SendNUIMessage({action = "voice_level", voicelevel = voicedata})
 
                 SendNUIMessage({

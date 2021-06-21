@@ -4,5 +4,5 @@ Locales['en'] = {
 	['del_car'] = 'Has deleted a vehicle with plate number ~y~%s',	
 	['del_car_error'] = 'Can\'t find vehicle with plate is ~y~%s',	
 	['unknown_car'] = '~r~Unknown vehicle model ~y~%s',
-	['plate_already_have'] = '~r~This plate is already been used on another vehicle'
+	['plate_already_have'] = '~r~This plate is already been used on another vehicle',
 }

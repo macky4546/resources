@@ -106,13 +106,13 @@ window.addEventListener("message", function (event) {
   // Get current voice level and animate path
   if (data.action == "voice_level") {
     switch (data.voicelevel) {
-      case 3:
+      case 1.0:
         data.voicelevel = 33;
         break;
-      case 7:
+      case 2.3:
         data.voicelevel = 66;
         break;
-      case 15:
+      case 5.0:
         data.voicelevel = 100;
         break;
       default:

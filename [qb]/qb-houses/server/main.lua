@@ -236,6 +236,23 @@ AddEventHandler('qb-houses:server:removeHouseKey', function(house, citizenData)
 	QBCore.Functions.ExecuteSql(false, "UPDATE `player_houses` SET `keyholders` = '"..json.encode(housekeyholders[house]).."' WHERE `house` = '"..house.."'")
 end)
 
+QBCore.Functions.CreateCallback('qb-phone:server:TransferCid', function(source, cb, NewCid, house)
+	QBCore.Functions.ExecuteSql(false, "SELECT * FROM `players` WHERE `citizenid` = '"..NewCid.."'", function(result)
+		if result[1] ~= nil then
+			local HouseName = house.name
+			housekeyholders[HouseName] = {}
+			housekeyholders[HouseName][1] = NewCid
+			houseownercid[HouseName] = NewCid
+			houseowneridentifier[HouseName] = result[1].steam
+
+			QBCore.Functions.ExecuteSql(false, "UPDATE `player_houses` SET citizenid='"..NewCid.."', keyholders='"..json.encode(housekeyholders[HouseName]).."', identifier='"..result[1].steam.."' WHERE `house` = '"..HouseName.."'")
+			cb(true)
+		else
+			cb(false)
+		end
+	end)
+end)
+
 function typeof(var)
     local _type = type(var);
     if(_type ~= "table" and _type ~= "userdata") then
@@ -497,21 +514,45 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPlayerHouses', function(sour
 				})
 
 				if v.keyholders ~= "null" then
-					v.keyholders = json.decode(v.keyholders)
-					if v.keyholders ~= nil then
-						for f, data in pairs(v.keyholders) do
-							QBCore.Functions.ExecuteSql(false, "SELECT * FROM `players` WHERE `citizenid` = '"..data.."'", function(keyholderdata)
-								if keyholderdata[1] ~= nil then
-									keyholderdata[1].charinfo = json.decode(keyholderdata[1].charinfo)
-									table.insert(MyHouses[k].keyholders, keyholderdata[1])
-								end
-							end)
+				    v.keyholders = json.decode(v.keyholders)
+				    if v.keyholders ~= nil then
+					for f, data in pairs(v.keyholders) do
+					    QBCore.Functions.ExecuteSql(false, "SELECT * FROM `players` WHERE `citizenid` = '"..data.."'", function(keyholderdata)
+						if keyholderdata[1] ~= nil then
+						    keyholderdata[1].charinfo = json.decode(keyholderdata[1].charinfo)
+
+						    local userKeyHolderData = {
+							charinfo = {
+							    firstname = keyholderdata[1].charinfo.firstname,
+							    lastname = keyholderdata[1].charinfo.lastname
+							},
+							citizenid = keyholderdata[1].citizenid,
+							name = keyholderdata[1].name
+						    }
+
+						    table.insert(MyHouses[k].keyholders, userKeyHolderData)
 						end
-					else
-						MyHouses[k].keyholders[1] = Player.PlayerData
+					    end)
 					end
+				    else
+					MyHouses[k].keyholders[1] = {
+						charinfo = {
+							firstname = Player.PlayerData.charinfo.firstname,
+							lastname = Player.PlayerData.charinfo.lastname
+					    	},
+					    	citizenid = Player.PlayerData.citizenid,
+					    	name = Player.PlayerData.name
+						}
+				    end
 				else
-					MyHouses[k].keyholders[1] = Player.PlayerData
+					MyHouses[k].keyholders[1] = {
+						charinfo = {
+					    		firstname = Player.PlayerData.charinfo.firstname,
+					    		lastname = Player.PlayerData.charinfo.lastname
+						},
+						citizenid = Player.PlayerData.citizenid,
+						name = Player.PlayerData.name
+				    	}
 				end
 			end
 				
@@ -521,6 +562,35 @@ QBCore.Functions.CreateCallback('qb-phone:server:GetPlayerHouses', function(sour
 		else
 			cb({})
 		end
+	end)
+end)
+
+QBCore.Functions.CreateCallback('qb-phone:server:GetHouseKeys', function(source, cb)
+	local src = source
+	local Player = QBCore.Functions.GetPlayer(src)
+	local MyKeys = {}
+
+	QBCore.Functions.ExecuteSql(false, "SELECT * FROM `player_houses`", function(result)
+		for k, v in pairs(result) do
+			if v.keyholders ~= "null" then
+				v.keyholders = json.decode(v.keyholders)
+				for s, p in pairs(v.keyholders) do
+					if p == Player.PlayerData.citizenid and (v.citizenid ~= Player.PlayerData.citizenid) then
+						table.insert(MyKeys, {
+							HouseData = Config.Houses[v.house]
+						})
+					end
+				end
+			end
+
+			if v.citizenid == Player.PlayerData.citizenid then
+				table.insert(MyKeys, {
+					HouseData = Config.Houses[v.house]
+				})
+			end
+		end
+
+		cb(MyKeys)
 	end)
 end)
 

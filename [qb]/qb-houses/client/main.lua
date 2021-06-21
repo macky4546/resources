@@ -496,11 +496,11 @@ end
 
 function HouseKeysMenu()
     ped = PlayerPedId();
-    MenuTitle = "Keyholder"
+    MenuTitle = "Sleutels"
     ClearMenu()
     QBCore.Functions.TriggerCallback('qb-houses:server:getHouseKeyHolders', function(holders)
         ped = PlayerPedId();
-        MenuTitle = "Key Holders:"
+        MenuTitle = "Sleutelhouders:"
         ClearMenu()
         if holders == nil or next(holders) == nil then
             QBCore.Functions.Notify("No key holders found..", "error", 3500)
@@ -510,7 +510,7 @@ function HouseKeysMenu()
                 Menu.addButton(holders[k].firstname .. " " .. holders[k].lastname, "optionMenu", holders[k]) 
             end
         end
-        Menu.addButton("Close Menu", "closeMenuFull", nil) 
+        Menu.addButton("Sluit Menu", "closeMenuFull", nil) 
     end, closesthouse)
 end
 
@@ -526,8 +526,8 @@ function optionMenu(citizenData)
     ped = PlayerPedId();
     MenuTitle = "What now?"
     ClearMenu()
-    Menu.addButton("Remove House Key", "removeHouseKey", citizenData) 
-    Menu.addButton("close", "HouseKeysMenu",nil)
+    Menu.addButton("Verwijder sleutel", "removeHouseKey", citizenData) 
+    Menu.addButton("Terug", "HouseKeysMenu",nil)
 end
 
 function removeHouseKey(citizenData)
@@ -847,7 +847,7 @@ function CreateInstuctionScaleform(scaleform)
     PushScaleformMovieFunction(scaleform, "SET_DATA_SLOT")
     PushScaleformMovieFunctionParameterInt(1)
     InstructionButton(GetControlInstructionalButton(1, 194, true))
-    InstructionButtonMessage("Close Camera")
+    InstructionButtonMessage("Sluit Camera")
     PopScaleformMovieFunctionVoid()
 
     PushScaleformMovieFunction(scaleform, "DRAW_INSTRUCTIONAL_BUTTONS")
@@ -1071,7 +1071,7 @@ AddEventHandler('qb-houses:client:HomeInvasion', function()
                             end)
                             TriggerServerEvent('qb-houses:server:SetRamState', true, closesthouse)
                         else
-                            QBCore.Functions.Notify('Someone is already working on the door..', 'error')
+                            QBCore.Functions.Notify('Er is al iemand bezig met de deur..', 'error')
                         end
                     else
                         QBCore.Functions.Notify('19/5000 This house is already open..', 'error')
