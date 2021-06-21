@@ -45,7 +45,6 @@ Citizen.CreateThread(function()
             local playerName = GetPlayerName(PlayerId())
             local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
 
-
             if getPlayerRadioChannel ~= "nil" then
               exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
               exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
@@ -158,18 +157,3 @@ function SplitStr(inputstr, sep)
 	end
 	return t
 end
-exports("getPlayerData", getPlayerData)
-exports("IsRadioOpen", IsRadioOpen)
-exports("IsRadioOn", IsRadioOn)
-exports("IsRadioAvailable", IsRadioAvailable)
-exports("IsRadioEnabled", IsRadioEnabled)
-exports("CanRadioBeUsed", CanRadioBeUsed)
-exports("SetRadioEnabled", SetRadioEnabled)
-exports("SetRadio", SetRadio)
-exports("SetAllowRadioWhenClosed", SetAllowRadioWhenClosed)
-exports("AddPrivateFrequency", AddPrivateFrequency)
-exports("RemovePrivateFrequency", RemovePrivateFrequency)
-exports("GivePlayerAccessToFrequency", GivePlayerAccessToFrequency)
-exports("RemovePlayerAccessToFrequency", RemovePlayerAccessToFrequency)
-exports("GivePlayerAccessToFrequencies", GivePlayerAccessToFrequencies)
-exports("RemovePlayerAccessToFrequencies", RemovePlayerAccessToFrequencies)
