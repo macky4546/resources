@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "oQzwDy2KYnTUhO1ys6WTHD/OqsYG1BjzP+ybuIw5EacnTMc6CTV++9ifp6MHg2qs2J00vKOyvfj7oIUumS5Z5A==",
+  "success": true,
+  "projectFilePath": "f:\\server\\cfx-server-data\\resources\\fivem-vstancer\\VStancer.Client\\VStancer.Client.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Guardian\\.nuget\\packages\\citizenfx.core.client\\1.0.2460\\citizenfx.core.client.1.0.2460.nupkg.sha512",
+    "C:\\Users\\Guardian\\.nuget\\packages\\menuapi.fivem\\3.1.2\\menuapi.fivem.3.1.2.nupkg.sha512",
+    "C:\\Users\\Guardian\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

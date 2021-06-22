@@ -1,7 +1,12 @@
 local Cfg = Cfg
 local currentGrid = 0
 -- we can't use GetConvarInt because its not a integer, and theres no way to get a float... so use a hacky way it is!
-local volume = tonumber(GetConvar('voice_defaultVolume', '0.3'))
+local volumes = {
+	-- people are setting this to 1 instead of 1.0 and expecting it to work.
+	['radio'] = tonumber(GetConvar('voice_defaultVolume', '0.3')) + 0.0,
+	['phone'] = tonumber(GetConvar('voice_defaultVolume', '0.3')) + 0.0,
+}
+plyState = LocalPlayer.state
 local micClicks = true
 playerServerId = GetPlayerServerId(PlayerId())
 radioEnabled, radioPressed, mode, radioChannel, callChannel = false, false, 2, 0, 0
@@ -10,30 +15,59 @@ radioData = {}
 callData = {}
 
 -- TODO: Convert the last Cfg to a Convar, while still keeping it simple.
-AddEventHandler('pma_voice:settingsCallback', function(cb)
+AddEventHandler('pma-voice:settingsCallback', function(cb)
 	cb(Cfg)
 end)
 
 -- TODO: Better implementation of this?
 RegisterCommand('vol', function(_, args)
-	if args[1] then
-		setVolume(args[1])
+	if not args[1] then return end
+	local volume = tonumber(args[1])
+	if volume then
+		setVolume(volume / 100)
 	end
 end)
 
 --- function setVolume
 --- Toggles the players volume
----@param vol number between 0 and 100
-function setVolume(vol)
-	local vol = tonumber(vol)
-	if vol then
-		volume = vol / 100
+---@param volume number between 0 and 100
+---@param volumeType string the volume type (currently radio & call) to set the volume of (opt)
+function setVolume(volume, volumeType)
+	local volume = tonumber(volume)
+	local checkType = type(volume)
+	if checkType ~= 'number' then
+		return error(('setVolume expected type number, got %s'):format(checkType))
+	end
+	if volumeType then
+		local volumeTbl = volumes[volumeType]
+		if volumeTbl then
+			plyState:set(volumeType, volume, GetConvarInt('voice_syncData', 0) == 1)
+			volumes[volumeType] = volume
+		else
+			error(('setVolume got a invalid volume type %s'):format(volumeType))
+		end
+	else
+		for types, vol in pairs(volumes) do
+			volumes[types] = volume
+			plyState:set(types, volume, GetConvarInt('voice_syncData', 0) == 1)
+		end
 	end
 end
-exports("setVolume", setVolume)
--- compatibility
-exports("setRadioVolume", setVolume)
-exports("pma_voice" , getPlayerData)
+exports('setVolume', setVolume)
+
+exports('setRadioVolume', function(vol)
+	setVolume(vol, 'radio')
+end)
+exports('getRadioVolume', function()
+	return volumes['radio']
+end)
+exports("setCallVolume", function(vol)
+	setVolume(vol, 'phone')
+end)
+exports('getCallVolume', function()
+	return volumes['phone']
+end)
+
 
 -- default submix incase people want to fiddle with it.
 -- freq_low = 389.0
@@ -72,21 +106,21 @@ local disableSubmixReset = {}
 --- Toggles the players voice
 ---@param plySource number the players server id to override the volume for
 ---@param enabled boolean if the players voice is getting activated or deactivated
----@param submixType string what submix to use for the players voice, currently only supports 'radio'
-function toggleVoice(plySource, enabled, submixType)
-	logger.verbose(('[main] Updating %s to talking: %s with submix %s'):format(plySource, enabled, submixType))
+---@param moduleType string the volume & submix to use for the voice.
+function toggleVoice(plySource, enabled, moduleType)
+	logger.verbose('[main] Updating %s to talking: %s with submix %s', plySource, enabled, moduleType)
 	if enabled then
-		MumbleSetVolumeOverrideByServerId(plySource, enabled and volume or -1.0)
-		if GetConvarInt('voice_enableRadioSubmix', 0) == 1 then
-			if submixType then
+		MumbleSetVolumeOverrideByServerId(plySource, enabled and volumes[moduleType])
+		if GetConvarInt('voice_enableSubmix', 0) == 1 then
+			if moduleType then
 				disableSubmixReset[plySource] = true
-				submixFunctions[submixType](plySource)
+				submixFunctions[moduleType](plySource)
 			else
 				MumbleSetSubmixForServerId(plySource, -1)
 			end
 		end
 	else
-		if GetConvarInt('voice_enableRadioSubmix', 0) == 1 then
+		if GetConvarInt('voice_enableSubmix', 0) == 1 then
 			-- garbage collect it
 			disableSubmixReset[plySource] = nil
 			SetTimeout(250, function()
@@ -95,7 +129,7 @@ function toggleVoice(plySource, enabled, submixType)
 				end
 			end)
 		end
-		MumbleSetVolumeOverrideByServerId(plySource, enabled and volume or -1.0)
+		MumbleSetVolumeOverrideByServerId(plySource, -1.0)
 	end
 end
 
@@ -113,11 +147,11 @@ function playerTargets(...)
 		for id, _ in pairs(targets[i]) do
 			-- we don't want to log ourself, or listen to ourself
 			if addedPlayers[id] and id ~= playerServerId then
-				logger.verbose(('[main] %s is already target don\'t re-add'):format(id))
+				logger.verbose('[main] %s is already target don\'t re-add', id)
 				goto skip_loop
 			end
 			if not addedPlayers[id] then
-				logger.verbose(('[main] Adding %s as a voice target'):format(id))
+				logger.verbose('[main] Adding %s as a voice target', id)
 				addedPlayers[id] = true
 				MumbleAddVoiceTargetPlayerByServerId(1, id)
 			end
@@ -146,29 +180,62 @@ RegisterCommand('+cycleproximity', function()
 	local newMode = voiceMode + 1
 
 	voiceMode = (newMode <= #Cfg.voiceModes and newMode) or 1
-	MumbleSetAudioInputDistance(Cfg.voiceModes[voiceMode][1] + 0.0)
+	local voiceModeData = Cfg.voiceModes[voiceMode]
+	MumbleSetAudioInputDistance(voiceModeData[1] + 0.0)
 	mode = voiceMode
-	LocalPlayer.state:set('proximity', Cfg.voiceModes[voiceMode][1], true)
+	plyState:set('proximity', {
+		index = voiceMode,
+		distance =  voiceModeData[1],
+		mode = voiceModeData[2],
+	}, GetConvarInt('voice_syncData', 0) == 1)
 	-- make sure we update the UI to the latest voice mode
 	SendNUIMessage({
 		voiceMode = voiceMode - 1
 	})
-	TriggerEvent('pma_voice:setTalkingMode', voiceMode)
+	TriggerEvent('pma-voice:setTalkingMode', voiceMode)
 end, false)
 RegisterCommand('-cycleproximity', function()
 end)
 RegisterKeyMapping('+cycleproximity', 'Cycle Proximity', 'keyboard', GetConvar('voice_defaultCycle', 'F11'))
 
-RegisterNetEvent('pma_voice:mutePlayer', function()
+--- Toggles the current player muted 
+function toggleMute() 
 	playerMuted = not playerMuted
+	
 	if playerMuted then
-		LocalPlayer.state:set('proximity', 0.1, true)
+		plyState:set('proximity', {
+			index = 0,
+			distance = 0.1,
+			mode = 'Muted',
+		}, GetConvarInt('voice_syncData', 0) == 1)
 		MumbleSetAudioInputDistance(0.1)
 	else
-		LocalPlayer.state:set('proximity', Cfg.voiceModes[mode][1], true)
+		local voiceModeData = Cfg.voiceModes[mode]
+		plyState:set('proximity', {
+			index = mode,
+			distance =  voiceModeData[1],
+			mode = voiceModeData[2],
+		}, GetConvarInt('voice_syncData', 0) == 1)
 		MumbleSetAudioInputDistance(Cfg.voiceModes[mode][1])
 	end
-end)
+end
+exports('toggleMute', toggleMute)
+RegisterNetEvent('pma-voice:toggleMute', toggleMute)
+
+local mutedTbl = {}
+--- toggles the targeted player muted
+---@param source number the player to mute
+function toggleMutePlayer(source)
+	if mutedTbl[source] then
+		mutedTbl[source] = nil
+		MumbleSetVolumeOverrideByServerId(source, -1.0)
+	else
+		mutedTbl[source] = true
+		MumbleSetVolumeOverrideByServerId(source, 0.0)
+	end
+end
+exports('toggleMutePlayer', toggleMutePlayer)
+
 
 --- function setVoiceProperty
 --- sets the specified voice property
@@ -183,7 +250,7 @@ function setVoiceProperty(type, value)
 	elseif type == "micClicks" then
 		local val = tostring(value)
 		micClicks = val
-		SetResourceKvp('pma_voice_enableMicClicks', val)
+		SetResourceKvp('pma-voice_enableMicClicks', val)
 	end
 end
 exports('setVoiceProperty', setVoiceProperty)
@@ -191,21 +258,43 @@ exports('setVoiceProperty', setVoiceProperty)
 exports('SetMumbleProperty', setVoiceProperty)
 exports('SetTokoProperty', setVoiceProperty)
 
+local currentRouting = 0
+local nextRoutingRefresh = GetGameTimer()
+local overrideCoords = false
+
+--- function setOverrideCoords
+--- will have to be updated every so often if used for spectate.
+---@param coords vector3|boolean the coords to set override for, or false to reset
+function setOverrideCoords(coords)
+	local coordType = type(coords)
+	if coordType ~= 'vector3' and coordType ~= 'boolean' then
+		return logger.error('"setOverrideCoords" expects a vector3 or boolean, got %s', coordType)
+	end
+	overrideCoords = coords
+end
+exports('setOverrideCoords', setOverrideCoords)
+
+function getMaxSize(zoneRadius)
+	return math.floor(math.max(4500.0 + 8192.0, 0.0) / zoneRadius + math.max(8022.0 + 8192.0, 0.0) / zoneRadius)
+end
+
 --- function getGridZone
 --- calculate the players grid
 ---@return number returns the players current grid.
 local function getGridZone()
-	local plyPos = GetEntityCoords(PlayerPedId(), false)
-	local zoneRadius = GetConvarInt('voice_zoneRadius', 16) * 2
-	local zoneOffset = (256 / zoneRadius)
-	-- this code might be hard to follow
-	return (
-		--[[ 31 is the initial offses]]
-		math.floor( 31 * ( --[[ offset from the original zone should return a multiple]] zoneOffset) + 
-	--[[ returns -6 * zoneOffset so we want to offset it ]]
-	(zoneOffset * 6) - 6 )) 
-	+ (--[[ Offset routing bucket by 5 (we listen to closest 5 channels) + 5 (routing starts at 0)]]((LocalPlayer.state.routingBucket or 0) * 5) + 5) + math.ceil((plyPos.x + plyPos.y) / (zoneRadius))
+	local plyPos = overrideCoords or GetEntityCoords(PlayerPedId(), false)
+	local zoneRadius = GetConvarInt('voice_zoneRadius', 256)
+	if nextRoutingRefresh < GetGameTimer() then
+		-- Constant deserialization (every frame) is a bad idea, only update it every so often.
+		nextRoutingRefresh = GetGameTimer() + 500
+		currentRouting = LocalPlayer.state.routingBucket or 0
+	end
+	local sectorX = math.max(plyPos.x + 8192.0, 0.0) / zoneRadius
+	local sectorY = math.max(plyPos.y + 8192.0, 0.0) / zoneRadius
+	return (math.ceil(sectorX + sectorY) + (currentRouting * getMaxSize(zoneRadius)))
 end
+
+local lastGridChange = GetGameTimer()
 
 --- function updateZone
 --- updates the players current grid, if they're in a different grid.
@@ -213,11 +302,13 @@ end
 local function updateZone(forced)
 	local newGrid = getGridZone()
 	if newGrid ~= currentGrid or forced then
-        logger.info(('Updating zone from %s to %s and adding nearby grids.'):format(currentGrid, newGrid))
+		logger.verbose('Time since last grid change: %s',  (GetGameTimer() - lastGridChange)/1000)
+		logger.info('Updating zone from %s to %s and adding nearby grids, was forced: %s', currentGrid, newGrid, forced)
+		lastGridChange = GetGameTimer()
 		currentGrid = newGrid
 		MumbleClearVoiceTargetChannels(1)
 		NetworkSetVoiceChannel(currentGrid)
-		LocalPlayer.state:set('channel', currentGrid, true)
+		LocalPlayer.state:set('grid', currentGrid, true)
 		-- add nearby grids to voice targets
 		for nearbyGrids = currentGrid - 3, currentGrid + 3 do
 			MumbleAddVoiceTargetChannel(1, nearbyGrids)
@@ -249,7 +340,7 @@ Citizen.CreateThread(function()
 				})
 			end
 		end
-		Wait(100)
+		Wait(GetConvarInt('voice_zoneRefreshRate', 200))
 	end
 end)
 
@@ -279,6 +370,7 @@ RegisterCommand('vsync', function()
 			Wait(250)
 		end
 	end
+	NetworkSetVoiceChannel(newGrid + 100)
 	-- reset the players voice targets
 	MumbleSetVoiceTarget(0)
 	MumbleClearVoiceTarget(1)
@@ -294,16 +386,21 @@ AddEventHandler('onClientResourceStart', function(resource)
 	end
 	print('Starting script initialization')
 
-	local micClicksKvp = GetResourceKvpString('pma_voice_enableMicClicks')
+	local micClicksKvp = GetResourceKvpString('pma-voice_enableMicClicks')
 	if not micClicksKvp then
-		SetResourceKvp('pma_voice_enableMicClicks', tostring(true))
+		SetResourceKvp('pma-voice_enableMicClicks', tostring(true))
 	else
 		micClicks = micClicksKvp
 	end
 
+	local voiceModeData = Cfg.voiceModes[mode]
 	-- sets how far the player can talk
-	MumbleSetAudioInputDistance(Cfg.voiceModes[mode][1] + 0.0)
-	LocalPlayer.state:set('proximity', Cfg.voiceModes[mode][1] + 0.0, true)
+	MumbleSetAudioInputDistance(voiceModeData[1] + 0.0)
+	plyState:set('proximity', {
+		index = mode,
+		distance =  voiceModeData[1],
+		mode = voiceModeData[2],
+	}, GetConvarInt('voice_syncData', 0) == 1)
 
 	-- this sets how far the player can hear.
 	MumbleSetAudioOutputDistance(Cfg.voiceModes[#Cfg.voiceModes][1] + 0.0)
@@ -338,8 +435,12 @@ end)
 
 AddEventHandler('mumbleConnected', function(address, shouldReconnect)
 	logger.log('Connected to mumble server with address of %s, should reconnect on disconnect is set to %s', GetConvarInt('voice_hideEndpoints', 1) == 1 and 'HIDDEN' or address, shouldReconnect)
+	-- don't try to set channel instantly, we're still getting data.
+	Wait(1000)
+	updateZone(true)
 end)
 
 AddEventHandler('mumbleDisconnected', function(address)
 	logger.log('Disconnected from mumble server with address of %s', GetConvarInt('voice_hideEndpoints', 1) == 1 and 'HIDDEN' or address)
+	currentGrid = -1
 end)

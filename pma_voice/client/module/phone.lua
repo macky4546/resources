@@ -8,18 +8,18 @@ local function createPhoneThread()
 			if NetworkIsPlayerTalking(PlayerId()) and not changed then
 				changed = true
 				playerTargets(radioPressed and radioData or {}, callData)
-				TriggerServerEvent('pma_voice:setTalkingOnCall', true)
+				TriggerServerEvent('pma-voice:setTalkingOnCall', true)
 			elseif changed and NetworkIsPlayerTalking(PlayerId()) ~= 1 then
 				changed = false
 				MumbleClearVoiceTargetPlayers(1)
-				TriggerServerEvent('pma_voice:setTalkingOnCall', false)
+				TriggerServerEvent('pma-voice:setTalkingOnCall', false)
 			end
 			Wait(0)
 		end
 	end)
 end
 
-RegisterNetEvent('pma_voice:syncCallData', function(callTable, channel)
+RegisterNetEvent('pma-voice:syncCallData', function(callTable, channel)
 	callData = callTable
 	for tgt, enabled in pairs(callTable) do
 		if tgt ~= playerServerId then
@@ -28,18 +28,18 @@ RegisterNetEvent('pma_voice:syncCallData', function(callTable, channel)
 	end
 end)
 
-RegisterNetEvent('pma_voice:setTalkingOnCall', function(tgt, enabled)
+RegisterNetEvent('pma-voice:setTalkingOnCall', function(tgt, enabled)
 	if tgt ~= playerServerId then
 		callData[tgt] = enabled
 		toggleVoice(tgt, enabled, 'phone')
 	end
 end)
 
-RegisterNetEvent('pma_voice:addPlayerToCall', function(plySource)
+RegisterNetEvent('pma-voice:addPlayerToCall', function(plySource)
 	callData[plySource] = false
 end)
 
-RegisterNetEvent('pma_voice:removePlayerFromCall', function(plySource)
+RegisterNetEvent('pma-voice:removePlayerFromCall', function(plySource)
 	if plySource == playerServerId then
 		for tgt, enabled in pairs(callData) do
 			if tgt ~= playerServerId then
@@ -49,6 +49,7 @@ RegisterNetEvent('pma_voice:removePlayerFromCall', function(plySource)
 		callData = {}
 		MumbleClearVoiceTargetPlayers(1)
 		playerTargets(radioPressed and radioData or {}, callData)
+		plyState:set('callChannel', 0, GetConvarInt('voice_syncData', 0) == 1)
 	else
 		callData[plySource] = nil
 		toggleVoice(plySource, false, 'phone')
@@ -61,8 +62,9 @@ end)
 
 function setCallChannel(channel)
 	if GetConvarInt('voice_enablePhones', 1) ~= 1 then return end
-	TriggerServerEvent('pma_voice:setPlayerCall', channel)
+	TriggerServerEvent('pma-voice:setPlayerCall', channel)
 	callChannel = channel
+	plyState:set('callChannel', channel, GetConvarInt('voice_syncData', 0) == 1)
 	if GetConvarInt('voice_enableUi', 1) == 1 then
 		SendNUIMessage({
 			callInfo = channel
@@ -84,8 +86,9 @@ exports('removePlayerFromCall', function()
 	setCallChannel(0)
 end)
 
-RegisterNetEvent('pma_voice:clSetPlayerCall', function(_callChannel)
+RegisterNetEvent('pma-voice:clSetPlayerCall', function(_callChannel)
 	if GetConvarInt('voice_enablePhones', 1) ~= 1 then return end
 	callChannel = _callChannel
+	plyState:set('callChannel', _callChannel, GetConvarInt('voice_syncData', 0) == 1)
 	createPhoneThread()
 end)
