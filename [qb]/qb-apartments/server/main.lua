@@ -11,7 +11,7 @@ AddEventHandler('apartments:server:CreateApartment', function(type, label)
     local apartmentId = tostring(type .. num)
     local label = tostring(label .. " " .. num)
     QBCore.Functions.ExecuteSql(false, "INSERT INTO `apartments` (`name`, `type`, `label`, `citizenid`) VALUES ('"..apartmentId.."', '"..type.."', '"..label.."', '"..Player.PlayerData.citizenid.."')")
-    TriggerClientEvent('QBCore:Notify', src, "You have an apartment ("..label..")")
+    TriggerClientEvent('QBCore:Notify', src, "You got a apartment ("..label..")")
     TriggerClientEvent("apartments:client:SpawnInApartment", src, apartmentId, type)
     TriggerClientEvent("apartments:client:SetHomeBlip", src, type)
 end)
@@ -22,7 +22,7 @@ AddEventHandler('apartments:server:UpdateApartment', function(type)
     local Player = QBCore.Functions.GetPlayer(src)
     QBCore.Functions.ExecuteSql(false, "UPDATE `apartments` SET type='"..type.."' WHERE `citizenid` = '"..Player.PlayerData.citizenid.."'")
 
-    TriggerClientEvent('QBCore:Notify', src, "You have changed apartments!")
+    TriggerClientEvent('QBCore:Notify', src, "You have changed apartments")
     TriggerClientEvent("apartments:client:SetHomeBlip", src, type)
 end)
 
@@ -215,7 +215,6 @@ AddEventHandler('qb-apartments:server:SetInsideMeta', function(house, insideId, 
         insideMeta.apartment.apartmentType = house
         insideMeta.apartment.apartmentId = insideId
         insideMeta.house = nil
-        print(json.encode(insideMeta.apartment))
 
         Player.Functions.SetMetaData("inside", insideMeta)
     else
@@ -223,7 +222,6 @@ AddEventHandler('qb-apartments:server:SetInsideMeta', function(house, insideId, 
         insideMeta.apartment.apartmentId = nil
         insideMeta.house = nil
 
-        print(json.encode(insideMeta.apartment))
 
         Player.Functions.SetMetaData("inside", insideMeta)
     end

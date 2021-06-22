@@ -12,16 +12,16 @@ QB.Spawns = {
         label = "Legion Square",
     },
 
-    --[[["policedp"] = {
+    ["policedp"] = {
         coords = {
             x = 428.23, 
             y = -984.28, 
             z = 29.76, 
             h = 3.5 
         },
-        location = "policePD",
+        location = "policedp",
         label = "Police Department",
-    },]]
+    },
 
     ["paleto"] = {
         coords = {
