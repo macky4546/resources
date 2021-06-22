@@ -43,11 +43,11 @@ Citizen.CreateThread(function()
         QBCore.Functions.TriggerCallback('qb-radio:server:GetItem', function(hasItem)
           if not hasItem then
             local playerName = GetPlayerName(PlayerId())
-            local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
+            local getPlayerRadioChannel = exports["pma_voice"]:getPlayerData(playerName, "radio:channel")
 
             if getPlayerRadioChannel ~= "nil" then
-              exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
-              exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
+              exports["pma_voice"]:removePlayerFromRadio(getPlayerRadioChannel)
+              exports["pma_voice"]:setPlayerData(playerName, "radio:channel", "nil", true)
               QBCore.Functions.Notify('You are removed from your current frequency!', 'error')
             end
           end
@@ -63,15 +63,15 @@ RegisterNUICallback('joinRadio', function(data, cb)
   local _source = source
   local PlayerData = QBCore.Functions.GetPlayerData()
   local playerName = GetPlayerName(PlayerId())
-  local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports["pma_voice"]:getPlayerData(playerName, "radio:channel")
 
   if tonumber(data.channel) <= Config.MaxFrequency then
     if tonumber(data.channel) ~= tonumber(getPlayerRadioChannel) then
       if tonumber(data.channel) <= Config.RestrictedChannels then
         if(PlayerData.job.name == 'police' or PlayerData.job.name == 'ambulance' or PlayerData.job.name == 'doctor') then
-          exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
-          exports.pma_voice:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-          exports.pma_voice:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
+          exports["pma_voice"]:removePlayerFromRadio(getPlayerRadioChannel)
+          exports["pma_voice"]:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+          exports["pma_voice"]:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
           if SplitStr(data.channel, ".")[2] ~= nil and SplitStr(data.channel, ".")[2] ~= "" then 
             QBCore.Functions.Notify(Config.messages['joined_to_radio'] .. data.channel .. ' MHz </b>', 'success')
           else
@@ -83,9 +83,9 @@ RegisterNUICallback('joinRadio', function(data, cb)
       end
 
       if tonumber(data.channel) > Config.RestrictedChannels then
-        exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
-        exports.pma_voice:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
-        exports.pma_voice:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
+        exports["pma_voice"]:removePlayerFromRadio()
+        exports["pma_voice"]:setPlayerData(playerName, "radio:channel", tonumber(data.channel), true);
+        exports["pma_voice"]:addPlayerToRadio(tonumber(data.channel), "Radio", "radio")
         if SplitStr(data.channel, ".")[2] ~= nil and SplitStr(data.channel, ".")[2] ~= "" then 
           QBCore.Functions.Notify(Config.messages['joined_to_radio'] .. data.channel .. ' MHz </b>', 'success')
         else
@@ -107,12 +107,12 @@ end)
 
 RegisterNUICallback('leaveRadio', function(data, cb)
   local playerName = GetPlayerName(PlayerId())
-  local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports["pma_voice"]:getPlayerData(playerName, "radio:channel")
   if getPlayerRadioChannel == "nil" then
     QBCore.Functions.Notify(Config.messages['not_on_radio'], 'error')
   else
-    exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
-    exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
+    exports["pma_voice"]:removePlayerFromRadio(getPlayerRadioChannel)
+    exports["pma_voice"]:setPlayerData(playerName, "radio:channel", "nil", true)
     if SplitStr(getPlayerRadioChannel, ".")[2] ~= nil and SplitStr(getPlayerRadioChannel, ".")[2] ~= "" then 
       QBCore.Functions.Notify(Config.messages['you_leave'] .. getPlayerRadioChannel .. ' MHz </b>', 'error')
     else
@@ -138,11 +138,11 @@ end)
 RegisterNetEvent('qb-radio:onRadioDrop')
 AddEventHandler('qb-radio:onRadioDrop', function()
   local playerName = GetPlayerName(PlayerId())
-  local getPlayerRadioChannel = exports.pma_voice:getPlayerData(playerName, "radio:channel")
+  local getPlayerRadioChannel = exports["pma_voice"]:getPlayerData(playerName, "radio:channel")
 
   if getPlayerRadioChannel ~= "nil" then
-    exports.pma_voice:removePlayerFromRadio(getPlayerRadioChannel)
-    exports.pma_voice:setPlayerData(playerName, "radio:channel", "nil", true)
+    exports["pma_voice"]:removePlayerFromRadio(getPlayerRadioChannel)
+    exports["pma_voice"]:setPlayerData(playerName, "radio:channel", "nil", true)
     QBCore.Functions.Notify(Config.messages['you_leave'] .. getPlayerRadioChannel .. '.00 MHz </b>', 'error')
   end
 end)
@@ -157,3 +157,5 @@ function SplitStr(inputstr, sep)
 	end
 	return t
 end
+
+RegisterKeyMapping('radio', 'Open Radio', 'keyboard', '')

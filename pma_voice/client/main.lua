@@ -33,6 +33,7 @@ end
 exports("setVolume", setVolume)
 -- compatibility
 exports("setRadioVolume", setVolume)
+exports("pma_voice" , getPlayerData)
 
 -- default submix incase people want to fiddle with it.
 -- freq_low = 389.0
