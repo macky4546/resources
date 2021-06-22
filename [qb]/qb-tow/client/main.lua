@@ -10,7 +10,7 @@ Citizen.CreateThread(function()
     end
 end)
 
-isLoggedIn = true
+isLoggedIn = false
 local PlayerJob = {}
 local CurrentPlate = nil
 local JobsDone = 0
@@ -66,11 +66,10 @@ RegisterNetEvent('jobs:client:ToggleNpc')
 AddEventHandler('jobs:client:ToggleNpc', function()
     if QBCore.Functions.GetPlayerData().job.name == "tow" then
         if CurrentTow ~= nil then 
-            QBCore.Functions.Notify("Finish your work first!", "error")
+            QBCore.Functions.Notify("First Finish Your Work", "error")
             return
         end
         NpcOn = not NpcOn
-        print(NpcOn)
         if NpcOn then
             local randomLocation = getRandomVehicleLocation()
             CurrentLocation.x = Config.Locations["towspots"][randomLocation].coords.x
@@ -96,7 +95,7 @@ end)
 
 RegisterNetEvent('qb-tow:client:TowVehicle')
 AddEventHandler('qb-tow:client:TowVehicle', function()
-    local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+    local vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
     if isTowVehicle(vehicle) then
         if CurrentTow == nil then 
             --[[ Replaced "QBCore.Functions.GetClosestVehicle()" with custom implementation "getVehicleInDirection"
@@ -108,16 +107,16 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
 
             if NpcOn and CurrentLocation ~= nil then
                 if GetEntityModel(targetVehicle) ~= GetHashKey(CurrentLocation.model) then
-                    QBCore.Functions.Notify("This is not the right vehicle.", "error")
+                    QBCore.Functions.Notify("This Is Not The Right Vehicle", "error")
                     return
                 end
             end
-            if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+            if not IsPedInAnyVehicle(PlayerPedId()) then
                 if vehicle ~= targetVehicle then
                     local towPos = GetEntityCoords(vehicle)
                     local targetPos = GetEntityCoords(targetVehicle)
-                    if GetDistanceBetweenCoords(towPos.x, towPos.y, towPos.z, targetPos.x, targetPos.y, targetPos.z, true) < 11.0 then
-                        QBCore.Functions.Progressbar("towing_vehicle", "Put the vehicle on..", 5000, false, true, {
+                    if #(towPos - targetPos) < 11.0 then
+                        QBCore.Functions.Progressbar("towing_vehicle", "Hoisting the Vehicle...", 5000, false, true, {
                             disableMovement = true,
                             disableCarMovement = true,
                             disableMouse = false,
@@ -127,24 +126,32 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
                             anim = "fixing_a_ped",
                             flags = 16,
                         }, {}, {}, function() -- Done
-                            StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_ped", 1.0)
+                            StopAnimTask(PlayerPedId(), "mini@repair", "fixing_a_ped", 1.0)
                             AttachEntityToEntity(targetVehicle, vehicle, GetEntityBoneIndexByName(vehicle, 'bodyshell'), 0.0, -1.5 + -0.85, 0.0 + 1.15, 0, 0, 0, 1, 1, 0, 1, 0, 1)
                             FreezeEntityPosition(targetVehicle, true)
                             CurrentTow = targetVehicle
                             if NpcOn then
                                 RemoveBlip(CurrentBlip)
-                                QBCore.Functions.Notify("Take the vehicle to Hayes Depot!", "success", 5000)
+                                QBCore.Functions.Notify("Take The Vehicle To Hayes Depot", "success", 5000)
+                                CurrentBlip2 = AddBlipForCoord(491.00, -1314.69, 29.25)
+                                SetBlipColour(CurrentBlip2, 3)
+                                SetBlipRoute(CurrentBlip2, true)
+                                SetBlipRouteColour(CurrentBlip2, 3)
+                                local chance = math.random(1,100)
+                                if chance < 26 then
+                                    TriggerServerEvent('qb-tow:server:nano')
+                                end
                             end
-                            QBCore.Functions.Notify("Vehicle towed!")
+                            QBCore.Functions.Notify("Vehicle Towed")
                         end, function() -- Cancel
-                            StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_ped", 1.0)
-                            QBCore.Functions.Notify("Failed!", "error")
+                            StopAnimTask(PlayerPedId(), "mini@repair", "fixing_a_ped", 1.0)
+                            QBCore.Functions.Notify("Failed", "error")
                         end)
                     end
                 end
             end
         else
-            QBCore.Functions.Progressbar("untowing_vehicle", "Remove vehicle..", 5000, false, true, {
+            QBCore.Functions.Progressbar("untowing_vehicle", "Remove The Vehicle", 5000, false, true, {
                 disableMovement = true,
                 disableCarMovement = true,
                 disableMouse = false,
@@ -154,26 +161,26 @@ AddEventHandler('qb-tow:client:TowVehicle', function()
                 anim = "fixing_a_ped",
                 flags = 16,
             }, {}, {}, function() -- Done
-                StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_ped", 1.0)
+                StopAnimTask(PlayerPedId(), "mini@repair", "fixing_a_ped", 1.0)
                 FreezeEntityPosition(CurrentTow, false)
                 Citizen.Wait(250)
                 AttachEntityToEntity(CurrentTow, vehicle, 20, -0.0, -15.0, 1.0, 0.0, 0.0, 0.0, false, false, false, false, 20, true)
                 DetachEntity(CurrentTow, true, true)
                 if NpcOn then
                     local targetPos = GetEntityCoords(CurrentTow)
-                    if GetDistanceBetweenCoords(targetPos.x, targetPos.y, targetPos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 25.0 then
+                    if #(targetPos - vector3(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z)) < 25.0 then
                         deliverVehicle(CurrentTow)
                     end
                 end
                 CurrentTow = nil
-                QBCore.Functions.Notify("Vehicle removed!")
+                QBCore.Functions.Notify("Vehicle Taken Off")
             end, function() -- Cancel
-                StopAnimTask(GetPlayerPed(-1), "mini@repair", "fixing_a_ped", 1.0)
-                QBCore.Functions.Notify("Failed!", "error")
+                StopAnimTask(PlayerPedId(), "mini@repair", "fixing_a_ped", 1.0)
+                QBCore.Functions.Notify("Failed", "error")
             end)
         end
     else
-        QBCore.Functions.Notify("You must have been in a tow vehicle first..", "error")
+        QBCore.Functions.Notify("You Must Have Been In A Towing Vehicle First", "error")
     end
 end)
 
@@ -191,18 +198,18 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
         if isLoggedIn and QBCore ~= nil then
             if PlayerJob.name == "tow" then
-                local pos = GetEntityCoords(GetPlayerPed(-1))
-                if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 10.0) then
+                local pos = GetEntityCoords(PlayerPedId())
+                if #(pos - vector3(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z)) < 10.0 then
                     DrawMarker(2, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                    if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 1.5) then
-                        if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ -Store vehicle")
+                    if #(pos - vector3(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z)) < 1.5 then
+                        if IsPedInAnyVehicle(PlayerPedId(), false) then
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Store The Vehicle")
                         else
                             DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Vehicles")
                         end
-                        if IsControlJustReleased(0, Keys["E"]) then
-                            if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                                DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
+                        if IsControlJustReleased(0, 38) then
+                            if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                 TriggerServerEvent('qb-tow:server:DoBail', false)
                             else
                                 MenuGarage()
@@ -213,26 +220,26 @@ Citizen.CreateThread(function()
                     end 
                 end
     
-                if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 4.5) then
-                    if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 1.5) then
-                        DrawText3D(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, "~g~E~w~ - Loonstrook")
-                        if IsControlJustReleased(0, Keys["E"]) then
+                if #(pos - vector3(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)) < 4.5 then
+                    if #(pos - vector3(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)) < 1.5 then
+                        DrawText3D(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, "~g~E~w~ - Payslip")
+                        if IsControlJustReleased(0, 38) then
                             if JobsDone > 0 then
                                 RemoveBlip(CurrentBlip)
                                 TriggerServerEvent("qb-tow:server:11101110", JobsDone)
                                 JobsDone = 0
                                 NpcOn = false
                             else
-                                QBCore.Functions.Notify("You haven't done any work yet...", "error")
+                                QBCore.Functions.Notify("You Havent Done Any Work Yet", "error")
                             end
                         end
-                    elseif (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 2.5) then
-                        DrawText3D(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, "Loonstrook")
+                    elseif #(pos - vector3(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)) < 2.5 then
+                        DrawText3D(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, "Payslip")
                     end  
                 end
 
                 if NpcOn and CurrentLocation ~= nil and next(CurrentLocation) ~= nil then
-                    if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z, true) < 50.0 and not VehicleSpawned then
+                    if #(pos - vector3(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z)) < 50.0 and not VehicleSpawned then
                         VehicleSpawned = true
                         QBCore.Functions.SpawnVehicle(CurrentLocation.model, function(veh)
                             exports['LegacyFuel']:SetFuel(veh, 0.0)
@@ -253,10 +260,11 @@ end)
 
 function deliverVehicle(vehicle)
     DeleteVehicle(vehicle)
+    RemoveBlip(CurrentBlip2)
     JobsDone = JobsDone + 1
     VehicleSpawned = false
-    QBCore.Functions.Notify("You delivered a vehicle!", "success")
-    QBCore.Functions.Notify("A new vehicle can be picked up")
+    QBCore.Functions.Notify("You Have Delivered A Vehicle", "success")
+    QBCore.Functions.Notify("A New Vehicle Can Be Picked Up")
 
     local randomLocation = getRandomVehicleLocation()
     CurrentLocation.x = Config.Locations["towspots"][randomLocation].coords.x
@@ -297,7 +305,7 @@ function isTowVehicle(vehicle)
 end
 
 function MenuGarage()
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Garage"
     ClearMenu()
     Menu.addButton("Vehicles", "VehicleList", nil)
@@ -305,7 +313,7 @@ function MenuGarage()
 end
 
 function VehicleList(isDown)
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
@@ -330,7 +338,7 @@ AddEventHandler('qb-tow:client:SpawnVehicle', function()
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         SetEntityAsMissionEntity(veh, true, true)
         closeMenuFull()
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
         CurrentPlate = GetVehicleNumberPlateText(veh)

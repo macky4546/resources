@@ -250,7 +250,7 @@ function processing()
 
 end
 
-Citizen.CreateThread(function()
+--[[Citizen.CreateThread(function()
     local blip1 = AddBlipForCoord(washcords.x, washcords.y, washcords.z)
 	SetBlipSprite(blip, 527)
 	SetBlipDisplay(blip, 4)
@@ -260,7 +260,23 @@ Citizen.CreateThread(function()
 	BeginTextCommandSetBlipName("STRING")
 	AddTextComponentSubstringPlayerName("Mining - Wash and Process")
     EndTextCommandSetBlipName(blip1)
+end)]]
+
+Citizen.CreateThread(function()
+    local blip = AddBlipForCoord(3842.95,4445.05,0.34)
+
+	SetBlipSprite(blip, 527)
+	SetBlipDisplay(blip, 4)
+	SetBlipScale(blip, 0.6)
+	SetBlipAsShortRange(blip, true)
+	SetBlipColour(blip, 5)
+
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName("Mining - Wash & Process")
+    EndTextCommandSetBlipName(blip)
 end)
+
+
 
 Citizen.CreateThread(function()
     local blip = AddBlipForCoord(2992.77, 2750.64, 42.78)

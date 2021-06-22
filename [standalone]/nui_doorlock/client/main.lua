@@ -431,7 +431,7 @@ RegisterCommand('doorlock', function()
 		TriggerServerEvent('nui_doorlock:updateState', closestDoor, locked, src) -- Broadcast new state of the door to everyone
 	end
 end)
-RegisterKeyMapping('doorlock', Config.KeybingText, 'keyboard', 'e')
+RegisterKeyMapping('doorlock', 'Use door', 'keyboard', 'e')
 
 RegisterNetEvent('lockpicks:UseLockpick')
 AddEventHandler('lockpicks:UseLockpick', function(isAdvanced)
