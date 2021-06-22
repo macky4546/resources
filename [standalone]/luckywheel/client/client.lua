@@ -55,7 +55,7 @@ Citizen.CreateThread(function()
             while not HasModelLoaded(carmodel) do
                 Citizen.Wait(0)
             end
-            local vehicle = CreateVehicle(carmodel, 935.11, 42.61, 70.27, 0.0, false, false)
+            local vehicle = CreateVehicle(carmodel, 935.11, 42.61, 71.77, 0.0, false, false)
             SetModelAsNoLongerNeeded(carmodel)
             FreezeEntityPosition(vehicle, true)
             local _curPos = GetEntityCoords(vehicle)

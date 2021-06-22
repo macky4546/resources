@@ -1,6 +1,6 @@
 QBCore = nil
 isRoll = false
-amount = 5000
+amount = 50000
 
 TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
@@ -138,7 +138,7 @@ AddEventHandler('esx_tpnrp_luckywheel:getLucky', function()
                 TriggerClientEvent("esx_tpnrp_luckywheel:doRoll", -1, _priceIndex)
             else
                 TriggerClientEvent("esx_tpnrp_luckywheel:rollFinished", -1)    
-                TriggerClientEvent('QBCore:Notify', _source, 'You Need 5,000 Chips To Spin!', 'error')
+                TriggerClientEvent('QBCore:Notify', _source, 'You Need 50,000 Chips To Spin!', 'error')
             end
         end
     end
