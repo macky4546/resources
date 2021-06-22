@@ -3,6 +3,7 @@ local isLoggedIn = false
 local nitrous = 0
 local hunger = nil
 local thirst = nil
+local oxygen = 0
 
 QBCore = nil
 Citizen.CreateThread(function()
