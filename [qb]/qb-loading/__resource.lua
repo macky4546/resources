@@ -9,7 +9,7 @@ files {
 	'style.css',
 	'assets/style/cursor.css',
 	'index.html',
-	'logo.jpg'
+	'logo.png',
 	'js/main.js',
     'js/plugins.js',
     'assets/img/gangster.gif',

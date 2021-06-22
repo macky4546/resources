@@ -42,6 +42,6 @@ function CreateNoteId()
 	return noteId
 end
 
-QBCore.Commands.Add("notes", "Laat kofferbak positie zien", {}, false, function(source, args)
+QBCore.Commands.Add("notes", "Open Notepad", {}, false, function(source, args)
 	TriggerClientEvent("notes:client:OpenNotepad", source)
 end)

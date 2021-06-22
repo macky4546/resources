@@ -7,7 +7,7 @@ Citizen.CreateThread(function()
 	path = path:gsub('//', '/')..'/server/states.json'
 	local file = io.open(path, 'r')
 	if not file or xPlayers == 0 then
-		file = io.open(path, 'a')
+		file = io.open(path, 'w+')
 		for k,v in pairs(Config.DoorList) do
 			doorInfo[k] = v.locked
 		end
@@ -44,20 +44,19 @@ RegisterServerEvent('nui_doorlock:updateState')
 AddEventHandler('nui_doorlock:updateState', function(doorID, locked, src, usedLockpick)
 	local playerId = source
 	local xPlayer = QBCore.Functions.GetPlayer(playerId)
-	--local PlayerData = QBCore.Functions.GetPlayerData()
 
 	if type(doorID) ~= 'number' then
-		print(('nui_doorlock: %s (%s) didn\'t send a number! (Sent %s)'):format(xPlayer.PlayerData.name(), xPlayer.PlayerData.steam(), doorID))
+		print(('nui_doorlock: %s (%s) didn\'t send a number! (Sent %s)'):format(xPlayer.PlayerData.name, xPlayer.PlayerData.license, doorID))
 		return
 	end
 
 	if type(locked) ~= 'boolean' then
-		print(('nui_doorlock: %s (%s) attempted to update invalid state! (Sent %s)'):format(xPlayer.PlayerData.name(), xPlayer.PlayerData.steam(), locked))
+		print(('nui_doorlock: %s (%s) attempted to update invalid state! (Sent %s)'):format(xPlayer.PlayerData.name, xPlayer.PlayerData.license, locked))
 		return
 	end
 
 	if not Config.DoorList[doorID] then
-		print(('nui_doorlock: %s (%s) attempted to update invalid door! (Sent %s)'):format(xPlayer.PlayerData.name(), xPlayer.PlayerData.steam(), doorID))
+		print(('nui_doorlock: %s (%s) attempted to update invalid door! (Sent %s)'):format(xPlayer.PlayerData.name, xPlayer.PlayerData.license, doorID))
 		return
 	end
 	
@@ -83,74 +82,61 @@ QBCore.Functions.CreateCallback('nui_doorlock:getDoorInfo', function(source, cb)
 end)
 
 function IsAuthorized(xPlayer, doorID, locked, usedLockpick)
---	local jobName, grade = {}, {}
---	jobName[1] = xPlayer.job.name
---	grade[1] = xPlayer.job.grade
-	local src = source
-	local xPlayer = QBCore.Functions.GetPlayer(src)
-	local jobname = xPlayer.PlayerData.job.name
-	local gradename = xPlayer.PlayerData.job.grade.level
+	local jobName, grade = {}, {}
+	jobName[1] = xPlayer.PlayerData.job.name
+	grade[1] = xPlayer.PlayerData.job.grade.level
+	if xPlayer.job2 then
+		jobName[2] = xPlayer.job2.name
+		grade[2] = xPlayer.PlayerData.job2.grade.level
+	end
 	local canOpen = false
+	if doorID.lockpick and usedLockpick then
+ 		canOpen = true
+	end
 
 	if not canOpen and doorID.authorizedJobs then
 		for job,rank in pairs(doorID.authorizedJobs) do
-			if job == jobname and rank <= gradename then
+			if (job == jobName[1] and rank <= grade[1]) or (jobName[2] and job == jobName[2] and rank <= grade[2]) then
 				canOpen = true
 				if canOpen then break end
 			end
 		end
 		if not canOpen and not doorID.items then
-			print(('nui_doorlock: %s (%s) was not authorized to open a locked door!'):format(xPlayer.PlayerData.name, xPlayer.PlayerData.steam))
+			print(('nui_doorlock: %s (%s) was not authorized to open a locked door!'):format(xPlayer.PlayerData.name, xPlayer.PlayerData.license))
 		end
 	end
 
-	
-	return canOpen
+	if not canOpen and doorID.items then
+        local count = false
+        for k,v in pairs(doorID.items) do
+            if xPlayer.Functions.GetItemByName(v) ~= nil then
+            count = true
+            else
+                count = false
+            end
+            if count then
+                canOpen = true
+                local consumables = { ['ticket']=1 }
+                if locked and consumables[v] then
+                    xPlayer.Functions.RemoveItem(v, 1)
+                end
+                break
+                
+            end
+        end
+        if not count then canOpen = false end
+    end
+    return canOpen
 end
-
-RegisterServerEvent('qb-doorlock:server:updateState')
-AddEventHandler('qb-doorlock:server:updateState', function(doorID, state)
-	local playerId = source
-	local xPlayer = QBCore.Functions.GetPlayer(playerId)
-	
-	TriggerClientEvent('nui_doorlock:setState', -1, playerId, doorID, state)
-
-end)
-
-
-
-
 
 RegisterCommand('newdoor', function(playerId, args, rawCommand)
 	TriggerClientEvent('nui_doorlock:newDoorSetup', playerId, args)
 end, true)
 
-RegisterCommand('testdoors', function(playerId, args)
-	local doorno = tonumber(args[1])
-	local doorlock = tostring(args[2])
-	local lock = true
-	print(doorlock)
-	
-	
-	if doorlock == "false" then lock = nil 
-		print(doorno, lock)
-		TriggerEvent('qb-doorlock:server:updateState', playerId, doorno, lock)
-	elseif doorlock == "true" then
-		lock = true
-		print(doorno, lock)
-		TriggerEvent('qb-doorlock:server:updateState', playerId, doorno, lock)
-		
-	end
-end, true)
-
-
-
-
 RegisterServerEvent('nui_doorlock:newDoorCreate')
-AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor, doorname)
-	local src = source
-	xPlayer = QBCore.Functions.GetPlayer(src)
-	if not IsPlayerAceAllowed(src, 'command.newdoor') then print(xPlayer.getName().. 'attempted to create a new door but does not have permission') return end
+AddEventHandler('nui_doorlock:newDoorCreate', function(config, model, heading, coords, jobs, item, doorLocked, maxDistance, slides, garage, doubleDoor, doorname)
+	xPlayer = QBCore.Functions.GetPlayer(source)
+	if not QBCore.Functions.HasPermission(source, "god") then print(xPlayer.PlayerData.name.. 'attempted to create a new door but does not have permission') return end
 	doorLocked = tostring(doorLocked)
 	slides = tostring(slides)
 	garage = tostring(garage)
@@ -180,10 +166,16 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 		newDoor.audioRemote = false
 		newDoor.lockpick = false
 	local path = GetResourcePath(GetCurrentResourceName())
-	path = path:gsub('//', '/')..'/config.lua'
+	
+	if config ~= '' then
+		path = path:gsub('//', '/')..'/configs/'..string.gsub(config, ".lua", "")..'.lua'
+	else
+		path = path:gsub('//', '/')..'/config.lua'
+	end
+
 
 	file = io.open(path, 'a+')
-	if not doorname then label = '\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.getName()..'\ntable.insert(Config.DoorList, {'
+	if not doorname then label = '\n\n-- UNNAMED DOOR CREATED BY '..xPlayer.PlayerData.name..'\ntable.insert(Config.DoorList, {'
 	else
 		label = '\n\n-- '..doorname.. '\ntable.insert(Config.DoorList, {'
 	end
@@ -228,42 +220,12 @@ AddEventHandler('nui_doorlock:newDoorCreate', function(model, heading, coords, j
 	TriggerClientEvent('nui_doorlock:newDoorAdded', -1, newDoor, doorID, doorLocked)
 end)
 
-
-
 -- Test command that causes all doors to change state
 --[[RegisterCommand('testdoors', function(playerId, args, rawCommand)
 	for k, v in pairs(doorInfo) do
 		if v == true then lock = false else lock = true end
 		doorInfo[k] = lock
-		print(doorInfo)
 		TriggerClientEvent('nui_doorlock:setState', -1, k, lock)
 	end
-end, true)]]--
-
-
-
--- VERSION CHECK
-CreateThread(function()
-    local resourceName = GetCurrentResourceName()
-    local currentVersion, latestVersion = GetResourceMetadata(resourceName, 'version')
-    local outdated = '^6[%s]^3 Version ^2%s^3 is available! You are using version ^1%s^7'
-    Citizen.Wait(2000)
-    while Config.CheckVersion do
-        Citizen.Wait(0)
-        PerformHttpRequest(GetResourceMetadata(resourceName, 'versioncheck'), function (errorCode, resultData, resultHeaders)
-            if errorCode ~= 200 then print("Returned error code:" .. tostring(errorCode)) else
-                local data, version = tostring(resultData)
-                for line in data:gmatch("([^\n]*)\n?") do
-                    if line:find('^version') then version = line:sub(10, (line:len(line) - 1)) break end
-                end         
-                latestVersion = version
-            end
-        end)
-        if latestVersion then 
-            if currentVersion ~= latestVersion then
-                print(outdated:format(resourceName, latestVersion, currentVersion))
-            end
-            Citizen.Wait(60000*Config.CheckVersionDelay)
-        end
-    end
-end)
+end, true)
+--]]
