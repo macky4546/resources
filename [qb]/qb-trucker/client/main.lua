@@ -1,12 +1,9 @@
 QBCore = nil
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-        if QBCore == nil then
-            TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-            Citizen.Wait(200)
-        end
+    while QBCore == nil do
+    	TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+    	Citizen.Wait(200)
     end
 end)
 
@@ -92,32 +89,32 @@ Citizen.CreateThread(function()
         Citizen.Wait(1)
         if isLoggedIn and QBCore ~= nil then
             if PlayerJob.name == "trucker" then
-                if IsControlJustReleased(0, Keys["DEL"]) then
-                    if IsPedInAnyVehicle(GetPlayerPed(-1)) and isTruckerVehicle(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
+                if IsControlJustReleased(0, 178) then
+                    if IsPedInAnyVehicle(PlayerPedId()) and isTruckerVehicle(GetVehiclePedIsIn(PlayerPedId(), false)) then
                         getNewLocation()
-                        CurrentPlate = GetVehicleNumberPlateText(GetVehiclePedIsIn(GetPlayerPed(-1), false))
+                        CurrentPlate = GetVehicleNumberPlateText(GetVehiclePedIsIn(PlayerPedId(), false))
                     end
                 end
-                local pos = GetEntityCoords(GetPlayerPed(-1))
-                if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 10.0) then
+                local pos = GetEntityCoords(PlayerPedId())
+                if #(pos - vector3(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z)) < 10.0 then
                     DrawMarker(2, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.2, 0.15, 200, 200, 200, 222, false, false, false, true, false, false, false)
-                    if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, true) < 1.5) then
-                        if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - stow vehicle")
+                    if #(pos - vector3(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z)) < 1.5 then
+                        if IsPedInAnyVehicle(PlayerPedId(), false) then
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Store Vehicle")
                         else
-                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Vehicles")
+                            DrawText3D(Config.Locations["vehicle"].coords.x, Config.Locations["vehicle"].coords.y, Config.Locations["vehicle"].coords.z, "~g~E~w~ - Vehicle")
                         end
-                        if IsControlJustReleased(0, Keys["E"]) then
-                            if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                                if GetPedInVehicleSeat(GetVehiclePedIsIn(GetPlayerPed(-1)), -1) == GetPlayerPed(-1) then
-                                    if isTruckerVehicle(GetVehiclePedIsIn(GetPlayerPed(-1), false)) then
-                                        DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
+                        if IsControlJustReleased(0, 38) then
+                            if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                if GetPedInVehicleSeat(GetVehiclePedIsIn(PlayerPedId()), -1) == PlayerPedId() then
+                                    if isTruckerVehicle(GetVehiclePedIsIn(PlayerPedId(), false)) then
+                                        DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                         TriggerServerEvent('qb-trucker:server:DoBail', false)
                                     else
-                                        QBCore.Functions.Notify('This is not the commercial vehicle!', 'error')
+                                        QBCore.Functions.Notify('Dit is niet het bedrijfsvoertuig!', 'error')
                                     end
                                 else
-                                    QBCore.Functions.Notify('You must be a driver..')
+                                    QBCore.Functions.Notify('Je moet bestuurder zijn..')
                                 end
                             else
                                 MenuGarage()
@@ -128,10 +125,10 @@ Citizen.CreateThread(function()
                     end 
                 end
     
-                if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 4.5) then
-                    if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 1.5) then
+                if #(pos - vector3(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)) < 4.5 then
+                    if #(pos - vector3(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)) < 1.5 then
                         DrawText3D(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, "~g~E~w~ - Payslip")
-                        if IsControlJustReleased(0, Keys["E"]) then
+                        if IsControlJustReleased(0, 38) then
                             if JobsDone > 0 then
                                 TriggerServerEvent("qb-trucker:server:01101110", JobsDone)
                                 JobsDone = 0
@@ -140,29 +137,30 @@ Citizen.CreateThread(function()
                                 end
                                 if CurrentBlip ~= nil then
                                     RemoveBlip(CurrentBlip)
+				    ClearAllBlipRoutes()
                                     CurrentBlip = nil
                                 end
                             else
-                                QBCore.Functions.Notify("You haven't done any work yet.", "error")
+                                QBCore.Functions.Notify("You haven't done any work yet..", "error")
                             end
                         end
-                    elseif (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, true) < 2.5) then
+                    elseif #(pos - vector3(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z)) < 2.5 then
                         DrawText3D(Config.Locations["main"].coords.x, Config.Locations["main"].coords.y, Config.Locations["main"].coords.z, "Payslip")
                     end  
                 end
     
                 if CurrentLocation ~= nil  and currentCount < CurrentLocation.dropcount then
-                    if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z, true) < 40.0 then
-                        if not IsPedInAnyVehicle(GetPlayerPed(-1)) then
+                    if #(pos - vector3(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z)) < 40.0 then
+                        if not IsPedInAnyVehicle(PlayerPedId()) then
                             if not hasBox then
-                                local vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), true)
+                                local vehicle = GetVehiclePedIsIn(PlayerPedId(), true)
                                 if isTruckerVehicle(vehicle) and CurrentPlate == GetVehicleNumberPlateText(vehicle) then
                                     local trunkpos = GetOffsetFromEntityInWorldCoords(vehicle, 0, -2.5, 0)
-                                    if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, trunkpos.x, trunkpos.y, trunkpos.z, true) < 1.5 and not isWorking then
-                                        DrawText3D(trunkpos.x, trunkpos.y, trunkpos.z, "~g~E~w~ - grab products")
-                                        if IsControlJustReleased(0, Keys["E"]) then
+                                    if #(pos - vector3(trunkpos.x, trunkpos.y, trunkpos.z)) < 1.5 and not isWorking then
+                                        DrawText3D(trunkpos.x, trunkpos.y, trunkpos.z, "~g~E~w~ - Pick Up Products")
+                                        if IsControlJustReleased(0, 38) then
                                             isWorking = true
-                                            QBCore.Functions.Progressbar("work_carrybox", "Take a box of products..", 2000, false, true, {
+                                            QBCore.Functions.Progressbar("work_carrybox", "Take A Box Of Products", 2000, false, true, {
                                                 disableMovement = true,
                                                 disableCarMovement = true,
                                                 disableMouse = false,
@@ -173,43 +171,48 @@ Citizen.CreateThread(function()
                                                 flags = 16,
                                             }, {}, {}, function() -- Done
                                                 isWorking = false
-                                                StopAnimTask(GetPlayerPed(-1), "anim@gangops@facility@servers@", "hotwire", 1.0)
+                                                StopAnimTask(PlayerPedId(), "anim@gangops@facility@servers@", "hotwire", 1.0)
                                                 TriggerEvent('animations:client:EmoteCommandStart', {"box"})
                                                 hasBox = true
                                             end, function() -- Cancel
                                                 isWorking = false
-                                                StopAnimTask(GetPlayerPed(-1), "anim@gangops@facility@servers@", "hotwire", 1.0)
-                                                QBCore.Functions.Notify("Canceled..", "error")
+                                                StopAnimTask(PlayerPedId(), "anim@gangops@facility@servers@", "hotwire", 1.0)
+                                                QBCore.Functions.Notify("Canceled", "error")
                                             end)
                                         end
                                     else
-                                        DrawText3D(trunkpos.x, trunkpos.y, trunkpos.z, "grab products")
+                                        DrawText3D(trunkpos.x, trunkpos.y, trunkpos.z, "Pick Up Products")
                                     end
                                 end
                             elseif hasBox then
-                                if GetDistanceBetweenCoords(pos.x, pos.y, pos.z, CurrentLocation.x, CurrentLocation.y, CurrentLocation.z, true) < 1.5 and not isWorking then
-                                    DrawText3D(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z, "~g~E~w~ - Deliver products")
-                                    if IsControlJustReleased(0, Keys["E"]) then
+                                if #(pos - vector3(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z)) < 1.5 and not isWorking then
+                                    DrawText3D(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z, "~g~E~w~ - Deliver Products")
+                                    if IsControlJustReleased(0, 38) then
                                         isWorking = true
                                         TriggerEvent('animations:client:EmoteCommandStart', {"c"})
                                         Citizen.Wait(500)
                                         TriggerEvent('animations:client:EmoteCommandStart', {"bumbin"})
-                                        QBCore.Functions.Progressbar("work_dropbox", "Deliver box of products..", 2000, false, true, {
+                                        QBCore.Functions.Progressbar("work_dropbox", "Deliver Box Of Products", 2000, false, true, {
                                             disableMovement = true,
                                             disableCarMovement = true,
                                             disableMouse = false,
                                             disableCombat = true,
                                         }, {}, {}, {}, function() -- Done
                                             isWorking = false
-                                            ClearPedTasks(GetPlayerPed(-1))
+                                            ClearPedTasks(PlayerPedId())
                                             hasBox = false
                                             currentCount = currentCount + 1
                                             if currentCount == CurrentLocation.dropcount then
                                                 table.insert(LocationsDone, CurrentLocation.id)
                                                 TriggerServerEvent("qb-shops:server:RestockShopItems", CurrentLocation.store)
-                                                QBCore.Functions.Notify("You have delivered all products, on to the next point")
+                                                QBCore.Functions.Notify("You Have Delivered All Products, To The Next Point")
+                                                local chance = math.random(1,100)
+                                                if chance < 26 then
+                                                    TriggerServerEvent('qb-trucker:server:nano')
+                                                end
                                                 if CurrentBlip ~= nil then
                                                     RemoveBlip(CurrentBlip)
+						    ClearAllBlipRoutes()
                                                     CurrentBlip = nil
                                                 end
                                                 CurrentLocation = nil
@@ -219,12 +222,12 @@ Citizen.CreateThread(function()
                                             end
                                         end, function() -- Cancel
                                             isWorking = false
-                                            ClearPedTasks(GetPlayerPed(-1))
-                                            QBCore.Functions.Notify("Canceled..", "error")
+                                            ClearPedTasks(PlayerPedId())
+                                            QBCore.Functions.Notify("Canceled", "error")
                                         end)
                                     end
                                 else
-                                    DrawText3D(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z,"Deliver Products")
+                                    DrawText3D(CurrentLocation.x, CurrentLocation.y, CurrentLocation.z, "Deliver Products")
                                 end
                             end
                         end
@@ -255,31 +258,32 @@ function getNewLocation()
         SetBlipRoute(CurrentBlip, true)
         SetBlipRouteColour(CurrentBlip, 3)
     else
-        QBCore.Functions.Notify("You went to all the shops.. Time for your payslip!")
+        QBCore.Functions.Notify("You Went To All The Shops .. Time For Your Payslip!")
         if CurrentBlip ~= nil then
             RemoveBlip(CurrentBlip)
+	    ClearAllBlipRoutes()
             CurrentBlip = nil
         end
     end
 end
 
 function getNextClosestLocation()
-    local pos = GetEntityCoords(GetPlayerPed(-1), true)
+    local pos = GetEntityCoords(PlayerPedId(), true)
     local current = 0
     local dist = nil
 
     for k, _ in pairs(Config.Locations["stores"]) do
         if current ~= 0 then
-            if(GetDistanceBetweenCoords(pos, Config.Locations["stores"][k].coords.x, Config.Locations["stores"][k].coords.y, Config.Locations["stores"][k].coords.z, true) < dist)then
+            if #(pos - vector3(Config.Locations["stores"][k].coords.x, Config.Locations["stores"][k].coords.y, Config.Locations["stores"][k].coords.z)) < dist then
                 if not hasDoneLocation(k) then
                     current = k
-                    dist = GetDistanceBetweenCoords(pos, Config.Locations["stores"][k].coords.x, Config.Locations["stores"][k].coords.y, Config.Locations["stores"][k].coords.z, true)    
+                    dist = #(pos - vector3(Config.Locations["stores"][k].coords.x, Config.Locations["stores"][k].coords.y, Config.Locations["stores"][k].coords.z))   
                 end
             end
         else
             if not hasDoneLocation(k) then
                 current = k
-                dist = GetDistanceBetweenCoords(pos, Config.Locations["stores"][k].coords.x, Config.Locations["stores"][k].coords.y, Config.Locations["stores"][k].coords.z, true)    
+                dist = #(pos - vector3(Config.Locations["stores"][k].coords.x, Config.Locations["stores"][k].coords.y, Config.Locations["stores"][k].coords.z))    
             end
         end
     end
@@ -310,7 +314,7 @@ function isTruckerVehicle(vehicle)
 end
 
 function MenuGarage()
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Garage"
     ClearMenu()
     Menu.addButton("Vehicles", "VehicleList", nil)
@@ -318,7 +322,7 @@ function MenuGarage()
 end
 
 function VehicleList(isDown)
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.Vehicles) do
@@ -336,11 +340,13 @@ end
 function RemoveTruckerBlips()
     if TruckVehBlip ~= nil then
         RemoveBlip(TruckVehBlip)
+	ClearAllBlipRoutes()
         TruckVehBlip = nil
     end
 
     if CurrentBlip ~= nil then
         RemoveBlip(CurrentBlip)
+	ClearAllBlipRoutes()
         CurrentBlip = nil
     end
 end
@@ -354,7 +360,7 @@ AddEventHandler('qb-trucker:client:SpawnVehicle', function()
         SetEntityHeading(veh, coords.h)
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         closeMenuFull()
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
         SetEntityAsMissionEntity(veh, true, true)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
