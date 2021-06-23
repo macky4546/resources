@@ -212,10 +212,6 @@ AddEventHandler('qb-armoredtruckheist:client:robberyCall', function(streetLabel,
                         detail = bank,
                     },
                     [2] = {
-                        icon = '<i class="fas fa-video"></i>',
-                        detail = cameraId,
-                    },
-                    [3] = {
                         icon = '<i class="fas fa-globe-europe"></i>',
                         detail = streetLabel,
                     },
@@ -282,9 +278,8 @@ end
 
 SetNewWaypoint(VehicleCoords.x, VehicleCoords.y)
 ClearAreaOfVehicles(VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 15.0, false, false, false, false, false) 			
-transport = CreateVehicle(GetHashKey('stockade'), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 0, 0, 0, true, true)
+transport = CreateVehicle(GetHashKey('stockade'), VehicleCoords.x, VehicleCoords.y, VehicleCoords.z, 52.0, true, true)
 SetEntityAsMissionEntity(transport)
-SetEntityHeading(transport, 52.00)
 TruckBlip = AddBlipForEntity(transport)
 SetBlipSprite(TruckBlip, 57)
 SetBlipColour(TruckBlip, 1)
