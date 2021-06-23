@@ -1,40 +1,26 @@
-Keys = {
-    ['ESC'] = 322, ['F1'] = 288, ['F2'] = 289, ['F3'] = 170, ['F5'] = 166, ['F6'] = 167, ['F7'] = 168, ['F8'] = 169, ['F9'] = 56, ['F10'] = 57,
-    ['~'] = 243, ['1'] = 157, ['2'] = 158, ['3'] = 160, ['4'] = 164, ['5'] = 165, ['6'] = 159, ['7'] = 161, ['8'] = 162, ['9'] = 163, ['-'] = 84, ['='] = 83, ['BACKSPACE'] = 177,
-    ['TAB'] = 37, ['Q'] = 44, ['W'] = 32, ['E'] = 38, ['R'] = 45, ['T'] = 245, ['Y'] = 246, ['U'] = 303, ['P'] = 199, ['['] = 39, [']'] = 40, ['ENTER'] = 18,
-    ['CAPS'] = 137, ['A'] = 34, ['S'] = 8, ['D'] = 9, ['F'] = 23, ['G'] = 47, ['H'] = 74, ['K'] = 311, ['L'] = 182,
-    ['LEFTSHIFT'] = 21, ['Z'] = 20, ['X'] = 73, ['C'] = 26, ['V'] = 0, ['B'] = 29, ['N'] = 249, ['M'] = 244, [','] = 82, ['.'] = 81,
-    ['LEFTCTRL'] = 36, ['LEFTALT'] = 19, ['SPACE'] = 22, ['RIGHTCTRL'] = 70,
-    ['HOME'] = 213, ['PAGEUP'] = 10, ['PAGEDOWN'] = 11, ['DELETE'] = 178,
-    ['LEFT'] = 174, ['RIGHT'] = 175, ['TOP'] = 27, ['DOWN'] = 173,
-}
-
 QBCore = nil
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-        if QBCore == nil then
-            TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-            Citizen.Wait(200)
-        end
+    while QBCore == nil do
+        TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+        Citizen.Wait(200)
     end
 end)
 
 -- Code
 
 local keyPressed = false
-local isLoggedIn = true
+local isLoggedIn = false
 
 local inKeyBinding = false
 local availableKeys = {
-    "F2",
-    "F3",
-    "F5",
-    "F6",
-    "F7",
-    "F9",
-    "F10",
+    {289, "F2"},
+    {170, "F3"},
+    {166, "F5"},
+    {167, "F6"},
+    {168, "F7"},
+    {56, "F9"},
+    {57, "F10"},
 }
 
 RegisterNetEvent("QBCore:Client:OnPlayerUnload")
@@ -76,19 +62,19 @@ Citizen.CreateThread(function()
 
         if isLoggedIn then
             for k, v in pairs(availableKeys) do
-                if IsControlJustPressed(0, Keys[v]) or IsDisabledControlJustPressed(0, Keys[v]) then
+                if IsControlJustPressed(0, v[1]) or IsDisabledControlJustPressed(0, v[1]) then
                     local keyMeta = QBCore.Functions.GetPlayerData().metadata["commandbinds"]
                     local args = {}
                     if next(keyMeta) ~= nil then
-                        if keyMeta[v]["command"] ~= "" then
-                            if keyMeta[v]["argument"] ~= "" then args = {[1] = keyMeta[v]["argument"]} else args = {[1] = nil} end
-                            TriggerServerEvent('QBCore:CallCommand', keyMeta[v]["command"], args)
+                        if keyMeta[v[2]]["command"] ~= "" then
+                            if keyMeta[v[2]]["argument"] ~= "" then args = {[1] = keyMeta[v[2]]["argument"]} else args = {[1] = nil} end
+                            TriggerServerEvent('QBCore:CallCommand', keyMeta[v[2]]["command"], args)
                             keyPressed = true
                         else
-                            QBCore.Functions.Notify('Theres nothing on it yet ['..v..'] gebind, /binds to bind a command', 'primary', 4000)
+                            QBCore.Functions.Notify('There is still nothing ['..v[2]..'] bound, /binds to bind a command', 'primary', 4000)
                         end
                     else
-                        QBCore.Functions.Notify('You havent bound any commands yet, /binds to bind a command', 'primary', 4000)
+                        QBCore.Functions.Notify('You have not bound any commands, /binds to bind a command', 'primary', 4000)
                     end
                 end
             end
@@ -116,7 +102,7 @@ RegisterNUICallback('save', function(data)
         ["F10"] = {["command"] = data.keyData["F10"][1], ["argument"] = data.keyData["F10"][2]},
     }
 
-    QBCore.Functions.Notify('Command bindings have been saved!', 'success')
+    QBCore.Functions.Notify('Commandbindings saved!', 'success')
 
     TriggerServerEvent('qb-commandbinding:server:setKeyMeta', keyData)
 end)

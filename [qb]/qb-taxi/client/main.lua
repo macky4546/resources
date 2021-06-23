@@ -1,12 +1,9 @@
 QBCore = nil
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(10)
-        if QBCore == nil then
-            TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
-            Citizen.Wait(200)
-        end
+    while QBCore == nil do
+    	TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
+    	Citizen.Wait(200)
     end
 end)
 
@@ -23,12 +20,210 @@ local currentTaxi = nil
 local lastLocation = nil
 
 local meterData = {
-    fareAmount = 3,
+    fareAmount = 6,
     currentFare = 0,
     distanceTraveled = 0,
 }
 
 local dutyPlate = nil
+
+local NpcData = {
+    Active = false,
+    CurrentNpc = nil,
+    LastNpc = nil,
+    CurrentDeliver = nil,
+    LastDeliver = nil,
+    Npc = nil,
+    NpcBlip = nil,
+    DeliveryBlip = nil,
+    NpcTaken = false,
+    NpcDelivered = false,
+    CountDown = 180
+}
+
+function TimeoutNpc()
+    Citizen.CreateThread(function()
+        while NpcData.CountDown ~= 0 do
+            NpcData.CountDown = NpcData.CountDown - 1
+            Citizen.Wait(1000)
+        end
+        NpcData.CountDown = 180
+    end)
+end
+
+RegisterNetEvent('qb-taxi:client:DoTaxiNpc')
+AddEventHandler('qb-taxi:client:DoTaxiNpc', function()
+    if whitelistedVehicle() then
+       -- if NpcData.CountDown == 180 then
+            if not NpcData.Active then
+                NpcData.CurrentNpc = math.random(1, #Config.NPCLocations.TakeLocations)
+                if NpcData.LastNpc ~= nil then
+                    while NpcData.LastNpc ~= NpcData.CurrentNpc do
+                        NpcData.CurrentNpc = math.random(1, #Config.NPCLocations.TakeLocations)
+                    end
+                end
+
+                local Gender = math.random(1, #Config.NpcSkins)
+                local PedSkin = math.random(1, #Config.NpcSkins[Gender])
+                local model = GetHashKey(Config.NpcSkins[Gender][PedSkin])
+                RequestModel(model)
+                while not HasModelLoaded(model) do
+                    Citizen.Wait(0)
+                end
+                NpcData.Npc = CreatePed(3, model, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z - 0.98, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].w, false, true)
+                PlaceObjectOnGroundProperly(NpcData.Npc)
+                FreezeEntityPosition(NpcData.Npc, true)
+                if NpcData.NpcBlip ~= nil then
+                    RemoveBlip(NpcData.NpcBlip)
+                end
+                QBCore.Functions.Notify('The NPC Is Indicated On Your GPS', 'success')
+                NpcData.NpcBlip = AddBlipForCoord(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z)
+                SetBlipColour(NpcData.NpcBlip, 3)
+                SetBlipRoute(NpcData.NpcBlip, true)
+                SetBlipRouteColour(NpcData.NpcBlip, 3)
+                NpcData.LastNpc = NpcData.CurrentNpc
+                NpcData.Active = true
+
+                Citizen.CreateThread(function()
+                    while not NpcData.NpcTaken do
+
+                        local ped = PlayerPedId()
+                        local pos = GetEntityCoords(ped)
+                        local dist = #(pos - vector3(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z))
+
+                        if dist < 20 then
+                            DrawMarker(2, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+                        
+                            if dist < 5 then
+                                local npccoords = GetEntityCoords(NpcData.Npc)
+                                DrawText3D(Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].x, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].y, Config.NPCLocations.TakeLocations[NpcData.CurrentNpc].z, '[E] NPC oproepen')
+                                if IsControlJustPressed(0, 38) then
+                                    local veh = GetVehiclePedIsIn(ped, 0)
+                                    local maxSeats, freeSeat = GetVehicleMaxNumberOfPassengers(vehicle)
+
+                                    for i=maxSeats - 1, 0, -1 do
+                                        if IsVehicleSeatFree(vehicle, i) then
+                                            freeSeat = i
+                                            break
+                                        end
+                                    end
+
+                                    meterIsOpen = true
+                                    meterActive = true
+                                    lastLocation = GetEntityCoords(PlayerPedId())
+                                    SendNUIMessage({
+                                        action = "openMeter",
+                                        toggle = true,
+                                        meterData = Config.Meter
+                                    })
+                                    SendNUIMessage({
+                                        action = "toggleMeter"
+                                    })
+
+                                    ClearPedTasksImmediately(NpcData.Npc)
+                                    FreezeEntityPosition(NpcData.Npc, false)
+                                    TaskEnterVehicle(NpcData.Npc, veh, -1, freeSeat, 1.0, 0)
+                                    QBCore.Functions.Notify('Bring The NPC To The Specified Location')
+                                    if NpcData.NpcBlip ~= nil then
+                                        RemoveBlip(NpcData.NpcBlip)
+                                    end
+                                    GetDeliveryLocation()
+                                    NpcData.NpcTaken = true
+                                end
+                            end
+                        end
+
+                        Citizen.Wait(1)
+                    end
+                end)
+            else
+                QBCore.Functions.Notify('You Are Already Doing An NPC Mission')
+            end
+      --  else
+         --   QBCore.Functions.Notify('No NPCs Are Available')
+       -- end
+    else
+        QBCore.Functions.Notify('You Are Not In A Taxi')
+    end
+end)
+
+function GetDeliveryLocation()
+    NpcData.CurrentDeliver = math.random(1, #Config.NPCLocations.DeliverLocations)
+    if NpcData.LastDeliver ~= nil then
+        while NpcData.LastDeliver ~= NpcData.CurrentDeliver do
+            NpcData.CurrentDeliver = math.random(1, #Config.NPCLocations.DeliverLocations)
+        end
+    end
+
+    if NpcData.DeliveryBlip ~= nil then
+        RemoveBlip(NpcData.DeliveryBlip)
+    end
+    NpcData.DeliveryBlip = AddBlipForCoord(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z)
+    SetBlipColour(NpcData.DeliveryBlip, 3)
+    SetBlipRoute(NpcData.DeliveryBlip, true)
+    SetBlipRouteColour(NpcData.DeliveryBlip, 3)
+    NpcData.LastDeliver = NpcData.CurrentDeliver
+
+    Citizen.CreateThread(function()
+        while true do
+
+            local ped = PlayerPedId()
+            local pos = GetEntityCoords(ped)
+            local dist = #(pos - vector3(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z))
+
+            if dist < 20 then
+                DrawMarker(2, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 255, 255, 255, 255, 0, 0, 0, 1, 0, 0, 0)
+            
+                if dist < 5 then
+                    local npccoords = GetEntityCoords(NpcData.Npc)
+                    DrawText3D(Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].x, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].y, Config.NPCLocations.DeliverLocations[NpcData.CurrentDeliver].z, '[E] Drop Off NPC')
+                    if IsControlJustPressed(0, 38) then
+                        local veh = GetVehiclePedIsIn(ped, 0)
+                        TaskLeaveVehicle(NpcData.Npc, veh, 0)
+                        SetEntityAsMissionEntity(NpcData.Npc, false, true)
+                        SetEntityAsNoLongerNeeded(NpcData.Npc)
+                        local targetCoords = Config.NPCLocations.TakeLocations[NpcData.LastNpc]
+                        TaskGoStraightToCoord(NpcData.Npc, targetCoords.x, targetCoords.y, targetCoords.z, 1.0, -1, 0.0, 0.0)
+                        SendNUIMessage({
+                            action = "toggleMeter"
+                        })
+                        TriggerServerEvent('qb-taxi:server:NpcPay', meterData.currentFare)
+                        QBCore.Functions.Notify('Person Was Dropped Off', 'success')
+                        if NpcData.DeliveryBlip ~= nil then
+                            RemoveBlip(NpcData.DeliveryBlip)
+                        end
+                        local RemovePed = function(ped)
+                            SetTimeout(60000, function()
+                                DeletePed(ped)
+                            end)
+                        end
+                       -- TimeoutNpc()
+                        RemovePed(NpcData.Npc)
+                        ResetNpcTask()
+                        break
+                    end
+                end
+            end
+
+            Citizen.Wait(1)
+        end
+    end)
+end
+
+function ResetNpcTask()
+    NpcData = {
+        Active = false,
+        CurrentNpc = nil,
+        LastNpc = nil,
+        CurrentDeliver = nil,
+        LastDeliver = nil,
+        Npc = nil,
+        NpcBlip = nil,
+        DeliveryBlip = nil,
+        NpcTaken = false,
+        NpcDelivered = false,
+    }
+end
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
@@ -48,7 +243,6 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-  
         Citizen.Wait(2000)
         calculateFareAmount()
     end
@@ -59,7 +253,7 @@ function calculateFareAmount()
         start = lastLocation
   
         if start then
-            current = GetEntityCoords(GetPlayerPed(-1))
+            current = GetEntityCoords(PlayerPedId())
             distance = CalculateTravelDistanceBetweenPoints(start, current)
             meterData['distanceTraveled'] = distance
     
@@ -84,10 +278,10 @@ Citizen.CreateThread(function()
             if isLoggedIn then
 
                 if PlayerData.job.name == "taxi" then
-                    local ped = GetPlayerPed(-1)
+                    local ped = PlayerPedId()
                     local pos = GetEntityCoords(ped)
 
-                    local vehDist = GetDistanceBetweenCoords(pos, Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"])
+                    local vehDist = #(pos - vector3(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"]))
 
                     if vehDist < 30 then
                         inRange = true
@@ -97,14 +291,14 @@ Citizen.CreateThread(function()
                         if vehDist < 1.5 then
                             if whitelistedVehicle() then
                                 DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Vehicle Parking')
-                                if IsControlJustReleased(0, Keys["E"]) then
-                                    if IsPedInAnyVehicle(GetPlayerPed(-1), false) then
-                                        DeleteVehicle(GetVehiclePedIsIn(GetPlayerPed(-1)))
+                                if IsControlJustReleased(0, 38) then
+                                    if IsPedInAnyVehicle(PlayerPedId(), false) then
+                                        DeleteVehicle(GetVehiclePedIsIn(PlayerPedId()))
                                     end
                                 end
                             else
-                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Take Vehicle')
-                                if IsControlJustReleased(0, Keys["E"]) then
+                                DrawText3D(Config.Locations["vehicle"]["x"], Config.Locations["vehicle"]["y"], Config.Locations["vehicle"]["z"] + 0.3, '[E] Vehicle Suits')
+                                if IsControlJustReleased(0, 38) then
                                     TaxiGarage()
                                     Menu.hidden = not Menu.hidden
                                 end
@@ -126,7 +320,7 @@ end)
 
 RegisterNetEvent('qb-taxi:client:toggleMeter')
 AddEventHandler('qb-taxi:client:toggleMeter', function()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     
     if IsPedInAnyVehicle(ped, false) then
         if whitelistedVehicle() then
@@ -145,23 +339,23 @@ AddEventHandler('qb-taxi:client:toggleMeter', function()
                 meterIsOpen = false
             end
         else
-            QBCore.Functions.Notify('This vehicle does not have a Taxi Meter..', 'error')
+            QBCore.Functions.Notify('This Vehicle Has No Taxi Meter', 'error')
         end
     else
-        QBCore.Functions.Notify('You are not in a vehicle..', 'error')
+        QBCore.Functions.Notify('Youre Not In A Vehicle ', 'error')
     end
 end)
 
 RegisterNetEvent('qb-taxi:client:enableMeter')
 AddEventHandler('qb-taxi:client:enableMeter', function()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
 
     if meterIsOpen then
         SendNUIMessage({
             action = "toggleMeter"
         })
     else
-        QBCore.Functions.Notify('The Taxi Meter is not active..', 'error')
+        QBCore.Functions.Notify('The Taxi Meter Is Not Active', 'error')
     end
 end)
 
@@ -173,7 +367,7 @@ RegisterNUICallback('enableMeter', function(data)
             action = "resetMeter"
         })
     end
-    lastLocation = GetEntityCoords(GetPlayerPed(-1))
+    lastLocation = GetEntityCoords(PlayerPedId())
 end)
 
 RegisterNetEvent('qb-taxi:client:toggleMuis')
@@ -185,7 +379,7 @@ AddEventHandler('qb-taxi:client:toggleMuis', function()
             mouseActive = true
         end
     else
-        QBCore.Functions.Notify('No Taxi Meter in sight..', 'error')
+        QBCore.Functions.Notify('No Taxi Meter In Sight', 'error')
     end
 end)
 
@@ -195,7 +389,7 @@ RegisterNUICallback('hideMouse', function()
 end)
 
 function whitelistedVehicle()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     local veh = GetEntityModel(GetVehiclePedIsIn(ped))
     local retval = false
 
@@ -204,11 +398,16 @@ function whitelistedVehicle()
             retval = true
         end
     end
+
+    if veh == GetHashKey("dynasty") then
+        retval = true
+    end
+    
     return retval
 end
 
 function TaxiGarage()
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Garage"
     ClearMenu()
     Menu.addButton("Vehicles", "VehicleList", nil)
@@ -216,7 +415,7 @@ function TaxiGarage()
 end
 
 function VehicleList()
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Vehicles:"
     ClearMenu()
     for k, v in pairs(Config.AllowedVehicles) do
@@ -233,7 +432,7 @@ function TakeVehicle(k)
         SetEntityHeading(veh, Config.Locations["vehicle"]["h"])
         exports['LegacyFuel']:SetFuel(veh, 100.0)
         closeMenuFull()
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         SetVehicleEngineOn(veh, true, true)
         dutyPlate = GetVehicleNumberPlateText(veh)

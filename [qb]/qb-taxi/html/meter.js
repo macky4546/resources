@@ -4,7 +4,7 @@ var meterPlate = null;
 $(document).on('keydown', function() {
     switch(event.keyCode) {
         case 27:
-            $.post('http://qb-taxi/hideMouse');
+            $.post('https://qb-taxijob/hideMouse');
             break;
     }
 });
@@ -42,23 +42,23 @@ $(document).ready(function(){
 
 function updateMeter(meterData) {
     $("#total-price").html("$ "+ (meterData.currentFare).toFixed(2))
-    $("#total-distance").html((meterData.distanceTraveled / 200).toFixed(1) + " KM")
+    $("#total-distance").html((meterData.distanceTraveled / 200).toFixed(1) + " M")
 }
 
 function resetMeter() {
     $("#total-price").html("$ 0.00")
-    $("#total-distance").html("0.0 KM")
+    $("#total-distance").html("0.0 M")
 }
 
 function meterToggle() {
     if (!meterStarted) {
-        $.post('http://qb-taxi/enableMeter', JSON.stringify({
+        $.post('https://qb-taxijob/enableMeter', JSON.stringify({
             enabled: true,
         }));
         toggleMeter(true)
         meterStarted = true;
     } else {
-        $.post('http://qb-taxi/enableMeter', JSON.stringify({
+        $.post('https://qb-taxijob/enableMeter', JSON.stringify({
             enabled: false,
         }));
         toggleMeter(false)
@@ -68,10 +68,10 @@ function meterToggle() {
 
 function toggleMeter(enabled) {
     if (enabled) {
-        $(".toggle-meter-btn").html("<p>Gestart</p>");
+        $(".toggle-meter-btn").html("<p>Start</p>");
         $(".toggle-meter-btn p").css({"color": "rgb(51, 160, 37)"});
     } else {
-        $(".toggle-meter-btn").html("<p>Gestopt</p>");
+        $(".toggle-meter-btn").html("<p>Stop</p>");
         $(".toggle-meter-btn p").css({"color": "rgb(231, 30, 37)"});
     }
 }

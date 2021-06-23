@@ -32,7 +32,7 @@ $(document).on('click', '.save-bindings', function(e){
     keyData['F10'] = [$("#command-F10").val(), $("#argument-F10").val()]
     
 
-    $.post('http://qb-commandbinding/save', JSON.stringify({
+    $.post('https://qb-commandbinding/save', JSON.stringify({
         keyData: keyData
     }));
 });
@@ -55,5 +55,5 @@ qBinding.Open = function(data) {
 
 qBinding.Close = function() {
     $(".container").fadeOut(150);
-    $.post('http://qb-commandbinding/close');
+    $.post('https://qb-commandbinding/close');
 }
