@@ -8,14 +8,13 @@ local Buying = false
 
 Citizen.CreateThread(function()
     while true do
-        local pos = GetEntityCoords(GetPlayerPed(-1), true)
-        local BerthDist = GetDistanceBetweenCoords(pos, QBBoatshop.Locations["berths"][1]["coords"]["boat"]["x"], QBBoatshop.Locations["berths"][1]["coords"]["boat"]["y"], QBBoatshop.Locations["berths"][1]["coords"]["boat"]["z"], false)
+        local pos = GetEntityCoords(PlayerPedId(), true)
+        local BerthDist = #(pos - vector3(QBBoatshop.Locations["berths"][1]["coords"]["boat"]["x"], QBBoatshop.Locations["berths"][1]["coords"]["boat"]["y"], QBBoatshop.Locations["berths"][1]["coords"]["boat"]["z"]))
 
         if BerthDist < 100 then
             SetClosestBerthBoat()
             if not BoatsSpawned then
                 SpawnBerthBoats()
-                --print('yeey')
             end
         elseif BerthDist > 110 then
             if BoatsSpawned then
@@ -53,18 +52,18 @@ function SpawnBerthBoats()
 end
 
 function SetClosestBerthBoat()
-    local pos = GetEntityCoords(GetPlayerPed(-1), true)
+    local pos = GetEntityCoords(PlayerPedId(), true)
     local current = nil
     local dist = nil
 
     for id, veh in pairs(QBBoatshop.Locations["berths"]) do
         if current ~= nil then
-            if(GetDistanceBetweenCoords(pos, QBBoatshop.Locations["berths"][id]["coords"]["buy"]["x"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["y"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["z"], true) < dist)then
+            if #(pos - vector3(QBBoatshop.Locations["berths"][id]["coords"]["buy"]["x"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["y"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["z"])) < dist then
                 current = id
-                dist = GetDistanceBetweenCoords(pos, QBBoatshop.Locations["berths"][id]["coords"]["buy"]["x"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["y"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["z"], true)
+                dist = #(pos - vector3(QBBoatshop.Locations["berths"][id]["coords"]["buy"]["x"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["y"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["z"]))
             end
         else
-            dist = GetDistanceBetweenCoords(pos, QBBoatshop.Locations["berths"][id]["coords"]["buy"]["x"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["y"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["z"], true)
+            dist = #(pos - vector3(QBBoatshop.Locations["berths"][id]["coords"]["buy"]["x"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["y"], QBBoatshop.Locations["berths"][id]["coords"]["buy"]["z"]))
             current = id
         end
     end
@@ -75,12 +74,12 @@ end
 
 Citizen.CreateThread(function()
     while true do
-        local ped = GetPlayerPed(-1)
+        local ped = PlayerPedId()
         local pos = GetEntityCoords(ped)
 
         local inRange = false
 
-        local distance = GetDistanceBetweenCoords(pos, QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["x"], QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["y"], QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["z"], true)
+        local distance = #(pos - vector3(QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["x"], QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["y"], QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["z"]))
 
         if distance < 15 then
             local BuyLocation = {
@@ -90,7 +89,7 @@ Citizen.CreateThread(function()
             }
 
             DrawMarker(2, BuyLocation.x, BuyLocation.y, BuyLocation.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.5, 0.15, 255, 55, 15, 255, false, false, false, true, false, false, false)
-            local BuyDistance = GetDistanceBetweenCoords(pos, BuyLocation.x, BuyLocation.y, BuyLocation.z, true)
+            local BuyDistance = #(pos - vector3(BuyLocation.x, BuyLocation.y, BuyLocation.z))
 
             if BuyDistance < 2 then                
                 local currentBoat = QBBoatshop.Locations["berths"][ClosestBerth]["boatModel"]
@@ -98,16 +97,16 @@ Citizen.CreateThread(function()
                 DrawMarker(2, QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["x"], QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["y"], QBBoatshop.Locations["berths"][ClosestBerth]["coords"]["boat"]["z"] + 1.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.4, 0.5, -0.30, 15, 255, 55, 255, false, false, false, true, false, false, false)
 
                 if not Buying then
-                    DrawText3D(BuyLocation.x, BuyLocation.y, BuyLocation.z + 0.3, '~g~E~w~ - '..QBBoatshop.ShopBoats[currentBoat]["label"]..' kopen voor ~b~$'..QBBoatshop.ShopBoats[currentBoat]["price"])
-                    if IsControlJustPressed(0, Keys["E"]) then
+                    DrawText3D(BuyLocation.x, BuyLocation.y, BuyLocation.z + 0.3, '~g~E~w~ - '..QBBoatshop.ShopBoats[currentBoat]["label"]..' buy for ~b~$'..QBBoatshop.ShopBoats[currentBoat]["price"])
+                    if IsControlJustPressed(0, 38) then
                         Buying = true
                     end
                 else
-                    DrawText3D(BuyLocation.x, BuyLocation.y, BuyLocation.z + 0.3, 'Are you sure? ~g~7~w~ Yes / ~r~8~w~ No ~b~($'..QBBoatshop.ShopBoats[currentBoat]["price"]..',-)')
-                    if IsControlJustPressed(0, Keys["7"]) or IsDisabledControlJustReleased(0, Keys["7"]) then
+                    DrawText3D(BuyLocation.x, BuyLocation.y, BuyLocation.z + 0.3, 'Are you sure ~g~7~w~ Yes / ~r~8~w~ No ~b~($'..QBBoatshop.ShopBoats[currentBoat]["price"]..',-)')
+                    if IsControlJustPressed(0, 161) or IsDisabledControlJustReleased(0, 161) then
                         TriggerServerEvent('qb-diving:server:BuyBoat', QBBoatshop.Locations["berths"][ClosestBerth]["boatModel"], ClosestBerth)
                         Buying = false
-                    elseif IsControlJustPressed(0, Keys["8"]) or IsDisabledControlJustReleased(0, Keys["8"]) then
+                    elseif IsControlJustPressed(0, 162) or IsDisabledControlJustReleased(0, 162) then
                         Buying = false
                     end
                 end
@@ -127,10 +126,10 @@ AddEventHandler('qb-diving:client:BuyBoat', function(boatModel, plate)
     DoScreenFadeOut(250)
     Citizen.Wait(250)
     QBCore.Functions.SpawnVehicle(boatModel, function(veh)
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
         exports['LegacyFuel']:SetFuel(veh, 100)
         SetVehicleNumberPlateText(veh, plate)
-        SetEntityHeading(veh, QBBoatshop.SpawnVehicle.h)
+        SetEntityHeading(veh, QBBoatshop.SpawnVehicle.w)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
     end, QBBoatshop.SpawnVehicle, false)
     SetTimeout(1000, function()

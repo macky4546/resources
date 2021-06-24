@@ -1,6 +1,11 @@
 QBCore = nil
 TriggerEvent('QBCore:GetObject', function(obj) QBCore = obj end)
 
+local CoralTypes = {
+    ["dendrogyra_coral"] = math.random(70, 100),
+    ["antipatharia_coral"] = math.random(50, 70),
+}
+
 -- Code
 
 RegisterServerEvent('qb-diving:server:SetBerthVehicle')
@@ -26,27 +31,28 @@ AddEventHandler('qb-diving:server:BuyBoat', function(boatModel, BerthId)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local PlayerMoney = {
-        cash = Player.PlayerData.money.cash,
+        -- cash = Player.PlayerData.money.cash,
         bank = Player.PlayerData.money.bank,
     }
     local missingMoney = 0
-    local plate = "QBUS"..math.random(1111, 9999)
+    local plate = "QBUS"..math.random(1000, 9999)
 
-    if PlayerMoney.cash >= BoatPrice then
-        Player.Functions.RemoveMoney('cash', BoatPrice, "bought-boat")
-        TriggerClientEvent('qb-diving:client:BuyBoat', src, boatModel, plate)
-        InsertBoat(boatModel, Player, plate)
-    elseif PlayerMoney.bank >= BoatPrice then
+    -- if PlayerMoney.cash >= BoatPrice then
+    --     Player.Functions.RemoveMoney('cash', BoatPrice, "bought-boat")
+    --     TriggerClientEvent('qb-diving:client:BuyBoat', src, boatModel, plate)
+    --     InsertBoat(boatModel, Player, plate)
+    -- else
+        if PlayerMoney.bank >= BoatPrice then
         Player.Functions.RemoveMoney('bank', BoatPrice, "bought-boat")
         TriggerClientEvent('qb-diving:client:BuyBoat', src, boatModel, plate)
         InsertBoat(boatModel, Player, plate)
     else
-        if PlayerMoney.bank > PlayerMoney.cash then
+        -- if PlayerMoney.bank > PlayerMoney.cash then
             missingMoney = (BoatPrice - PlayerMoney.bank)
-        else
-            missingMoney = (BoatPrice - PlayerMoney.cash)
-        end
-        TriggerClientEvent('QBCore:Notify', src, 'You do not have enough money, you are missing $'..missingMoney, 'error', 4000)
+        -- else
+            -- missingMoney = (BoatPrice - PlayerMoney.cash)
+        -- end
+        TriggerClientEvent('QBCore:Notify', src, 'You do not have enough money, you are missing $'..missingMoney.. 'from the bank', 'error', 4000)
     end
 end)
 
@@ -107,7 +113,6 @@ AddEventHandler('qb-diving:server:SetBoatState', function(plate, state, boathous
     QBCore.Functions.ExecuteSql(false, "SELECT * FROM `player_boats` WHERE `plate` = '"..plate.."'", function(result)
         if result[1] ~= nil then
             QBCore.Functions.ExecuteSql(false, "UPDATE `player_boats` SET `state` = '"..state.."' WHERE `plate` = '"..plate.."' AND `citizenid` = '"..Player.PlayerData.citizenid.."'")
-    
             if state == 1 then
                 QBCore.Functions.ExecuteSql(false, "UPDATE `player_boats` SET `boathouse` = '"..boathouse.."' WHERE `plate` = '"..plate.."' AND `citizenid` = '"..Player.PlayerData.citizenid.."'")
             end
@@ -122,10 +127,10 @@ AddEventHandler('qb-diving:server:CallCops', function(Coords)
         local Player = QBCore.Functions.GetPlayer(v)
         if Player ~= nil then
             if (Player.PlayerData.job.name == "police" and Player.PlayerData.job.onduty) then
-                local msg = "Coral may be stolen!"
+                local msg = "This coral may be stolen"
                 TriggerClientEvent('qb-diving:client:CallCops', Player.PlayerData.source, Coords, msg)
                 local alertData = {
-                    title = "Illegal Diving",
+                    title = "Illegaalduiken",
                     coords = {x = Coords.x, y = Coords.y, z = Coords.z},
                     description = msg,
                 }
@@ -137,7 +142,7 @@ end)
 
 local AvailableCoral = {}
 
-QBCore.Commands.Add("diving suit", "Take off your diving suit", {}, false, function(source, args)
+QBCore.Commands.Add("divingsuit", "Take off your diving suit", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     TriggerClientEvent("qb-diving:client:UseGear", source, false)
 end)
@@ -167,9 +172,10 @@ AddEventHandler('qb-diving:server:SellCoral', function()
             end
         end
     else
-        TriggerClientEvent('QBCore:Notify', src, 'You have no coral to sell..', 'error')
+        TriggerClientEvent('QBCore:Notify', src, 'You don\'t have any coral to sell..', 'error')
     end
 end)
+
 
 function GetItemPrice(Item, price)
     if Item.amount > 5 then

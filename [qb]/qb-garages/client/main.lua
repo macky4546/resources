@@ -2,12 +2,9 @@ QBCore = nil
 
 
 Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(1)
-        if QBCore == nil then
-            TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)
-            Citizen.Wait(200)
-        end
+    while QBCore == nil do
+    	TriggerEvent("QBCore:GetObject", function(obj) QBCore = obj end)
+    	Citizen.Wait(200)
     end
 end)
 
@@ -81,7 +78,7 @@ AddEventHandler('qb-garages:client:takeOutDepot', function(vehicle)
                         end
 
                         SetVehicleNumberPlateText(veh, vehicle.plate)
-                        SetEntityHeading(veh, Depots[currentGarage].takeVehicle.h)
+                        SetEntityHeading(veh, Depots[currentGarage].takeVehicle.w)
                         TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
                         exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
                         SetEntityAsMissionEntity(veh, true, true)
@@ -114,7 +111,7 @@ AddEventHandler('qb-garages:client:takeOutDepot', function(vehicle)
                     end
 
                     SetVehicleNumberPlateText(veh, vehicle.plate)
-                    SetEntityHeading(veh, Depots[currentGarage].takeVehicle.h)
+                    SetEntityHeading(veh, Depots[currentGarage].takeVehicle.w)
                     TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
                     exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
                     SetEntityAsMissionEntity(veh, true, true)
@@ -145,7 +142,7 @@ AddEventHandler('qb-garages:client:takeOutDepot', function(vehicle)
                 end
 
                 SetVehicleNumberPlateText(veh, vehicle.plate)
-                SetEntityHeading(veh, Depots[currentGarage].takeVehicle.h)
+                SetEntityHeading(veh, Depots[currentGarage].takeVehicle.w)
                 TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
                 exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
                 SetEntityAsMissionEntity(veh, true, true)
@@ -425,7 +422,7 @@ function TakeOutVehicle(vehicle)
 
                 QBCore.Functions.SetVehicleProperties(veh, properties)
                 SetVehicleNumberPlateText(veh, vehicle.plate)
-                SetEntityHeading(veh, Garages[currentGarage].spawnPoint.h)
+                SetEntityHeading(veh, Garages[currentGarage].spawnPoint.w)
                 exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
                 doCarDamage(veh, vehicle)
                 SetEntityAsMissionEntity(veh, true, true)
@@ -486,7 +483,7 @@ function TakeOutGangVehicle(vehicle)
 
                 QBCore.Functions.SetVehicleProperties(veh, properties)
                 SetVehicleNumberPlateText(veh, vehicle.plate)
-                SetEntityHeading(veh, GangGarages[currentGarage].spawnPoint.h)
+                SetEntityHeading(veh, GangGarages[currentGarage].spawnPoint.w)
                 exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
                 doCarDamage(veh, vehicle)
                 SetEntityAsMissionEntity(veh, true, true)
@@ -527,7 +524,7 @@ function TakeOutGarageVehicle(vehicle)
                 end
 
                 SetVehicleNumberPlateText(veh, vehicle.plate)
-                SetEntityHeading(veh, HouseGarages[currentHouseGarage].takeVehicle.h)
+                SetEntityHeading(veh, HouseGarages[currentHouseGarage].takeVehicle.w)
                 TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
                 exports['LegacyFuel']:SetFuel(veh, vehicle.fuel)
                 SetEntityAsMissionEntity(veh, true, true)
