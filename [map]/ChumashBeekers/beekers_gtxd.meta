@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CMapParentTxds>
+  <txdRelationships>
+	<Item>
+      <parent>cs1_01_truckbuild</parent>
+      <child>ch1_11_shops02</child>
+    </Item>
+	<Item>
+      <parent>cs1_01_truckbuild+hi</parent>
+      <child>ch1_11_shops02+hi</child>
+    </Item>
+	<Item>
+      <parent>cs1_01_lod</parent>
+      <child>ch1_11_lod</child>
+    </Item>
+	<Item>
+      <parent>cs1_01_lod+hi</parent>
+      <child>ch1_11_lod+hi</child>
+    </Item>
+	<Item>
+      <parent>cs1_lod2_01_7_slod2_children</parent>
+      <child>cs1_01_lod</child>
+    </Item>
+	<Item>
+      <parent>cs1_lod2_01_7_slod2_children</parent>
+      <child>ch1_lod_101112_slod2_children</child>
+    </Item>
+  </txdRelationships>
+</CMapParentTxds>
