@@ -1,14 +1,7 @@
 
 
 AllowedIdentifiers = {
-    ["steam:110000100da693a"] = true, -- MP - Stefan
-	["steam:110000133ae202e"] = true, -- ADMIN - Mark2
-	["steam:11000010ba7977c"] = true, -- ADMIN - Quimey :P	
-	["steam:110000102fca591"] = true, -- ADMIN - Mark
-	["steam:11000010877eef9"] = true, -- ADMIN - Robin
-	["steam:11000010774b0a7"] = true,	-- DEV - Onno 
-	["steam:1100001096efa6b"] = true, -- DEV - Koen
-	["steam:110000105b4cde7"] = true, -- Mod Kevin
+    ["steam:110000101304757"] = true, -- Guardian
 }
 
 
