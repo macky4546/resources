@@ -26,7 +26,7 @@ vehshop = {
 			title = "CATEGORIES",
 			name = "main",
 			buttons = {
-				{name = "Vehicles", description = ""},
+				{name = "Categories", description = ""},
 			}
 		},
 		["vehicles"] = {
@@ -143,16 +143,12 @@ function tablelength(T)
 end
 
 function ButtonSelected(button)
-    print(button)
-	local ped = GetPlayerPed(-1)
+	local ped = PlayerPedId()
 	local this = vehshop.currentmenu
     local btn = button.name
-
-    print(this)
-    print(btn)
     
 	if this == "main" then
-		if btn == "Vehicles" then
+		if btn == "Categories" then
 			OpenMenu('vehicles')
 		end
 	elseif this == "vehicles" then
@@ -174,7 +170,7 @@ function ButtonSelected(button)
 			OpenMenu('offroad')
 		elseif btn == "SUVs" then
 			OpenMenu('suvs')
-		elseif btn == "Motorcycles" then
+		elseif btn == "Motoren" then
 			OpenMenu('motorcycles')
 		elseif btn == "Vans" then
 			OpenMenu('vans')
@@ -214,7 +210,7 @@ end
 
 function CloseCreator(name, veh, price, financed)
 	Citizen.CreateThread(function()
-		local ped = GetPlayerPed(-1)
+		local ped = PlayerPedId()
 		vehshop.opened = false
 		vehshop.menu.from = 1
         vehshop.menu.to = 10
@@ -239,16 +235,16 @@ function DrawText3Ds(x, y, z, text)
 end
 
 function MenuVehicleList()
-    ped = GetPlayerPed(-1);
+    ped = PlayerPedId();
     MenuTitle = "Dealer"
     ClearMenu()
-    Menu.addButton("View range", "VehicleCategories", nil)
+    Menu.addButton("Vehicle Categories", "VehicleCategories", nil)
     Menu.addButton("Close Menu", "close", nil) 
 end
 
 function VehicleCategories()
-    ped = GetPlayerPed(-1);
-    MenuTitle = "Veh Cat"
+    ped = PlayerPedId();
+    MenuTitle = "Veh Cats"
     ClearMenu()
     for k, v in pairs(QB.VehicleMenuCategories) do
         Menu.addButton(QB.VehicleMenuCategories[k].label, "GetCatVehicles", k)
@@ -258,12 +254,12 @@ function VehicleCategories()
 end
 
 function GetCatVehicles(catergory)
-    ped = GetPlayerPed(-1)
-    MenuTitle = "Veh Cat"
+    ped = PlayerPedId()
+    MenuTitle = "Cat Vehs"
     ClearMenu()
     Menu.addButton("Close Menu", "close", nil) 
     for k, v in pairs(shopVehicles[catergory]) do
-        Menu.addButton(shopVehicles[catergory][k].name, "SelectVehicle", v, catergory, "$"..shopVehicles[catergory][k]["price"])
+        Menu.addButton(shopVehicles[catergory][k].name, "Select Vehicle", v, catergory, "$"..shopVehicles[catergory][k]["price"])
     end
 end
 
@@ -290,7 +286,7 @@ Citizen.CreateThread(function()
 		SetModelAsNoLongerNeeded(model)
 		SetVehicleOnGroundProperly(veh)
 		SetEntityInvincible(veh,true)
-        SetEntityHeading(veh, QB.ShowroomVehicles[i].coords.h)
+        SetEntityHeading(veh, QB.ShowroomVehicles[i].coords.w)
         SetVehicleDoorsLocked(veh, 3)
 
 		FreezeEntityPosition(veh,true)
@@ -306,18 +302,18 @@ function OpenCreator()
 end
 
 function setClosestShowroomVehicle()
-    local pos = GetEntityCoords(GetPlayerPed(-1), true)
+    local pos = GetEntityCoords(PlayerPedId(), true)
     local current = nil
     local dist = nil
 
     for id, veh in pairs(QB.ShowroomVehicles) do
         if current ~= nil then
-            if(GetDistanceBetweenCoords(pos, QB.ShowroomVehicles[id].coords.x, QB.ShowroomVehicles[id].coords.y, QB.ShowroomVehicles[id].coords.z, true) < dist)then
+            if #(pos - vector3(QB.ShowroomVehicles[id].coords.x, QB.ShowroomVehicles[id].coords.y, QB.ShowroomVehicles[id].coords.z)) < dist then
                 current = id
-                dist = GetDistanceBetweenCoords(pos, QB.ShowroomVehicles[id].coords.x, QB.ShowroomVehicles[id].coords.y, QB.ShowroomVehicles[id].coords.z, true)
+                dist = #(pos - vector3(QB.ShowroomVehicles[id].coords.x, QB.ShowroomVehicles[id].coords.y, QB.ShowroomVehicles[id].coords.z))
             end
         else
-            dist = GetDistanceBetweenCoords(pos, QB.ShowroomVehicles[id].coords.x, QB.ShowroomVehicles[id].coords.y, QB.ShowroomVehicles[id].coords.z, true)
+            dist = #(pos - vector3(QB.ShowroomVehicles[id].coords.x, QB.ShowroomVehicles[id].coords.y, QB.ShowroomVehicles[id].coords.z))
             current = id
         end
     end
@@ -328,8 +324,8 @@ end
 
 Citizen.CreateThread(function()
     while true do
-        local pos = GetEntityCoords(GetPlayerPed(-1), true)
-        local shopDist = GetDistanceBetweenCoords(pos, QB.VehicleShops[1].x, QB.VehicleShops[1].y, QB.VehicleShops[1].z, false)
+        local pos = GetEntityCoords(PlayerPedId(), true)
+        local shopDist = #(pos - QB.VehicleShop)
         if isLoggedIn then
             if shopDist <= 50 then
                 setClosestShowroomVehicle()
@@ -343,10 +339,9 @@ Citizen.CreateThread(function()
     Citizen.Wait(1000)
     while true do
         
-        local ped = GetPlayerPed(-1)
+        local ped = PlayerPedId()
         local pos = GetEntityCoords(ped)
-        local dist = GetDistanceBetweenCoords(pos, QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z)
-
+        local dist = #(pos - vector3(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z))
         if ClosestVehicle ~= nil then
             if dist < 1.5 then
                 if not QB.ShowroomVehicles[ClosestVehicle].inUse then
@@ -357,26 +352,26 @@ Citizen.CreateThread(function()
                     if not QB.ShowroomVehicles[ClosestVehicle].inUse then
                         if not vehshop.opened then
                             if not buySure then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.8, '~ g ~ G ~ w ~ - Change vehicle (~ g ~ '.. displayName ..' ~ w ~) ')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.8, '~g~G~w~ - Change Vehicle (~g~'..displayName..'~w~)')
                             end
                             if not buySure then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.70, '~ g ~ E ~ w ~ - Buy vehicle (~ g ~ $ '.. vehPrice ..' ~ w ~) ')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.70, '~g~E~w~ - Purchase Vehicle (~g~$'..vehPrice..'~w~)')
                             elseif buySure then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Are you sure? | ~g~[7]~w~ Yes -/- ~r~[8]~w~ No')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Are You Sure? | ~g~[7]~w~ Confirm -/- ~r~[8]~w~ Cancel')
                             end
                         elseif vehshop.opened then
                             if modelLoaded then
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Choosing a vehicle')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Choosing A Vehicle')
                             else
-                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Vehicle is being picked up..')
+                                DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Model Loading')
                             end
                         end
                     else
-                        DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Vehicle is in use by a customer...')
+                        DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 1.65, 'Currently In Use')
                     end
 
                     if not vehshop.opened then
-                        if IsControlJustPressed(0, Keys["G"]) then
+                        if IsControlJustPressed(0, 47) then
                             if vehshop.opened then
                                 CloseCreator()
                             else
@@ -387,7 +382,7 @@ Citizen.CreateThread(function()
 
                     if vehshop.opened then
 
-                        local ped = GetPlayerPed(-1)
+                        local ped = PlayerPedId()
                         local menu = vehshop.menu[vehshop.currentmenu]
                         local y = vehshop.menu.y + 0.12
                         buttoncount = tablelength(menu.buttons)
@@ -413,13 +408,11 @@ Citizen.CreateThread(function()
                                         if IsControlJustPressed(1, 18) then
                                             if modelLoaded then
                                                 TriggerServerEvent('qb-vehicleshop:server:setShowroomVehicle', button.model, ClosestVehicle)
-                                                print('nee')
                                             end
                                         end
                                     end
                                 end
                                 if selected and ( IsControlJustPressed(1,38) or IsControlJustPressed(1, 18) ) then
-                                    print('weeuw')
                                     ButtonSelected(button)
                                 end
                             end
@@ -457,11 +450,11 @@ Citizen.CreateThread(function()
                         end
                     end
 
-                    if GetVehiclePedIsTryingToEnter(GetPlayerPed(-1)) ~= nil and GetVehiclePedIsTryingToEnter(GetPlayerPed(-1)) ~= 0 then
-                        ClearPedTasksImmediately(GetPlayerPed(-1))
+                    if GetVehiclePedIsTryingToEnter(PlayerPedId()) ~= nil and GetVehiclePedIsTryingToEnter(PlayerPedId()) ~= 0 then
+                        ClearPedTasksImmediately(PlayerPedId())
                     end
 
-                    if IsControlJustPressed(0, Keys["E"]) then
+                    if IsControlJustPressed(0, 38) then
                         if not vehshop.opened then
                             if not buySure then
                                 buySure = true
@@ -469,21 +462,21 @@ Citizen.CreateThread(function()
                         end
                     end
 
-                    if IsDisabledControlJustPressed(0, Keys["7"]) then
+                    if IsDisabledControlJustPressed(0, 161) then
                         if buySure then
                             local class = QBCore.Shared.Vehicles[QB.ShowroomVehicles[ClosestVehicle].chosenVehicle]["category"]
                             TriggerServerEvent('qb-vehicleshop:server:buyShowroomVehicle', QB.ShowroomVehicles[ClosestVehicle].chosenVehicle, class)
                             buySure = false
                         end
                     end
-                    if IsDisabledControlJustPressed(0, Keys["8"]) then
-                        QBCore.Functions.Notify('You did not buy the vehicle', 'error', 3500)
+                    if IsDisabledControlJustPressed(0, 162) then
+                        QBCore.Functions.Notify('Purchase Cancelled', 'error')
                         buySure = false
                     end
-                    DisableControlAction(0, Keys["7"], true)
-                    DisableControlAction(0, Keys["8"], true)
+                    DisableControlAction(0, 161, true)
+                    DisableControlAction(0, 162, true)
                 elseif QB.ShowroomVehicles[ClosestVehicle].inUse then
-                    DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 0.5, 'Vehicle is in use')
+                    DrawText3Ds(QB.ShowroomVehicles[ClosestVehicle].coords.x, QB.ShowroomVehicles[ClosestVehicle].coords.y, QB.ShowroomVehicles[ClosestVehicle].coords.z + 0.5, 'Currently In Use')
                 end
             elseif dist > 1.5 then
                 if vehshop.opened then
@@ -516,7 +509,7 @@ AddEventHandler('qb-vehicleshop:client:setShowroomVehicle', function(showroomVeh
         SetModelAsNoLongerNeeded(model)
         SetVehicleOnGroundProperly(veh)
         SetEntityInvincible(veh,true)
-        SetEntityHeading(veh, QB.ShowroomVehicles[k].coords.h)
+        SetEntityHeading(veh, QB.ShowroomVehicles[k].coords.w)
         SetVehicleDoorsLocked(veh, 3)
         FreezeEntityPosition(veh, true)
         SetVehicleNumberPlateText(veh, k .. "CARSALE")
@@ -528,10 +521,10 @@ end)
 RegisterNetEvent('qb-vehicleshop:client:buyShowroomVehicle')
 AddEventHandler('qb-vehicleshop:client:buyShowroomVehicle', function(vehicle, plate)
     QBCore.Functions.SpawnVehicle(vehicle, function(veh)
-        TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
+        TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
         exports['LegacyFuel']:SetFuel(veh, 100)
         SetVehicleNumberPlateText(veh, plate)
-        SetEntityHeading(veh, QB.DefaultBuySpawn.h)
+        SetEntityHeading(veh, QB.DefaultBuySpawn.w)
         SetEntityAsMissionEntity(veh, true, true)
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
         TriggerServerEvent("vehicletuning:server:SaveVehicleProps", QBCore.Functions.GetVehicleProperties(veh))

@@ -26,8 +26,10 @@ AddEventHandler('qb-vehicleshop:server:buyVehicle', function(vehicleData, garage
         TriggerClientEvent("QBCore:Notify", src, "Success! Your vehicle has been delivered to "..QB.GarageLabel[garage], "success", 5000)
         pData.Functions.RemoveMoney('bank', vData["price"], "vehicle-bought-in-shop")
         TriggerEvent("qb-log:server:sendLog", cid, "vehiclebought", {model=vData["model"], name=vData["name"], from="garage", location=QB.GarageLabel[garage], moneyType="bank", price=vData["price"], plate=plate})
-        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Vehicle purchased (garage)", "green", "**"..GetPlayerName(src) .. "** has a " .. vData[ "name"] .. " bought for $" .. vData["price"])    else
-        TriggerClientEvent("QBCore:Notify", src, "You don't have enough money, you are missing $"..format_thousand(vData["price"] - balance), "error", 5000)    end
+        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Voertuig gekocht (garage)", "green", "**"..GetPlayerName(src) .. "** heeft een " .. vData["name"] .. " gekocht voor $" .. vData["price"])
+    else
+		TriggerClientEvent("QBCore:Notify", src, "You don't have enough money, you're missing $"..format_thousand(vData["price"] - balance), "error", 5000)
+    end
 end)
 
 RegisterNetEvent('qb-vehicleshop:server:buyShowroomVehicle')
@@ -41,13 +43,13 @@ AddEventHandler('qb-vehicleshop:server:buyShowroomVehicle', function(vehicle, cl
 
     if (balance - vehiclePrice) >= 0 then
         QBCore.Functions.ExecuteSql(false, "INSERT INTO `player_vehicles` (`steam`, `citizenid`, `vehicle`, `hash`, `mods`, `plate`, `state`) VALUES ('"..pData.PlayerData.steam.."', '"..cid.."', '"..vehicle.."', '"..GetHashKey(vehicle).."', '{}', '"..plate.."', 0)")
-        TriggerClientEvent("QBCore:Notify", src, "Success! Your vehicle is waiting outside.", "success", 5000)
-         TriggerClientEvent('qb-vehicleshop:client:buyShowroomVehicle', src, vehicle, plate)
-         pData.Functions.RemoveMoney('bank', vehiclePrice, "vehicle-bought-in-showroom")
-         TriggerEvent("qb-log:server:sendLog", cid, "vehiclebought", {model=vehicle, name=QBCore.Shared.Vehicles[vehicle]["name"], from="showroom", moneyType="bank" , price=QBCore.Shared.Vehicles[vehicle]["price"], plate=plate})
-         TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Vehicle purchased (showroom)", "green", "**"..GetPlayerName(src) .. "** has a " .. QBCore. Shared.Vehicles[vehicle]["name"] .. " bought for $" .. QBCore.Shared.Vehicles[vehicle]["price"])
+        TriggerClientEvent("QBCore:Notify", src, "Success! Your vehicle will be waiting for you outside", "success", 5000)
+        TriggerClientEvent('qb-vehicleshop:client:buyShowroomVehicle', src, vehicle, plate)
+        pData.Functions.RemoveMoney('bank', vehiclePrice, "vehicle-bought-in-showroom")
+        TriggerEvent("qb-log:server:sendLog", cid, "vehiclebought", {model=vehicle, name=QBCore.Shared.Vehicles[vehicle]["name"], from="showroom", moneyType="bank", price=QBCore.Shared.Vehicles[vehicle]["price"], plate=plate})
+        TriggerEvent("qb-log:server:CreateLog", "vehicleshop", "Voertuig gekocht (showroom)", "green", "**"..GetPlayerName(src) .. "** heeft een " .. QBCore.Shared.Vehicles[vehicle]["name"] .. " gekocht voor $" .. QBCore.Shared.Vehicles[vehicle]["price"])
     else
-        TriggerClientEvent("QBCore:Notify", src, "Je hebt niet voldoende geld, je mist $"..format_thousand(vehiclePrice - balance), "error", 5000)
+        TriggerClientEvent("QBCore:Notify", src, "You don't have enough money, you're missing $"..format_thousand(vehiclePrice - balance), "error", 5000)
     end
 end)
 
@@ -108,7 +110,7 @@ AddEventHandler('qb-vehicleshop:server:SetCustomShowroomVeh', function(vData, k)
     TriggerClientEvent('qb-vehicleshop:client:SetCustomShowroomVeh', -1, vData, k)
 end)
 
-QBCore.Commands.Add("sale", "Sell vehicle from Custom Cardealer", {}, false, function(source, args)
+QBCore.Commands.Add("sell", "Sell Vehicle (Car Dealer Only)", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     local TargetId = args[1]
 
@@ -119,18 +121,18 @@ QBCore.Commands.Add("sale", "Sell vehicle from Custom Cardealer", {}, false, fun
             TriggerClientEvent('QBCore:Notify', source, 'You must provide a Player ID!', 'error')
         end
     else
-        TriggerClientEvent('QBCore:Notify', source, 'You are not a Vehicle Dealer', 'error')
+        TriggerClientEvent('QBCore:Notify', source, 'You Are Not A Car Dealer', 'error')
     end
 end)
 
-QBCore.Commands.Add("testrit", "Testrit maken", {}, false, function(source, args)
+QBCore.Commands.Add("testdrive", "Test Drive Vehicle (Car Dealer Only)", {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(source)
     local TargetId = args[1]
 
     if Player.PlayerData.job.name == "cardealer" then
         TriggerClientEvent('qb-vehicleshop:client:DoTestrit', source, GeneratePlate())
     else
-        TriggerClientEvent('QBCore:Notify', source, 'You are not a Vehicle Dealer', 'error')
+        TriggerClientEvent('QBCore:Notify', source, 'You Are Not A Car Dealer', 'error')
     end
 end)
 
@@ -156,9 +158,9 @@ AddEventHandler('qb-vehicleshop:server:ConfirmVehicle', function(ShowroomVehicle
         QBCore.Functions.ExecuteSql(false, "INSERT INTO `player_vehicles` (`steam`, `citizenid`, `vehicle`, `hash`, `mods`, `plate`, `state`) VALUES ('"..Player.PlayerData.steam.."', '"..Player.PlayerData.citizenid.."', '"..ShowroomVehicle.vehicle.."', '"..GetHashKey(ShowroomVehicle.vehicle).."', '{}', '"..plate.."', 0)")
     else
         if Player.PlayerData.money.cash > Player.PlayerData.money.bank then
-            TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money.. You are missing ('..(Player.PlayerData.money.cash - VehPrice)..',-)')
+            TriggerClientEvent('QBCore:Notify', src, 'You don\'t have enough money.. You are missing ('..(Player.PlayerData.money.cash - VehPrice)..',-)')
         else
-            TriggerClientEvent('QBCore:Notify', src, 'You dont have enough money.. You are missing ('..(Player.PlayerData.money.bank - VehPrice)..',-)')
+            TriggerClientEvent('QBCore:Notify', src, 'You don\'t have enough money.. You are missing ('..(Player.PlayerData.money.bank - VehPrice)..',-)')
         end
     end
 end)

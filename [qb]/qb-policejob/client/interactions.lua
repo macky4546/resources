@@ -423,7 +423,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        TriggerEvent("pma_voice:ToggleRadioTalk", isHandcuffed)
+        TriggerEvent("tokovoip_script:ToggleRadioTalk", isHandcuffed)
         Citizen.Wait(2000)
     end
 end)
